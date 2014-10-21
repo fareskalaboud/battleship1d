@@ -1,5 +1,7 @@
 package battleships1d;
 
-public class Lobby {
+import javax.swing.JPanel;
+
+public class Lobby extends JPanel {
 
 }
