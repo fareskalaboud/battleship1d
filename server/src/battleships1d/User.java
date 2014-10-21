@@ -11,18 +11,21 @@ public class User {
 
     public void handleCommand(Command cmd) {
         if (cmd.getCommand().equals("LoginGuest")) {
-            connection.writeLine("LoginGuest::" + User.createGuest());
+            connection.writeLine("LoginGuest::" + UserManager.generateGuestUsername());
+        } else if (cmd.getCommand().equals("LoginUser")) {
+            String userName = cmd.getParameters()[0];
+            String password = cmd.getParameters()[1];
+
+            if (UserManager.userExists(userName)) {
+
+            } else {
+                connection.writeLine("LoginUser::Error::Username");
+                return;
+            }
         }
     }
 
-    public static boolean userExists(String username) {
-        return false;
-    }
 
-    public static String createGuest() {
-        Random random = new Random();
-        return "guest-" + (random.nextInt(8999) + 1000);
-    }
 
     public Connection getConnection() {
         return connection;
