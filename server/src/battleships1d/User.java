@@ -7,6 +7,14 @@ import java.util.Random;
  */
 public class User {
 
+    private Connection connection;
+
+    public void handleCommand(Command cmd) {
+        if (cmd.getCommand().equals("LoginGuest")) {
+            connection.writeLine("LoginGuest::" + User.createGuest());
+        }
+    }
+
     public static boolean userExists(String username) {
         return false;
     }
@@ -16,5 +24,11 @@ public class User {
         return "guest-" + (random.nextInt(8999) + 1000);
     }
 
+    public Connection getConnection() {
+        return connection;
+    }
 
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 }
