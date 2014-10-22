@@ -1,7 +1,29 @@
 package battleships1d;
 
-import javax.swing.JPanel;
+//This class is incomplete, needs server data to be applicable
+public class Lobby extends JFrame {
 
-public class Lobby extends JPanel {
+	// Room[] privateRooms = ;
+	// Room[] publicRooms = ;
+	public Lobby() {
 
+	}
+
+	public void setUpUI() {
+
+	}
+
+	/**
+	 * @return the list of private rooms at the moment
+	 */
+	public Room[] privateRooms() {
+		return;
+	}
+
+	/**
+	 * @return the list of public rooms at the moment
+	 */
+	public Room[] publicRooms() {
+		return;
+	}
 }
