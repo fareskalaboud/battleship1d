@@ -42,7 +42,7 @@ public class ServerManager implements Runnable {
         while (running) {
             try {
                 Socket client = serverSocket.accept();
-                System.out.println("Client connected: " + client.getRemoteSocketAddress().toString());
+                System.out.println("Client connected on port " + client.getPort());
                 new Thread(new Connection(client)).start();
             } catch (IOException e) {
                 e.printStackTrace();

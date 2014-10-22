@@ -7,14 +7,31 @@ import java.util.Random;
  */
 public class User {
 
-    public static boolean userExists(String username) {
-        return false;
+    private Connection connection;
+
+    public void handleCommand(Command cmd) {
+        if (cmd.getCommand().equals("LoginGuest")) {
+            connection.writeLine("LoginGuest::" + UserManager.generateGuestUsername());
+        } else if (cmd.getCommand().equals("LoginUser")) {
+            String userName = cmd.getParameters()[0];
+            String password = cmd.getParameters()[1];
+
+            if (UserManager.userExists(userName)) {
+
+            } else {
+                connection.writeLine("LoginUser::Error::Username");
+                return;
+            }
+        }
     }
 
-    public static String createGuest() {
-        Random random = new Random();
-        return "guest-" + (random.nextInt(8999) + 1000);
+
+
+    public Connection getConnection() {
+        return connection;
     }
 
-
+    public void setConnection(Connection connection) {
+        this.connection = connection;
+    }
 }
