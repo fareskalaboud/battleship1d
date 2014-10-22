@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JList;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
 /**
@@ -27,7 +28,7 @@ public class Lobby extends JFrame {
 	private Vector<Room> publicRooms = new Vector<Room>();
 	
 	public Lobby() {
-		super("Lobby");
+		super("Battleships 1-D: Lobby");
 		setUpUI();
 	}
 
@@ -35,71 +36,91 @@ public class Lobby extends JFrame {
 	 * @author Alexander Hanbury-Botherway
 	 */
 	public void setUpUI() {
-		//THE ROOMS
-		
+		//Rooms
 		JPanel jpCenter = new JPanel(new BorderLayout());
-		JPanel jpCenterNorth = new JPanel();
-		JPanel jpCenterSouth = new JPanel();
-		
-		
-		JList<Room> jlPublicRooms = new JList<Room>(publicRooms);
-		jpCenterNorth.add(jlPublicRooms);
-		
-		JList<Room> jlPrivateRooms = new JList<Room>(privateRooms);
-		jpCenterSouth.add(jlPrivateRooms);
-		
-		jpCenter.add(jpCenterNorth,BorderLayout.NORTH);
-		jpCenter.add(jpCenterSouth,BorderLayout.SOUTH);
+			
+			//Public Rooms
+			JPanel jpCenterNorth = new JPanel(new BorderLayout());
+				jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
+				JList<Room> jlPublicRooms = new JList<Room>(publicRooms);
+				JScrollPane jspPublicRooms = new JScrollPane(jlPublicRooms);
+				jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
+			jpCenter.add(jpCenterNorth,BorderLayout.NORTH);
+			
+			//Private Rooms
+			JPanel jpCenterSouth = new JPanel(new BorderLayout());
+				jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
+				JList<Room> jlPrivateRooms = new JList<Room>(privateRooms);
+				JScrollPane jspPrivateRooms = new JScrollPane(jlPrivateRooms);
+				jpCenterSouth.add(jspPrivateRooms);
+			jpCenter.add(jpCenterSouth,BorderLayout.SOUTH);
 		
 		add(jpCenter, BorderLayout.CENTER);
 		
-		//ADD ROOM OPTION
-		
+		//Create room options		
 		JPanel jpEast = new JPanel(new BorderLayout());
-		JPanel jpEastCenter = new JPanel(new GridLayout(5,1));
-			
-		jpEastCenter.add(new JLabel("Room Name:"));
 		
-		JTextField jtfRoomName = new JTextField(20);
-			jpEastCenter.add(jtfRoomName);
+			//Room variable fields
+			JPanel jpEastCenter = new JPanel(new GridLayout(5,1));
+				// Room name
+				jpEastCenter.add(new JLabel("Room Name:"));
+				
+				JTextField jtfRoomName = new JTextField(20);
+				jpEastCenter.add(jtfRoomName);
 			
-		jpEastCenter.add(new JLabel("Room Password:"));
-			final JPasswordField jpfRoomPassword = new JPasswordField(20);
-			jpfRoomPassword.setEnabled(false);
+				// Room password (not visible when public is selected)
+				final JLabel jlPassword = new JLabel("Room Password: ");
+				jlPassword.setVisible(false);
+				jpEastCenter.add(jlPassword);
+				
+				final JPasswordField jpfRoomPassword = new JPasswordField(20);
+				jpfRoomPassword.setEnabled(false);
+				jpfRoomPassword.setVisible(false);
+				jpEastCenter.add(jpfRoomPassword);
 			
-			jpEastCenter.add(jpfRoomPassword);
-			
+				// Create room button
+				JButton jbCreateRoom = new JButton("Create Room");
+				jpEastCenter.add(jbCreateRoom);
+				
 			jpEast.add(jpEastCenter, BorderLayout.CENTER);
 			
-			JButton jbCreateRoom = new JButton("Create Room");
-			jpEastCenter.add(jbCreateRoom);
+			// Public/private option
+			JPanel jpEastNorth = new JPanel(new FlowLayout());
 			
-		JPanel jpEastNorth = new JPanel(new FlowLayout());
-			final JButton jbPublic = new JButton("Public");
-			jbPublic.setEnabled(false);
-			jpEastNorth.add(jbPublic);
-			final JButton jbPrivate = new JButton("Private");
-			jpEastNorth.add(jbPrivate);
+				//Public button (chosen as default)
+				final JButton jbPublic = new JButton("Public");
+				jbPublic.setEnabled(false);
+				jpEastNorth.add(jbPublic);
+				
+				//Private button
+				final JButton jbPrivate = new JButton("Private");
+				jpEastNorth.add(jbPrivate);
 			
-			jbPublic.addActionListener(new ActionListener(){
-
-				public void actionPerformed(ActionEvent arg0) {
-					jbPublic.setEnabled(false);
-					jbPrivate.setEnabled(true);
-					jpfRoomPassword.setEnabled(false);
-				}});
-			jbPrivate.addActionListener(new ActionListener(){
-
-				public void actionPerformed(ActionEvent arg0) {
-					jbPrivate.setEnabled(false);
-					jbPublic.setEnabled(true);
-					jpfRoomPassword.setEnabled(true);
-				}});
+				// Action Listeners
+					// Public button action listener
+					jbPublic.addActionListener(new ActionListener(){
 			
+						public void actionPerformed(ActionEvent arg0) {
+							jbPublic.setEnabled(false);
+							jbPrivate.setEnabled(true);
+							jpfRoomPassword.setEnabled(false);
+							jpfRoomPassword.setVisible(false);
+							jlPassword.setVisible(false);
+						}});
+					
+					// Private button action listener
+					jbPrivate.addActionListener(new ActionListener(){
+			
+						public void actionPerformed(ActionEvent arg0) {
+							jbPrivate.setEnabled(false);
+							jbPublic.setEnabled(true);
+							jpfRoomPassword.setEnabled(true);
+							jpfRoomPassword.setVisible(true);
+							jlPassword.setVisible(true);
+						}});
+				
 			jpEast.add(jpEastNorth, BorderLayout.NORTH);
-			
-			
-			
+				
 		add(jpEast, BorderLayout.EAST);
 		
 		pack();
