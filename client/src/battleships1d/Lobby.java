@@ -26,6 +26,8 @@ public class Lobby extends JFrame {
 
 	private Vector<Room> privateRooms = new Vector<Room>();
 	private Vector<Room> publicRooms = new Vector<Room>();
+	private JList<Room> jlPublicRooms;
+	private JList<Room> jlPrivateRooms;
 	
 	public Lobby() {
 		super("Battleships 1-D: Lobby");
@@ -42,7 +44,7 @@ public class Lobby extends JFrame {
 			//Public Rooms
 			JPanel jpCenterNorth = new JPanel(new BorderLayout());
 				jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
-				JList<Room> jlPublicRooms = new JList<Room>(publicRooms);
+				jlPublicRooms = new JList<Room>(publicRooms);
 				JScrollPane jspPublicRooms = new JScrollPane(jlPublicRooms);
 				jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
 			jpCenter.add(jpCenterNorth,BorderLayout.NORTH);
@@ -50,7 +52,7 @@ public class Lobby extends JFrame {
 			//Private Rooms
 			JPanel jpCenterSouth = new JPanel(new BorderLayout());
 				jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
-				JList<Room> jlPrivateRooms = new JList<Room>(privateRooms);
+				jlPrivateRooms = new JList<Room>(privateRooms);
 				JScrollPane jspPrivateRooms = new JScrollPane(jlPrivateRooms);
 				jpCenterSouth.add(jspPrivateRooms);
 			jpCenter.add(jpCenterSouth,BorderLayout.SOUTH);
@@ -140,6 +142,21 @@ public class Lobby extends JFrame {
 	 */
 	public Vector<Room> publicRooms() {
 		return publicRooms;
+	}
+	
+	public void refreshRoomLists(){
+		jlPublicRooms.setListData(publicRooms);
+		jlPrivateRooms.setListData(privateRooms);
+	}
+	
+	public void createRoom(String roomName, String roomPassword, boolean isPrivate){
+		Room newRoom = new Room(roomName, roomPassword, isPrivate); //TODO: change to match constructor of room
+		if(isPrivate){
+			privateRooms.add(newRoom);
+		} else {
+			publicRooms.add(newRoom);
+		} //TODO: send info to server
+		refreshRoomLists(); 
 	}
 	
 	public static void main(String args[]){
