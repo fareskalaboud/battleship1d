@@ -27,9 +27,11 @@ public class MainMenu {
 	public MainMenu() {
 	}
 
+	public void setUpUI() {
+		createMainWindow();
+	}
 	JFrame mainWindow;
 	JPanel mainPanel;
-
 	/**
 	 * Creating the MainWindow (More like MainPanel as Fares wanted it so that
 	 * we could just switch the panels)
@@ -163,9 +165,4 @@ public class MainMenu {
 			}
 		});
 	}
-
-	public static void main(String[] args) {
-		new MainMenu().createMainWindow();
-	}
-
 }

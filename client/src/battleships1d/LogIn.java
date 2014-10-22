@@ -9,12 +9,14 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-import sun.org.mozilla.javascript.internal.ast.ThrowStatement;
-
+/**
+ * 
+ * @author GEORGE RADUTA
+ *
+ */
 public class LogIn {
 	public LogIn() {
 		
@@ -107,10 +109,27 @@ public class LogIn {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				CreateNewAccount test = new CreateNewAccount();
-				test.createAccount();
+				CreateNewAccount test = new CreateNewAccount(mainFrame);
+				test.setUpUI();
+				mainFrame.setEnabled(false);
 			}
 		});
+		
+		logInAsGuestButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				MainMenu test = new MainMenu();
+				test.setUpUI();
+				mainFrame.dispose();
+			}
+		});
+	}
+	
+	public void enableLogInFrame(JFrame testFrame) {
+		this.mainFrame = testFrame;
+		mainFrame.setEnabled(true);
 	}
 	public static void main(String[] args) {
 		new LogIn().start();
