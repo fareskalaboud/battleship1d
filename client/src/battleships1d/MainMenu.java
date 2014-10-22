@@ -4,9 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -39,7 +43,7 @@ public class MainMenu {
 		mainWindow.setBounds(300, 100, 700, 600);
 
 		mainPanel.setLayout(new BorderLayout());
-		
+
 		createNorthComponent();
 		createCenterComponent();
 
@@ -52,6 +56,7 @@ public class MainMenu {
 
 	JPanel northPanel;
 	JLabel titleLabel;
+
 	/**
 	 * createNorthComponent() - creates the North Component of the mainPanel;
 	 * 
@@ -75,11 +80,12 @@ public class MainMenu {
 	JLabel userNameLabel;
 	JLabel userSelectedNameLabel;
 	JButton setUserNameButton, enterLobbyButton, quickMatchButton;
-	
+
 	/**
 	 * createCenterComponent() - creates the Center Component of the mainPanel;
 	 * 
-	 * @value It contains the UserNameLabel, SetUserNameButton, EnterLobbyButton and QuickMathcButton;
+	 * @value It contains the UserNameLabel, SetUserNameButton, EnterLobbyButton
+	 *        and QuickMathcButton;
 	 */
 	public void createCenterComponent() {
 		centerPanel = new JPanel();
@@ -87,67 +93,73 @@ public class MainMenu {
 		secondGridPanel = new JPanel();
 		userNameGridPanel = new JPanel();
 		matchesGridPanel = new JPanel();
-		
+	       
 		userNameLabel = new JLabel("UserName : ");
 		userSelectedNameLabel = new JLabel();
 		setUserNameButton = new JButton("Set UserName");
-		enterLobbyButton  = new JButton("Enter Lobby");
-		quickMatchButton  = new JButton("Quick Match");
-		
+		enterLobbyButton = new JButton("Enter Lobby");
+		quickMatchButton = new JButton("Quick Match");
+
 		userNameLabel.setFont(new Font("Arial", Font.ITALIC, 16));
 		userSelectedNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-		
-		centerPanel.setLayout(new GridLayout(3,1));
+
+		centerPanel.setLayout(new GridLayout(3, 1));
 		firstGridPanel.setLayout(new BorderLayout());
 		secondGridPanel.setLayout(new BorderLayout());
-		userNameGridPanel.setLayout(new GridLayout(2,1));
-		matchesGridPanel.setLayout(new GridLayout(2,1));
-		
-		
-		
-		
-		//centerPanel.add(new JPanel());
-		
-		firstGridPanel.add(userNameGridPanel,BorderLayout.NORTH);
-		secondGridPanel.add(matchesGridPanel,BorderLayout.NORTH);
+		userNameGridPanel.setLayout(new GridLayout(2, 1));
+		matchesGridPanel.setLayout(new GridLayout(2, 1));
+
+		// centerPanel.add(new JPanel());
+
+		firstGridPanel.add(userNameGridPanel, BorderLayout.NORTH);
+		secondGridPanel.add(matchesGridPanel, BorderLayout.NORTH);
 		centerPanel.add(new JPanel());
 		centerPanel.add(firstGridPanel);
 		centerPanel.add(secondGridPanel);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
-		
+
 		JPanel userNameLabelPanel = new JPanel();
 		userNameLabelPanel.setLayout(new FlowLayout());
 		userNameLabelPanel.add(userNameLabel);
 		userNameLabelPanel.add(userSelectedNameLabel);
-		
+
 		JPanel setUserNameButtonPanel = new JPanel();
 		setUserNameButtonPanel.setLayout(new FlowLayout());
 		setUserNameButtonPanel.add(setUserNameButton);
-		
+
 		userNameGridPanel.add(userNameLabelPanel);
 		userNameGridPanel.add(setUserNameButtonPanel);
-		
+
 		JPanel enterLobbyButtonPanel = new JPanel();
 		enterLobbyButtonPanel.setLayout(new FlowLayout());
 		enterLobbyButtonPanel.add(enterLobbyButton);
-		
+
 		JPanel quickMatchButtonPanel = new JPanel();
 		quickMatchButtonPanel.setLayout(new FlowLayout());
 		quickMatchButtonPanel.add(quickMatchButton);
-		
+
 		matchesGridPanel.add(enterLobbyButtonPanel);
 		matchesGridPanel.add(quickMatchButtonPanel);
-		
+
+	     
+
 		/**
 		 * ActionListener which will set the UserName;
 		 */
 		setUserNameButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				String userName = JOptionPane.showInputDialog(mainWindow, "Insert UserName", "Seting UserName", JOptionPane.OK_CANCEL_OPTION);
+				String userName = JOptionPane.showInputDialog(mainWindow,
+						"Insert UserName", "UserName",
+						JOptionPane.OK_CANCEL_OPTION);
 				while (userName.toUpperCase().trim().equals("")) {
-					userName = JOptionPane.showInputDialog(mainWindow, "UserName is empty or is already taken. Please select another one.", "Seting UserName", JOptionPane.OK_CANCEL_OPTION);	
+					userName = JOptionPane
+							.showInputDialog(
+									mainWindow,
+									"UserName is empty or is already taken. Please select another one.",
+									"UserName",
+									JOptionPane.OK_CANCEL_OPTION);
 				}
 				userSelectedNameLabel.setText(userName);
 			}
