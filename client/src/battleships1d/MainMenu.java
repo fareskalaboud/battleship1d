@@ -40,7 +40,7 @@ public class MainMenu {
 		mainPanel = new JPanel();
 
 		mainWindow.setTitle("BattleShip - 1 D");
-		mainWindow.setBounds(300, 100, 700, 600);
+		mainWindow.setBounds(400, 100, 500, 400);
 
 		mainPanel.setLayout(new BorderLayout());
 
@@ -65,8 +65,6 @@ public class MainMenu {
 	public void createNorthComponent() {
 		northPanel = new JPanel();
 		titleLabel = new JLabel("BattleShip - 1 D");
-		// titleLabel.setText("test");
-		// goGreenLabel.setFont(new Font("Arial", Font.PLAIN, 24));
 		titleLabel.setFont(new Font("Arial", Font.ITALIC, 48));
 		northPanel.setLayout(new FlowLayout());
 		northPanel.add(titleLabel);
