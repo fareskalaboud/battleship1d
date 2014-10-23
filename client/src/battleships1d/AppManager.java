@@ -145,6 +145,7 @@ public class AppManager {
                     "Please ensure you have a working internet connection.",
                     "Error: Unable to connect to server",
                     JOptionPane.ERROR_MESSAGE);
+            System.exit(1);
         }
 
     }
