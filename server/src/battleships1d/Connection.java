@@ -30,6 +30,10 @@ public class Connection implements Runnable {
         }
     }
 
+    public Boolean isConnected() {
+        return socket.isConnected();
+    }
+
     public void writeLine(String message) {
         try {
             bufferedWriter.write(message + "\r\n");
