@@ -19,6 +19,10 @@ public class Player {
 		this.username = username;
 	}
 
+    public String getUsername() {
+        return username;
+    }
+
 	/**
 	 * @return the rank of the user
 	 */
