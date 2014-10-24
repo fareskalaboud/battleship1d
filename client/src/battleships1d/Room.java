@@ -8,7 +8,7 @@ package battleships1d;
 public class Room {
     // CHANGE: variable names to make it more consistent with the Lobby class
 //	private Player localPlayer;
-    private Player enemyPlayer;
+    private String enemyPlayer;
 	private Map localMap;
     private Map enemyMap;
 	private String roomID;
@@ -73,7 +73,7 @@ public class Room {
 	 * @param enemyPlayer
 	 *            the enemyPlayer of the Room of type Player;
 	 */
-	public void setEnemyPlayer(Player enemyPlayer) {
+	public void setEnemyPlayer(String enemyPlayer) {
 		this.enemyPlayer = enemyPlayer;
 	}
 
@@ -82,7 +82,7 @@ public class Room {
 	 * 
 	 * @return the enemyPlayer of the Room of type Player;
 	 */
-	public Player setPlayer() {
+	public String setPlayer() {
 		return this.enemyPlayer;
 	}
 

@@ -13,7 +13,7 @@ public class AppManager {
     private static GameFrame frame;
 
     // Player Variables
-    private static Player mainPlayer;
+    private static String mainPlayer;
 
     // Lobby Variables
     private static Vector<Room> publicRooms;
@@ -39,7 +39,7 @@ public class AppManager {
      * @return the mainPlayer object
      * @author faresalaboud
      */
-    public static Player getMainPlayer() {
+    public static String getMainPlayer() {
         return mainPlayer;
     }
 

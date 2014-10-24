@@ -154,9 +154,9 @@ public class Lobby extends JFrame {
         This uses less code, makes it more efficient and reduces the amount of data
         being passed around classes. */
         if (isPrivate) {
-            newRoom = new Room(roomID, manager.getMainPlayer().getUsername(), password);
+            newRoom = new Room(roomID, manager.getMainPlayer(), password);
         } else {
-            newRoom = new Room(roomID, manager.getMainPlayer().getUsername());
+            newRoom = new Room(roomID, manager.getMainPlayer());
         }
 
         if(isPrivate){
