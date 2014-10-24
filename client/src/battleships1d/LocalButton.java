@@ -1,5 +1,10 @@
 package battleships1d;
 
+/**
+ * 
+ * @author Alexander Hanbury-Botherway
+ *
+ */
 public class LocalButton extends GameButton {
 	
 	private boolean hasShip;
@@ -10,7 +15,7 @@ public class LocalButton extends GameButton {
 		hasShip = false;
 		ship = null;
 	}
-	/**
+	/**z
 	 * Used to play the button, called from ActionListener of enemy 
 	 * @return Sink if critical hit, hit if hit but not sunk, miss if not hit
 	 */

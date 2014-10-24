@@ -2,11 +2,17 @@ package battleships1d;
 
 import java.awt.Color;
 
+/**
+ * 
+ * @author Alexander Hanbury-Botherway
+ *
+ */
 public class EnemyButton extends GameButton {
 
 	EnemyButtonState state;
+	Room room;
 	
-	public EnemyButton(int row, int col) {
+	public EnemyButton(int row, int col, Room room) {
 		super(row, col);
 		state = EnemyButtonState.NOT_PLAYED;
 	}
@@ -17,7 +23,7 @@ public class EnemyButton extends GameButton {
 	public void playButton(){
 		//For test:
 		Result resultOfPlay = Result.SINK;
-		//Result resultOfPlay = AppManager.playButton(row, col);
+		//Result resultOfPlay = room.playButton(row, col);
 		
 		setEnabled(false);
 		

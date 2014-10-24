@@ -12,7 +12,7 @@ public class EnemyMap extends Map {
     public EnemyMap() {
         super();
         // TODO: Fix next line
-        this.setUpUI(new GameButton(1,1));
+        this.setUpUI(new EnemyButton(1,1));
 
     }
 

@@ -12,7 +12,7 @@ public class LocalMap extends Map {
     public LocalMap() {
         super();
         // TODO: Fix next line
-        this.setUpUI(new GameButton(1,1));
+        this.setUpUI(new LocalButton(1,1));
 
     }
 
