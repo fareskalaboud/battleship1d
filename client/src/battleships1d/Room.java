@@ -6,65 +6,94 @@ package battleships1d;
  * 
  */
 public class Room {
-	Player owner;
-	Map ownerMap;
-	Player guest;
-	Map guestMap;
+    // CHANGE: variable names to make it more consistent with the Lobby class
+//	private Player localPlayer;
+    private String enemyPlayer;
+	private Map localMap;
+    private Map enemyMap;
+	private String roomID;
+    private String userName;
 
-	String roomID;
+	private boolean isPrivate;
+    private String password;
 
-	Boolean roomType;
 
-	// TO DO : MAP ?  CONSTROCTOR
+    /**
+     * A constructor that takes only the room ID.
+     * This automatically creates a public room.
+     *
+     * @param roomID the room name/id
+     * @author faresalaboud
+     */
+	public Room(String roomID, String userName) {
+        this.roomID = roomID;
+        this.isPrivate = false;
+        this.password = "";
+        this.userName = userName;
+    }
 
-	// setUpUI?
+    /**
+     * An overloaded constructor that takes both
+     * the room ID and password.
+     * This automatically creates a private room.
+     *
+     * @param roomID the room name/id
+     * @param password the password to the private room
+     * @author faresalaboud
+     */
+    public Room(String roomID, String password, String userName) {
+        this.roomID = roomID;
+        this.isPrivate = true;
+        this.password = password;
+        this.userName = userName;
+    }
+
+//	/**
+//	 * setLocalPlayer()
+//	 *
+//	 * @param localPlayer
+//	 *            of the Room of type Player;
+//	 */
+//	public void setLocalPlayer(Player localPlayer) {
+//		this.localPlayer = localPlayer;
+//	}
+
+//	/**
+//	 * getLocalPlayer()
+//	 *
+//	 * @return the localPlayer of the Room of type Player;
+//	 */
+//	public Player getLocalPlayer() {
+//		return this.localPlayer;
+//	}
 
 	/**
-	 * setOwner()
+	 * setEnemyPlayer()
 	 * 
-	 * @param owner
-	 *            of the Room of type Player;
+	 * @param enemyPlayer
+	 *            the enemyPlayer of the Room of type Player;
 	 */
-	public void setOwner(Player owner) {
-		this.owner = owner;
-	}
-
-	/**
-	 * getOwner()
-	 * 
-	 * @return the owner of the Room of type Player;
-	 */
-	public Player getOwner() {
-		return this.owner;
-	}
-
-	/**
-	 * setGuest()
-	 * 
-	 * @param guest
-	 *            the guest of the Room of type Player;
-	 */
-	public void setGuest(Player guest) {
-		this.guest = guest;
+	public void setEnemyPlayer(String enemyPlayer) {
+		this.enemyPlayer = enemyPlayer;
 	}
 
 	/**
 	 * setPlayer()
 	 * 
-	 * @return the guest of the Room of type Player;
+	 * @return the enemyPlayer of the Room of type Player;
 	 */
-	public Player setPlayer() {
-		return this.guest;
+	public String setPlayer() {
+		return this.enemyPlayer;
 	}
 
 	/**
 	 * roomType will be set as Private = TRUE and Public = FALSE
 	 * 
-	 * @param type
+	 * @param isPrivate
 	 *            - boolean which signify the type of the room
 	 */
-	public void setRoomType(boolean type) {
-		this.roomType = type;
+	public void setIsPrivate(boolean isPrivate) {
+		this.isPrivate = isPrivate;
 	}
 
 	/**
@@ -72,8 +101,8 @@ public class Room {
 	 * 
 	 * @return - boolean which signify the type of the room;
 	 */
-	public boolean getRoomType() {
-		return this.roomType;
+	public boolean getIsPrivate() {
+		return this.isPrivate;
 	}
 
 	/**
