@@ -69,4 +69,9 @@ public class UserManager {
         Random random = new Random();
         return "guest-" + (random.nextInt(8999) + 1000);
     }
+
+    public static User getUserObject(String username) {
+        if (!userExists(username)) return null;
+        return users.get(username);
+    }
 }
