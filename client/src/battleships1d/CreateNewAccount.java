@@ -11,30 +11,42 @@ import javax.swing.AbstractButton;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 /**
- * 
+ * CreateNewAccount represents the frame where the player can create a new Account
  * @author GEORGE RADUTA
  * 
  */
 public class CreateNewAccount {
-    // CHANGE: Declared global variables as private.
-	private JFrame testFrame;
+    private JFrame testFrame;
     private JFrame accountFrame;
     private JPanel accountPanel;
     private JPanel userNamePanel, passwordPanel, confirmPasswordPanel, buttonsPanel;
     private JLabel userNameLabel, passwordLabel, confirmPasswordLabel;
-    private JTextField userNameField;
+    private JTextField userNameField, userNameFromLogIn;
     private JPasswordField passwordField, confirmPasswordField;
     private JButton okButton, cancelButton;
 
-	public CreateNewAccount(JFrame mainFrame) {
+    /**
+     * Constructor which will get the frame from LogIn and the userName TextField
+     * in order to fill it after the account is created;
+     * 
+     * @param mainFrame
+     * @param userNameField
+     * @author GEORGE RADUTA
+     */
+	public CreateNewAccount(JFrame mainFrame, JTextField userNameField) {
 		this.testFrame = mainFrame;
+		this.userNameFromLogIn = userNameField;
 	}
 
+	/**
+	 * @author GEORGE RADUTA
+	 */
 	public void setUpUI() {
         accountFrame = new JFrame();
 
@@ -82,15 +94,36 @@ public class CreateNewAccount {
         accountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         accountFrame.setResizable(false);
         accountFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
-
+        
+        setActionListeners();
+	}
+	
+	/**
+	 * @author GEORGE RADUTA
+	 */
+	public void setActionListeners() {
         final LogIn enableLogInFrame = new LogIn();
         okButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent arg0) {
                 // TODO Auto-generated method stub
-                enableLogInFrame.enableLogInFrame(testFrame);
-                accountFrame.dispose();
+            	
+            	String userName = userNameField.getText().trim();
+            	String password = passwordField.getText().trim();
+            	String confirmPass = confirmPasswordField.getText().trim();
+            	
+            	// Check for userName to be ok in DataBases;
+            	// 
+            	if (!userName.equals("") && password.equals(confirmPass) && !password.equals("")) {
+            		userNameFromLogIn.setText(userName);
+            		enableLogInFrame.enableLogInFrame(testFrame);
+            		accountFrame.dispose();
+            	} else if (userName.equals("")) {
+            		JOptionPane.showMessageDialog(accountFrame, "User Name is incorrect");
+            	} else {
+            		JOptionPane.showMessageDialog(accountFrame, "Password choosen is incorect");
+            	}
 
             }
         });
@@ -106,6 +139,9 @@ public class CreateNewAccount {
 		});
 	}
 
+	/**
+	 * Should send data to the database and create the account
+	 */
 	public void createAccount() {
 
 	}

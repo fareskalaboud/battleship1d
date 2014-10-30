@@ -54,4 +54,9 @@ public class LocalMap extends Map {
     public void setActionListeners() {
 
     }
+    public LocalButton getClikedButton(int row, int col) {
+    	// TO DO :  Fares, return the button at given coordinates;
+    	return new LocalButton(0, 0);
+    	
+    }
 }

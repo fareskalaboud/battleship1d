@@ -140,7 +140,10 @@ public class AppManager {
             setMainPlayer();
             getRoomsFromServer();
             frame.setVisible(true);
+
+        	// TO DO :  Fares try to start logIn class from here.
         } else {
+        	
             JOptionPane.showMessageDialog(new JFrame(),
                     "Please ensure you have a working internet connection.",
                     "Error: Unable to connect to server",

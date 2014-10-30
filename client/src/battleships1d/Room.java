@@ -9,8 +9,8 @@ public class Room {
     // CHANGE: variable names to make it more consistent with the Lobby class
 //	private Player localPlayer;
     private String enemyPlayer;
-	private Map localMap;
-    private Map enemyMap;
+	private LocalMap localMap;
+    private EnemyMap enemyMap;
 	private String roomID;
     private String userName;
 
@@ -132,5 +132,14 @@ public class Room {
 	@Override
 	public String toString() {
 		return this.roomID;
+	}
+	/**
+	 * 
+	 * @param row
+	 * @param col
+	 */
+	public Result playButton(int row, int col) {
+		
+		return localMap.getClikedButton(row, col).playButton();
 	}
 }
