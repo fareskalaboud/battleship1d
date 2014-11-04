@@ -127,7 +127,7 @@ public class AppManager {
      * @author faresalaboud
      */
     public static boolean connectToServer() {
-        boolean connected = false;
+        boolean connected = true;
 
         //TODO: Attempt connection to server
 
@@ -138,10 +138,10 @@ public class AppManager {
         if (connectToServer()) {
             setUpUI();
             setMainPlayer();
-            getRoomsFromServer();
-            frame.setVisible(true);
+           // getRoomsFromServer();
+           // frame.setVisible(true);
+            new LogIn().setUpUI();
 
-        	// TO DO :  Fares try to start logIn class from here.
         } else {
         	
             JOptionPane.showMessageDialog(new JFrame(),
