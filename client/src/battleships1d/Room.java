@@ -1,12 +1,6 @@
 package battleships1d;
 
 import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -30,7 +24,7 @@ public class Room extends JFrame{
     
     private boolean isLocalsMove;
     
-
+    private AppManager am;
     
     private JLabel jlHeaderText;
 
@@ -42,12 +36,15 @@ public class Room extends JFrame{
      * @param roomID the room name/id
      * @author faresalaboud
      */
-	public Room(String roomID, String userName) {
+	public Room(String roomID, String userName, AppManager am) {
 		super("Battleships (Room ID: " + roomID +")");
         this.roomID = roomID;
         this.isPrivate = false;
         this.password = "";
         this.userName = userName;
+        this.am = am;
+        
+        setUpUI();
     }
 
     /**
@@ -59,19 +56,24 @@ public class Room extends JFrame{
      * @param password the password to the private room
      * @author faresalaboud
      */
-    public Room(String roomID, String password, String userName) {
+    public Room(String roomID, String password, String userName, AppManager am) {
         this.roomID = roomID;
         this.isPrivate = true;
         this.password = password;
         this.userName = userName;
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
+        this.am = am;
         setUpUI();
-        }
     }
     
-    //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
+    
+    /**
+     * Sets up UI so local map is on west panel, enemy map is on east panel
+     * @author Alexander Hanbury-Botherway
+     */
     public void setUpUI(){
+    	setLayout(new BorderLayout());
     	add(localMap, BorderLayout.WEST);
     	add(enemyMap, BorderLayout.EAST);
     	add(jlHeaderText, BorderLayout.NORTH);
@@ -167,6 +169,14 @@ public class Room extends JFrame{
 	@Override
 	public String toString() {
 		return this.roomID;
+	}
+	
+	public Result playButton(int col, int row){
+		return am.playButton(col, row);
+	}
+	
+	public static void main(String args[]){
+		new Room("RoomID", "UserName", new AppManager());
 	}
 	
 }

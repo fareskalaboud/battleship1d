@@ -161,9 +161,9 @@ public class Lobby extends JFrame {
 		 * the amount of data being passed around classes.
 		 */
 		if (isPrivate) {
-			newRoom = new Room(roomID, manager.getMainPlayer(), password);
+			newRoom = new Room(roomID, manager.getMainPlayer(), password, manager);
 		} else {
-			newRoom = new Room(roomID, manager.getMainPlayer());
+			newRoom = new Room(roomID, manager.getMainPlayer(), manager);
 		}
 
 		if (isPrivate) {
