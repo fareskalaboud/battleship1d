@@ -29,7 +29,9 @@ public class LocalMap extends Map {
 				hasShip[i][j] = false;
 			}
 		}
-
+		
+		localButtons = new LocalButton[10][10];
+		
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				final int row = i;
@@ -123,9 +125,9 @@ public class LocalMap extends Map {
 		});
 
 		// Add the panels to the map
-		this.add(mapPanel, BorderLayout.CENTER);
-		mapPanel.add(healthPanel, BorderLayout.NORTH);
-		mapPanel.add(bottomPanel,BorderLayout.SOUTH);
+		add(mapPanel, BorderLayout.CENTER);
+		add(healthPanel, BorderLayout.NORTH);
+		add(bottomPanel,BorderLayout.SOUTH);
 
 	}
 
