@@ -125,9 +125,9 @@ public class LocalMap extends Map {
 		});
 
 		// Add the panels to the map
-		this.add(mapPanel, BorderLayout.CENTER);
-		mapPanel.add(healthPanel, BorderLayout.NORTH);
-		mapPanel.add(bottomPanel,BorderLayout.SOUTH);
+		add(mapPanel, BorderLayout.CENTER);
+		add(healthPanel, BorderLayout.NORTH);
+		add(bottomPanel,BorderLayout.SOUTH);
 
 	}
 

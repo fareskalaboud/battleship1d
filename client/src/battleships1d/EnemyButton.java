@@ -22,7 +22,7 @@ public class EnemyButton extends GameButton {
 	 * Disables the button so it can't be played again. 
 	 */
 	public void playButton(){
-		Result resultOfPlay = new room.playButton(row, col);
+		Result resultOfPlay = room.playButton(row, col);
 		
 		setEnabled(false);
 		

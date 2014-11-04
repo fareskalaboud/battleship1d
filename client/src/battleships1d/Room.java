@@ -64,8 +64,7 @@ public class Room extends JFrame{
         this.password = password;
         this.userName = userName;
         localMap = new LocalMap(this);
-        enemyMap = new EnemyMap(this);
-        this.am = am;
+
         setUpUI();
     }
     
@@ -77,8 +76,8 @@ public class Room extends JFrame{
     public void setUpUI(){
     	setLayout(new BorderLayout());
     	add(localMap, BorderLayout.WEST);
-    	add(enemyMap, BorderLayout.EAST);
-    	add(jlHeaderText, BorderLayout.NORTH);
+    //	add(enemyMap, BorderLayout.EAST);
+  //  	add(jlHeaderText, BorderLayout.NORTH);
     	
     	setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

@@ -16,7 +16,8 @@ public abstract class GameButton extends JButton {
 		super(" ");
 		this.row = row;
 		this.col = col;
-
+		setToolTipText("Row: " + row + " Col: " + col);
+		setSize(10,10);
 	}
 	
 	
