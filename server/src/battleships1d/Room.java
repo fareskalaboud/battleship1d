@@ -9,6 +9,7 @@ public class Room {
     private String password;
     private User host;
     private User guest;
+    private Game game;
 
     public Room(User host) {
         this("", host);
@@ -20,10 +21,7 @@ public class Room {
         this.password = password;
         this.roomID = RoomManager.generateRoomName();
         this.host = host;
-    }
-
-    public void handleCommand(Command cmd, User user) {
-
+        this.game = new Game(this);
     }
 
     public String getRoomID() {
@@ -64,5 +62,13 @@ public class Room {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public Game getGame() {
+        return game;
+    }
+
+    public void setGame(Game game) {
+        this.game = game;
     }
 }

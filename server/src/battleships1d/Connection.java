@@ -126,12 +126,11 @@ public class Connection implements Runnable {
             }
         } else if (cmd.getCommand().equals("Room")) {
             if (!checkLoggedIn()) return;
-            String firstParameter = cmd.getParameters()[0];
-            if (firstParameter.equals("List") || firstParameter.equals("Create") || firstParameter.equals("Join")) {
-                RoomManager.handleCommand(cmd, this);
-            } else {
-                RoomManager.handleRoomCommand(cmd, this.user);
-            }
+            RoomManager.handleCommand(cmd, this);
+        } else if (cmd.getCommand().equals("Game")) {
+            if (!checkLoggedIn()) return;
+            Room room = RoomManager.getRoomByUser(user.getUsername());
+            room.getGame().handleCommand(cmd, this);
         }
     }
 
