@@ -44,6 +44,48 @@ public class AppManager {
     }
 
     /**
+     * Checks the server if the player's login details are correct or not.
+     *
+     * @param username Player's username
+     * @param password Player's password
+     *
+     * @return the server response
+     */
+    public static String checkPlayerLoginDetails(String username, String password) {
+        //TODO: Send to server, and fix line below
+        String response = "hello";
+
+        String[] serverResponse = response.split("::");
+        if(serverResponse[2].equals("Successful")) {
+            return "Successful";
+        } else if (serverResponse[2].equals("Error")){
+            if (serverResponse.length == 3) {
+                return "Error";
+            } else {
+                return "Error::" + username;
+            }
+        }
+        return "Error";
+    }
+
+    public static String createAccount(String username, String password) {
+        //TODO: Send to server, and fix line below
+        String response = "hello";
+
+        String[] serverResponse = response.split("::");
+        if(serverResponse[2].equals("Successful")) {
+            return "Successful";
+        } else if (serverResponse[2].equals("Error")){
+            if (serverResponse.length == 3) {
+                return "Error";
+            } else {
+                return "Error::" + username;
+            }
+        }
+        return "Error";
+    }
+
+    /**
      * Sets the main player according to mainPlayer's current value
      * (if it's null, assign it a Guest value; else assign it the logged
      * in user.)
@@ -60,7 +102,7 @@ public class AppManager {
         }
     }
 
-    // Lobby Management
+    // Server Management
 
     /**
      * Obtains a list of the rooms from the server and adds them to
@@ -68,6 +110,7 @@ public class AppManager {
      *
      * @author faresalaboud
      */
+
     public static void getRoomsFromServer() {
         // TODO: Remove initialisation, obtain rooms from server
         Vector<Room> allRooms = new Vector<Room>();
