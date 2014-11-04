@@ -75,7 +75,7 @@ public class Room extends JFrame{
     public void setUpUI(){
     	setLayout(new BorderLayout());
     	add(localMap, BorderLayout.WEST);
-    //	add(enemyMap, BorderLayout.EAST);
+    	add(enemyMap, BorderLayout.EAST);
   //  	add(jlHeaderText, BorderLayout.NORTH);
     	
     	setVisible(true);

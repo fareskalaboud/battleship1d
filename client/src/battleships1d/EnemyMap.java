@@ -43,7 +43,7 @@ public class EnemyMap extends Map {
 
         // Add the panels to the map
         this.add(mapPanel, BorderLayout.CENTER);
-        mapPanel.add(healthPanel, BorderLayout.NORTH);
+        add(healthPanel, BorderLayout.NORTH);
         
         addButtons();
 

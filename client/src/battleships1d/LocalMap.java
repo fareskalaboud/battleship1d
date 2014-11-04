@@ -15,6 +15,7 @@ public class LocalMap extends Map {
 	private boolean[][] hasShip;
 	private LocalButton[][] localButtons;
 	private Ship[][] ships;
+	private Orientation orientationOfShip;
 
 	// for testing purposes
 	private static int[] shipSize = { 2, 3, 3, 4, 5 };
@@ -42,7 +43,7 @@ public class LocalMap extends Map {
 
 		ships = new Ship[10][10];
 
-		// TODO: Fix next line
+		orientationOfShip = Orientation.HORIZONTAL;
 
 		this.setUpUI();
 
@@ -72,23 +73,25 @@ public class LocalMap extends Map {
 						
 						} else{						
 							Ship genericShip = new Ship(shipSize[shipArrayCounter],
-									Orientation.HORIZONTAL);
+									orientationOfShip);
 							int size = genericShip.getSize();
 							Orientation orientation = genericShip.getOrientation();
-							if (checkIfCanAddShip(size, row, column, orientation)) {
+							if (shipArrayCounter < 5 &&checkIfCanAddShip(size, row, column, orientation)) {
 								if (orientation == Orientation.HORIZONTAL) {
 									for (int i = column; i < column + size; i++) {
 										hasShip[row][i] = true;
 										ships[row][i] = genericShip;
-	
+										localButtons[row][i].setBackground(Color.green);
 									}
 								} else {
 									for (int i = row; i < row + size; i++) {
 										hasShip[i][column] = true;
 										ships[i][column] = genericShip;
+										localButtons[i][column].setBackground(Color.green);
 									}
 								}
 								shipArrayCounter++;
+								
 							}
 						}
 						
@@ -113,6 +116,9 @@ public class LocalMap extends Map {
 		healthPanel.add(healthBar);
 
 		JPanel bottomPanel = new JPanel();
+		bottomPanel.setLayout(new FlowLayout());
+		
+		
 		JButton finished = new JButton("Finished");
 		finished.addActionListener(new ActionListener() {
 
@@ -123,6 +129,20 @@ public class LocalMap extends Map {
 			}
 
 		});
+		bottomPanel.add(finished);
+		
+		JButton flipOrientation = new JButton("Flip Orientation");
+		flipOrientation.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				flipOrientation();
+			}
+			
+		});
+		
+		bottomPanel.add(flipOrientation);
 
 		// Add the panels to the map
 		add(mapPanel, BorderLayout.CENTER);
@@ -180,5 +200,16 @@ public class LocalMap extends Map {
 			}
 		}
 	}
+	
+	public void flipOrientation(){
+		if(orientationOfShip == Orientation.HORIZONTAL){
+			orientationOfShip = Orientation.VERTICAL;
+		} else{
+			orientationOfShip = Orientation.HORIZONTAL;
+		}
+	}
+	
+	
+	
 
 }
