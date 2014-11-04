@@ -8,8 +8,10 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * 
@@ -70,11 +72,31 @@ public class Room extends JFrame{
         }
     }
     
-    //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
+    /**
+     * Sets up room perspective for user
+     * @author Alexander Hanbury-Botherway
+     */
     public void setUpUI(){
+
+    	setLayout(new BorderLayout());
+    	JPanel jpWest = new JPanel(new BorderLayout());
+    		jpWest.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    		jpWest.add(new JLabel("My Map"), BorderLayout.NORTH);
+    		jpWest.add(localMap, BorderLayout.CENTER);
+    	add(jpWest, BorderLayout.WEST);
+    	
+    	JPanel jpEast = new JPanel(new BorderLayout());
+    		jpEast.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			jpEast.add(new JLabel("Enemy Map"), BorderLayout.NORTH);
+			jpEast.add(enemyMap, BorderLayout.CENTER);
+		add(jpEast, BorderLayout.EAST);
+
+  //  	add(jlHeaderText, BorderLayout.NORTH);
+
     	add(localMap, BorderLayout.WEST);
     	add(enemyMap, BorderLayout.EAST);
     	add(jlHeaderText, BorderLayout.NORTH);
+
     	
     	setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
