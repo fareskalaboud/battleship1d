@@ -23,13 +23,16 @@ import javax.swing.JPanel;
  * 
  */
 public class MainMenu {
-	String userName;
-	public MainMenu(String userName) {
+	private String userName;
+	private AppManager appManager;
+	public MainMenu(String userName, AppManager appManager) {
 		this.userName = userName;
+		this.appManager = appManager;
+		setUpUI();
 	}
 
-	JFrame mainWindow;
-	JPanel mainPanel;
+	private JFrame mainWindow;
+	private JPanel mainPanel;
 	/**
 	 * Creating the MainWindow (More like MainPanel as Fares wanted it so that
 	 * we could just switch the panels)
@@ -54,8 +57,8 @@ public class MainMenu {
 
 	}
 
-	JPanel northPanel;
-	JLabel titleLabel;
+	private JPanel northPanel;
+	private JLabel titleLabel;
 
 	/**
 	 * createNorthComponent() - creates the North Component of the mainPanel;
@@ -71,13 +74,13 @@ public class MainMenu {
 		mainPanel.add(northPanel, BorderLayout.NORTH);
 	}
 
-	JPanel centerPanel;
-	JPanel firstGridPanel, secondGridPanel;
-	JPanel userNameGridPanel;
-	JPanel matchesGridPanel;
-	JLabel welcomeLabel;
-	JLabel userSelectedNameLabel;
-	JButton watchTutorialButton, enterLobbyButton, quickMatchButton;
+	private JPanel centerPanel;
+	private JPanel firstGridPanel, secondGridPanel;
+	private JPanel userNameGridPanel;
+	private JPanel matchesGridPanel;
+	private JLabel welcomeLabel;
+	private JLabel userSelectedNameLabel;
+	private JButton watchTutorialButton, enterLobbyButton, quickMatchButton;
 
 	//TO DO :  QuickMatch button
 	/**
@@ -141,15 +144,15 @@ public class MainMenu {
 		matchesGridPanel.add(quickMatchButtonPanel);
 		setActionListeners();
 	}
+	private Lobby lobby;
 	
-	private Lobby lobby = new Lobby();
 	private void setActionListeners() {
+		
 		enterLobbyButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				lobby.setUpUI();
+				lobby = new Lobby(appManager);
 				mainWindow.dispose();
 			}
 		});

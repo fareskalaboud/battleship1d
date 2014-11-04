@@ -10,166 +10,171 @@ import java.util.Vector;
 import javax.swing.*;
 
 /**
- *
+ * 
  * @author Alexander Hanbury-Botherway
- *
+ * 
  */
 @SuppressWarnings("serial")
 public class Lobby extends JFrame {
 
-    private Vector<Room> privateRooms = new Vector<Room>();
-    private Vector<Room> publicRooms = new Vector<Room>();
-    private JList<Room> jlPublicRooms;
-    private JList<Room> jlPrivateRooms;
-    private AppManager manager;
+	private Vector<Room> privateRooms = new Vector<Room>();
+	private Vector<Room> publicRooms = new Vector<Room>();
+	private JList<Room> jlPublicRooms;
+	private JList<Room> jlPrivateRooms;
+	private AppManager manager;
 
-    public Lobby(AppManager manager) {
-        super("Battleships 1-D: Lobby");
-        this.manager = manager;
-        setUpUI();
-    }
-    public Lobby() {
+	public Lobby(AppManager manager) {
+		super("Battleships 1-D: Lobby");
+		this.manager = manager;
+		setUpUI();
+	}
 
-    }
-    /**
-     * @author Alexander Hanbury-Botherway
-     */
-    public void setUpUI() {
-        //Rooms
-        JPanel jpCenter = new JPanel(new BorderLayout());
+	public Lobby() {
 
-        //Public Rooms
-        JPanel jpCenterNorth = new JPanel(new BorderLayout());
-        jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
-        jlPublicRooms = new JList<Room>(publicRooms);
-        JScrollPane jspPublicRooms = new JScrollPane(jlPublicRooms);
-        jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
-        jpCenter.add(jpCenterNorth,BorderLayout.NORTH);
+	}
 
-        //Private Rooms
-        JPanel jpCenterSouth = new JPanel(new BorderLayout());
-        jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
-        jlPrivateRooms = new JList<Room>(privateRooms);
-        JScrollPane jspPrivateRooms = new JScrollPane(jlPrivateRooms);
-        jpCenterSouth.add(jspPrivateRooms);
-        jpCenter.add(jpCenterSouth,BorderLayout.SOUTH);
+	/**
+	 * @author Alexander Hanbury-Botherway
+	 */
+	public void setUpUI() {
+		// Rooms
+		JPanel jpCenter = new JPanel(new BorderLayout());
 
-        add(jpCenter, BorderLayout.CENTER);
+		// Public Rooms
+		JPanel jpCenterNorth = new JPanel(new BorderLayout());
+		jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
+		jlPublicRooms = new JList<Room>(publicRooms);
+		JScrollPane jspPublicRooms = new JScrollPane(jlPublicRooms);
+		jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
+		jpCenter.add(jpCenterNorth, BorderLayout.NORTH);
 
-        //Create room options
-        JPanel jpEast = new JPanel(new BorderLayout());
+		// Private Rooms
+		JPanel jpCenterSouth = new JPanel(new BorderLayout());
+		jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
+		jlPrivateRooms = new JList<Room>(privateRooms);
+		JScrollPane jspPrivateRooms = new JScrollPane(jlPrivateRooms);
+		jpCenterSouth.add(jspPrivateRooms);
+		jpCenter.add(jpCenterSouth, BorderLayout.SOUTH);
 
-        //Room variable fields
-        JPanel jpEastCenter = new JPanel(new GridLayout(5,1));
-        // Room name
-        jpEastCenter.add(new JLabel("Room Name:"));
+		add(jpCenter, BorderLayout.CENTER);
 
-        JTextField jtfRoomName = new JTextField(20);
-        jpEastCenter.add(jtfRoomName);
+		// Create room options
+		JPanel jpEast = new JPanel(new BorderLayout());
 
-        // Room password (not visible when public is selected)
-        final JLabel jlPassword = new JLabel("Room Password: ");
-        jlPassword.setVisible(false);
-        jpEastCenter.add(jlPassword);
+		// Room variable fields
+		JPanel jpEastCenter = new JPanel(new GridLayout(5, 1));
+		// Room name
+		jpEastCenter.add(new JLabel("Room Name:"));
 
-        final JPasswordField jpfRoomPassword = new JPasswordField(20);
-        jpfRoomPassword.setEnabled(false);
-        jpfRoomPassword.setVisible(false);
-        jpEastCenter.add(jpfRoomPassword);
+		JTextField jtfRoomName = new JTextField(20);
+		jpEastCenter.add(jtfRoomName);
 
-        // Create room button
-        JButton jbCreateRoom = new JButton("Create Room");
-        jpEastCenter.add(jbCreateRoom);
+		// Room password (not visible when public is selected)
+		final JLabel jlPassword = new JLabel("Room Password: ");
+		jlPassword.setVisible(false);
+		jpEastCenter.add(jlPassword);
 
-        jpEast.add(jpEastCenter, BorderLayout.CENTER);
+		final JPasswordField jpfRoomPassword = new JPasswordField(20);
+		jpfRoomPassword.setEnabled(false);
+		jpfRoomPassword.setVisible(false);
+		jpEastCenter.add(jpfRoomPassword);
 
-        // Public/private option
-        JPanel jpEastNorth = new JPanel(new FlowLayout());
+		// Create room button
+		JButton jbCreateRoom = new JButton("Create Room");
+		jpEastCenter.add(jbCreateRoom);
 
-        //Public button (chosen as default)
-        final JButton jbPublic = new JButton("Public");
-        jbPublic.setEnabled(false);
-        jpEastNorth.add(jbPublic);
+		jpEast.add(jpEastCenter, BorderLayout.CENTER);
 
-        //Private button
-        final JButton jbPrivate = new JButton("Private");
-        jpEastNorth.add(jbPrivate);
+		// Public/private option
+		JPanel jpEastNorth = new JPanel(new FlowLayout());
 
-        // Action Listeners
-        // Public button action listener
-        jbPublic.addActionListener(new ActionListener(){
+		// Public button (chosen as default)
+		final JButton jbPublic = new JButton("Public");
+		jbPublic.setEnabled(false);
+		jpEastNorth.add(jbPublic);
 
-            public void actionPerformed(ActionEvent arg0) {
-                jbPublic.setEnabled(false);
-                jbPrivate.setEnabled(true);
-                jpfRoomPassword.setEnabled(false);
-                jpfRoomPassword.setVisible(false);
-                jlPassword.setVisible(false);
-            }});
+		// Private button
+		final JButton jbPrivate = new JButton("Private");
+		jpEastNorth.add(jbPrivate);
 
-        // Private button action listener
-        jbPrivate.addActionListener(new ActionListener(){
+		// Action Listeners
+		// Public button action listener
+		jbPublic.addActionListener(new ActionListener() {
 
-            public void actionPerformed(ActionEvent arg0) {
-                jbPrivate.setEnabled(false);
-                jbPublic.setEnabled(true);
-                jpfRoomPassword.setEnabled(true);
-                jpfRoomPassword.setVisible(true);
-                jlPassword.setVisible(true);
-            }});
+			public void actionPerformed(ActionEvent arg0) {
+				jbPublic.setEnabled(false);
+				jbPrivate.setEnabled(true);
+				jpfRoomPassword.setEnabled(false);
+				jpfRoomPassword.setVisible(false);
+				jlPassword.setVisible(false);
+			}
+		});
 
-        jpEast.add(jpEastNorth, BorderLayout.NORTH);
+		// Private button action listener
+		jbPrivate.addActionListener(new ActionListener() {
 
-        add(jpEast, BorderLayout.EAST);
-setVisible(true);
-        pack();
-        setLocationRelativeTo(null);
-        setDefaultCloseOperation(EXIT_ON_CLOSE);
-    }
+			public void actionPerformed(ActionEvent arg0) {
+				jbPrivate.setEnabled(false);
+				jbPublic.setEnabled(true);
+				jpfRoomPassword.setEnabled(true);
+				jpfRoomPassword.setVisible(true);
+				jlPassword.setVisible(true);
+			}
+		});
 
-    /**
-     * @return the list of private rooms at the moment
-     */
-    public Vector<Room>privateRooms() {
-        return privateRooms;
-    }
+		jpEast.add(jpEastNorth, BorderLayout.NORTH);
 
-    /**
-     * @return the list of public rooms at the moment
-     */
-    public Vector<Room> publicRooms() {
-        return publicRooms;
-    }
+		add(jpEast, BorderLayout.EAST);
+		setVisible(true);
+		pack();
+		setLocationRelativeTo(null);
+		setDefaultCloseOperation(EXIT_ON_CLOSE);
+	}
 
-    public void refreshRoomLists(){
-        jlPublicRooms.setListData(publicRooms);
-        jlPrivateRooms.setListData(privateRooms);
-    }
+	/**
+	 * @return the list of private rooms at the moment
+	 */
+	public Vector<Room> privateRooms() {
+		return privateRooms;
+	}
 
-    public void createRoom(String roomID, String password, boolean isPrivate){
-        Room newRoom;
+	/**
+	 * @return the list of public rooms at the moment
+	 */
+	public Vector<Room> publicRooms() {
+		return publicRooms;
+	}
 
-        /* CHANGE:
-        If you give the Room constructor just a room ID, it will create a  public room.
-        If you give it both a room ID and a password, it will create a private room.
-        See Room class constructors for more information.
-        This uses less code, makes it more efficient and reduces the amount of data
-        being passed around classes. */
-        if (isPrivate) {
-            newRoom = new Room(roomID, manager.getMainPlayer(), password);
-        } else {
-            newRoom = new Room(roomID, manager.getMainPlayer());
-        }
+	public void refreshRoomLists() {
+		jlPublicRooms.setListData(publicRooms);
+		jlPrivateRooms.setListData(privateRooms);
+	}
 
-        if(isPrivate){
-            privateRooms.add(newRoom);
-        } else {
-            publicRooms.add(newRoom);
-        } //TODO: send info to server
-        refreshRoomLists();
-    }
+	public void createRoom(String roomID, String password, boolean isPrivate) {
+		Room newRoom;
 
-    public static void main(String args[]){
-        new Lobby();
-    }
+		/*
+		 * CHANGE: If you give the Room constructor just a room ID, it will
+		 * create a public room. If you give it both a room ID and a password,
+		 * it will create a private room. See Room class constructors for more
+		 * information. This uses less code, makes it more efficient and reduces
+		 * the amount of data being passed around classes.
+		 */
+		if (isPrivate) {
+			newRoom = new Room(roomID, manager.getMainPlayer(), password);
+		} else {
+			newRoom = new Room(roomID, manager.getMainPlayer());
+		}
+
+		if (isPrivate) {
+			privateRooms.add(newRoom);
+		} else {
+			publicRooms.add(newRoom);
+		} // TODO: send info to server
+		refreshRoomLists();
+	}
+
+	public static void main(String args[]) {
+		new Lobby();
+	}
 }
