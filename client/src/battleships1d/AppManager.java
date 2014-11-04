@@ -1,7 +1,16 @@
 package battleships1d;
 
-import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +27,11 @@ public class AppManager {
     // Lobby Variables
     private static Vector<Room> publicRooms;
     private static Vector<Room> privateRooms;
+    
+    // Server Variables
+    private static BufferedWriter out;
+    private static BufferedReader in;
+    private static Socket socket;
 
     // UI Management
 
@@ -170,11 +184,34 @@ public class AppManager {
      * @author faresalaboud
      */
     public static boolean connectToServer() {
-        boolean connected = true;
 
-        //TODO: Attempt connection to server
+        String hostName = "local";
+        int portNumber = 8000;
+        try {
+			socket = new Socket(hostName, portNumber);
+		} catch (UnknownHostException e2) {
+			System.err.println("Unknown host :(");
+			return false;
+		} catch (IOException e2) {
+			System.err.println("IO Exception :(");
+			return false;
+		}
+     
+        try {
+			out =   new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		} catch (IOException e1) {
+			System.err.println("IO Exception :(");
+			return false;
+		}
+        try {
+			in =    new BufferedReader(
+			            new InputStreamReader(socket.getInputStream()));
+		} catch (IOException e) {
+			System.err.println("IO Exception :(");
+			return false;
+		}
 
-        return connected;
+        return true;
     }
 
     public static void main(String args[]) {

@@ -30,9 +30,7 @@ public class Room extends JFrame{
     
     private boolean isLocalsMove;
     
-    private BufferedWriter out;
-    private BufferedReader in;
-    private Socket socket;
+
     
     private JLabel jlHeaderText;
 
