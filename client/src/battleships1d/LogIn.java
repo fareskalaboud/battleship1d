@@ -150,7 +150,7 @@ public class LogIn {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TO DO check for user in data base;
-				AppManager.checkPlayerLoginDetails("Tom", "password");
+				
 				boolean ok = false;
 				
 				if (ok) {

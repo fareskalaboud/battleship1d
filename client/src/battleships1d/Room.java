@@ -67,7 +67,7 @@ public class Room extends JFrame{
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
         setUpUI();
-        
+        }
     }
     
     //Alexander: Setting up this method so that it adds local map to west, and enemy map to east

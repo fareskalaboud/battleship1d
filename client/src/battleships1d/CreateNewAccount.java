@@ -24,6 +24,21 @@ import javax.swing.JTextField;
  * 
  */
 public class CreateNewAccount {
+	/**
+	 * Constructor which will get the frame from LogIn and the userName
+	 * TextField in order to fill it after the account is created;
+	 * 
+	 * @param mainFrame
+	 * @param userNameField
+	 * @author GEORGE RADUTA
+	 */
+	private AppManager appManager;
+	public CreateNewAccount(JFrame mainFrame, JTextField userNameField, AppManager appManager) {
+		this.testFrame = mainFrame;
+		this.userNameFromLogIn = userNameField;
+		this.appManager = appManager;
+	}
+
 	private JFrame testFrame;
 	private JFrame accountFrame;
 	private JPanel accountPanel;
@@ -34,18 +49,6 @@ public class CreateNewAccount {
 	private JPasswordField passwordField, confirmPasswordField;
 	private JButton okButton, cancelButton;
 
-	/**
-	 * Constructor which will get the frame from LogIn and the userName
-	 * TextField in order to fill it after the account is created;
-	 * 
-	 * @param mainFrame
-	 * @param userNameField
-	 * @author GEORGE RADUTA
-	 */
-	public CreateNewAccount(JFrame mainFrame, JTextField userNameField) {
-		this.testFrame = mainFrame;
-		this.userNameFromLogIn = userNameField;
-	}
 
 	/**
 	 * @author GEORGE RADUTA
@@ -66,6 +69,9 @@ public class CreateNewAccount {
 		confirmPasswordField = new JPasswordField(10);
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Cancel");
+
+		// user can press enter to create the account
+		accountFrame.getRootPane().setDefaultButton(okButton);
 
 		accountFrame.setLocation(810, 200);
 		accountFrame.setTitle("Create Account");
@@ -102,7 +108,7 @@ public class CreateNewAccount {
 
 	/**
 	 * @author GEORGE RADUTA
-	 */
+	 */	
 	public void setActionListeners() {
 		final LogIn enableLogInFrame = new LogIn();
 
@@ -117,7 +123,7 @@ public class CreateNewAccount {
 				String password = passwordField.getText().trim();
 				String confirmPass = confirmPasswordField.getText().trim();
 
-				// Check for userName to be ok in DataBases;
+				// Check for userName to be OK in DataBase;
 
 				if (!userName.equals("") && password.equals(confirmPass)
 						&& !password.equals("")) {
@@ -126,16 +132,21 @@ public class CreateNewAccount {
 					accountFrame.dispose();
 				} else if (userName.equals("")) {
 					JOptionPane.showMessageDialog(accountFrame,
-							"User Name is incorrect");
-				} else {
+							"User Name is incorrect", "Error", 0);
+				} else if (password.equals("")) {
 					JOptionPane.showMessageDialog(accountFrame,
-							"Password choosen is incorect");
+							"Password field is empty", "Error", 0);
+				} else if (!password.equals(confirmPass)) {
+					JOptionPane
+							.showMessageDialog(
+									accountFrame,
+									"Password entries do not match.\n"
+											+ "Please supply matching passwords entries.", "Error", 0);
 				}
 			}
 		});
 
 		// CANCEL
-
 		cancelButton.addActionListener(new ActionListener() {
 
 			@Override

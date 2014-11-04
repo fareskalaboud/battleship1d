@@ -262,4 +262,22 @@ public class AppManager {
         }
 
     }
+    
+    /**
+     * 
+     * @author Alexander Hanbury-Botherway
+     *
+     */
+    public class RecieverThread extends Thread{
+    	public void run(){
+    		try {
+				while(true){
+					String input = in.readLine();
+					
+				}
+			} catch (IOException e) {
+				System.err.println("Fatal Error: Communications are no longer being recieved from the server due to IOException");
+			}
+    	}
+    }
 }
