@@ -42,6 +42,8 @@ public class Room extends JFrame{
         this.isPrivate = false;
         this.password = "";
         this.userName = userName;
+        localMap = new LocalMap(this);
+        enemyMap = new EnemyMap(this);
         this.am = am;
         
         setUpUI();
