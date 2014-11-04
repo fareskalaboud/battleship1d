@@ -7,6 +7,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.Socket;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.Vector;
 
 import javax.swing.JFrame;
@@ -27,12 +28,7 @@ public class AppManager {
     // Lobby Variables
     private static Vector<Room> publicRooms;
     private static Vector<Room> privateRooms;
-    
-    // Server Variables
-    private static BufferedWriter out;
-    private static BufferedReader in;
-    private static Socket socket;
-    
+
     // Game Variables
     private boolean isLocalMove;
 
@@ -69,20 +65,41 @@ public class AppManager {
      * @return the server response
      */
     public static String checkPlayerLoginDetails(String username, String password) {
-        //TODO: Send to server, and fix line below
-        String response = "hello";
 
-        String[] serverResponse = response.split("::");
-        if(serverResponse[2].equals("Successful")) {
-            return "Successful";
-        } else if (serverResponse[2].equals("Error")){
-            if (serverResponse.length == 3) {
-                return "Error";
-            } else {
-                return "Error::" + username;
+        ArrayList<String> commands = new ArrayList<String>();
+        commands.add("Login::User::Successful::");
+        commands.add("Login::User::Error::Username");
+        commands.add("Login::User::Error::Password");
+
+        final Server.RequestVariables rv = new Server.RequestVariables();
+
+        Server.registerCommands(commands, new Server.RequestFunction() {
+            @Override
+            public void Response(String command) {
+                rv.setCommand(command);
+                rv.setContinueThread(true);
             }
-        }
-        return "Error";
+        });
+
+        Server.writeLineToServer("Login::User::" + username + "::" + password);
+        waitOnThread(rv);
+
+        return rv.getCommand();
+
+        //TODO: Send to server, and fix line below
+//        String response = "hello";
+//
+//        String[] serverResponse = response.split("::");
+//        if(serverResponse[2].equals("Successful")) {
+//            return "Successful";
+//        } else if (serverResponse[2].equals("Error")){
+//            if (serverResponse.length == 3) {
+//                return "Error";
+//            } else {
+//                return "Error::" + username;
+//            }
+//        }
+//        return "Error";
     }
 
     public static String createAccount(String username, String password) {
@@ -181,41 +198,6 @@ public class AppManager {
         return privateRooms;
     }
 
-    /** Connect to the server.
-     *
-     * @return a boolean value: was the connection successful?
-     * @author Alexander Hanbury-Botherway
-     */
-    public static boolean connectToServer() {
-
-        String hostName = "local";
-        int portNumber = 8000;
-        try {
-			socket = new Socket(hostName, portNumber);
-		} catch (UnknownHostException e2) {
-			System.err.println("Unknown host :(");
-			return false;
-		} catch (IOException e2) {
-			System.err.println("IO Exception :(");
-			return false;
-		}
-     
-        try {
-			out =   new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-		} catch (IOException e1) {
-			System.err.println("IO Exception :(");
-			return false;
-		}
-        try {
-			in =    new BufferedReader(
-			            new InputStreamReader(socket.getInputStream()));
-		} catch (IOException e) {
-			System.err.println("IO Exception :(");
-			return false;
-		}
-
-        return true;
-    }
     
     /**
 	 * 
@@ -224,35 +206,46 @@ public class AppManager {
 	 * @author Alexander Hanbury-Botherway
 	 */
 	public Result playButton(int row, int col) {
-		try {
-			out.write("Game::Fire::" + row + "::" + col + "\n");
-			out.flush();
-		} catch (IOException e1) {
-			System.err.println("Output issuess");
-		}
-		
-		isLocalMove = false;
-		
-		String returnedResult;
-		try {
-			returnedResult = in.readLine();
-		} catch (IOException e) {
-			System.err.println("IOException");
-			return null;
-		}
-		if (returnedResult.equals("Game::Fire")){
-			return Result.MISS;
-		} if (returnedResult.equals("Game::Hit")){
-			return Result.HIT;
-		} if (returnedResult.equals("Game::Sunk")){
-			return Result.SUNK;
-		}
-		System.err.println("Result from button: " + row + " " + col + " is not valid");
+//		try {
+//			out.write("Game::Fire::" + row + "::" + col + "\n");
+//			out.flush();
+//		} catch (IOException e1) {
+//			System.err.println("Output issuess");
+//		}
+//
+//		isLocalMove = false;
+//
+//		String returnedResult;
+//		try {
+//			returnedResult = in.readLine();
+//		} catch (IOException e) {
+//			System.err.println("IOException");
+//			return null;
+//		}
+//		if (returnedResult.equals("Game::Fire")){
+//			return Result.MISS;
+//		} if (returnedResult.equals("Game::Hit")){
+//			return Result.HIT;
+//		} if (returnedResult.equals("Game::Sunk")){
+//			return Result.SUNK;
+//		}
+//		System.err.println("Result from button: " + row + " " + col + " is not valid");
 		return null; 
 	}
 
+    private static Boolean waitOnThread(Server.RequestVariables rv) {
+        while(!rv.getContinueThread()) {
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        return true;
+    }
+
     public static void main(String args[]) {
-        if (connectToServer()) {
+        if (Server.connectToServer()) {
             setUpUI();
             setMainPlayer();
            // getRoomsFromServer();
@@ -268,23 +261,5 @@ public class AppManager {
             System.exit(1);
         }
 
-    }
-    
-    /**
-     * 
-     * @author Alexander Hanbury-Botherway
-     *
-     */
-    public class RecieverThread extends Thread{
-    	public void run(){
-    		try {
-				while(true){
-					String input = in.readLine();
-					
-				}
-			} catch (IOException e) {
-				System.err.println("Fatal Error: Communications are no longer being recieved from the server due to IOException");
-			}
-    	}
     }
 }

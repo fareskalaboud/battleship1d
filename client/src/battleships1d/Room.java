@@ -1,6 +1,12 @@
 package battleships1d;
 
 import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -26,7 +32,7 @@ public class Room extends JFrame{
     
     private boolean isLocalsMove;
     
-    private AppManager am;
+
     
     private JLabel jlHeaderText;
 
@@ -38,17 +44,12 @@ public class Room extends JFrame{
      * @param roomID the room name/id
      * @author faresalaboud
      */
-	public Room(String roomID, String userName, AppManager am) {
+	public Room(String roomID, String userName) {
 		super("Battleships (Room ID: " + roomID +")");
         this.roomID = roomID;
         this.isPrivate = false;
         this.password = "";
         this.userName = userName;
-        localMap = new LocalMap(this);
-        enemyMap = new EnemyMap(this);
-        this.am = am;
-        
-        setUpUI();
     }
 
     /**
@@ -60,21 +61,23 @@ public class Room extends JFrame{
      * @param password the password to the private room
      * @author faresalaboud
      */
-    public Room(String roomID, String password, String userName, AppManager am) {
+    public Room(String roomID, String password, String userName) {
         this.roomID = roomID;
         this.isPrivate = true;
         this.password = password;
         this.userName = userName;
         localMap = new LocalMap(this);
-
+        enemyMap = new EnemyMap(this);
         setUpUI();
-    }    
+        }
+    }
     
     /**
-     * Sets up UI so local map is on west panel, enemy map is on east panel
+     * Sets up room perspective for user
      * @author Alexander Hanbury-Botherway
      */
     public void setUpUI(){
+
     	setLayout(new BorderLayout());
     	JPanel jpWest = new JPanel(new BorderLayout());
     		jpWest.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -89,6 +92,11 @@ public class Room extends JFrame{
 		add(jpEast, BorderLayout.EAST);
 
   //  	add(jlHeaderText, BorderLayout.NORTH);
+
+    	add(localMap, BorderLayout.WEST);
+    	add(enemyMap, BorderLayout.EAST);
+    	add(jlHeaderText, BorderLayout.NORTH);
+
     	
     	setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,14 +189,6 @@ public class Room extends JFrame{
 	@Override
 	public String toString() {
 		return this.roomID;
-	}
-	
-	public Result playButton(int col, int row){
-		return am.playButton(col, row);
-	}
-	
-	public static void main(String args[]){
-		new Room("RoomID", "UserName", new AppManager());
 	}
 	
 }
