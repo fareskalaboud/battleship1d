@@ -30,51 +30,58 @@ public class Lobby extends JFrame {
 	}
 
 	public Lobby() {
-
+		
 	}
 
 	/**
 	 * @author Alexander Hanbury-Botherway
 	 */
+	private JPanel jpCenter, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastNorth;
+	private JScrollPane jspPublicRooms, jspPrivateRooms;
+	private final JLabel jlPassword = new JLabel("Room Password: ");
+	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
+	private final JButton jbPublic = new JButton("Public");
+	private final JButton jbPrivate = new JButton("Private");
+	private JTextField jtfRoomName;
 	public void setUpUI() {
 		// Rooms
-		JPanel jpCenter = new JPanel(new BorderLayout());
+		jpCenter = new JPanel(new BorderLayout());
 
 		// Public Rooms
-		JPanel jpCenterNorth = new JPanel(new BorderLayout());
+		jpCenterNorth = new JPanel(new BorderLayout());
 		jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
 		jlPublicRooms = new JList<Room>(publicRooms);
-		JScrollPane jspPublicRooms = new JScrollPane(jlPublicRooms);
+		jspPublicRooms = new JScrollPane(jlPublicRooms);
+		
 		jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
 		jpCenter.add(jpCenterNorth, BorderLayout.NORTH);
 
 		// Private Rooms
-		JPanel jpCenterSouth = new JPanel(new BorderLayout());
+		jpCenterSouth = new JPanel(new BorderLayout());
 		jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
 		jlPrivateRooms = new JList<Room>(privateRooms);
-		JScrollPane jspPrivateRooms = new JScrollPane(jlPrivateRooms);
+		jspPrivateRooms = new JScrollPane(jlPrivateRooms);
 		jpCenterSouth.add(jspPrivateRooms);
 		jpCenter.add(jpCenterSouth, BorderLayout.SOUTH);
 
 		add(jpCenter, BorderLayout.CENTER);
 
 		// Create room options
-		JPanel jpEast = new JPanel(new BorderLayout());
+		jpEast = new JPanel(new BorderLayout());
 
 		// Room variable fields
-		JPanel jpEastCenter = new JPanel(new GridLayout(5, 1));
+		jpEastCenter = new JPanel(new GridLayout(5, 1));
 		// Room name
 		jpEastCenter.add(new JLabel("Room Name:"));
 
-		JTextField jtfRoomName = new JTextField(20);
+		jtfRoomName = new JTextField(20);
 		jpEastCenter.add(jtfRoomName);
 
 		// Room password (not visible when public is selected)
-		final JLabel jlPassword = new JLabel("Room Password: ");
+		
 		jlPassword.setVisible(false);
 		jpEastCenter.add(jlPassword);
 
-		final JPasswordField jpfRoomPassword = new JPasswordField(20);
 		jpfRoomPassword.setEnabled(false);
 		jpfRoomPassword.setVisible(false);
 		jpEastCenter.add(jpfRoomPassword);
@@ -86,15 +93,13 @@ public class Lobby extends JFrame {
 		jpEast.add(jpEastCenter, BorderLayout.CENTER);
 
 		// Public/private option
-		JPanel jpEastNorth = new JPanel(new FlowLayout());
+		jpEastNorth = new JPanel(new FlowLayout());
 
 		// Public button (chosen as default)
-		final JButton jbPublic = new JButton("Public");
 		jbPublic.setEnabled(false);
 		jpEastNorth.add(jbPublic);
 
 		// Private button
-		final JButton jbPrivate = new JButton("Private");
 		jpEastNorth.add(jbPrivate);
 
 		// Action Listeners
@@ -174,7 +179,13 @@ public class Lobby extends JFrame {
 		refreshRoomLists();
 	}
 
+	public void setActionListeners() {
+		
+	}
+	
+	
+	
 	public static void main(String args[]) {
-		new Lobby();
+		new Lobby().setUpUI();
 	}
 }
