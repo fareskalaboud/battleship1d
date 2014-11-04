@@ -2,8 +2,10 @@ package battleships1d;
 
 import java.awt.BorderLayout;
 
+import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 
 /**
  * 
@@ -74,8 +76,18 @@ public class Room extends JFrame{
      */
     public void setUpUI(){
     	setLayout(new BorderLayout());
-    	add(localMap, BorderLayout.WEST);
-    	add(enemyMap, BorderLayout.EAST);
+    	JPanel jpWest = new JPanel(new BorderLayout());
+    		jpWest.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    		jpWest.add(new JLabel("My Map"), BorderLayout.NORTH);
+    		jpWest.add(localMap, BorderLayout.CENTER);
+    	add(jpWest, BorderLayout.WEST);
+    	
+    	JPanel jpEast = new JPanel(new BorderLayout());
+    		jpEast.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+			jpEast.add(new JLabel("Enemy Map"), BorderLayout.NORTH);
+			jpEast.add(enemyMap, BorderLayout.CENTER);
+		add(jpEast, BorderLayout.EAST);
+
   //  	add(jlHeaderText, BorderLayout.NORTH);
     	
     	setVisible(true);
