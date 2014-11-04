@@ -1,11 +1,13 @@
 package battleships1d;
 
+import javax.swing.JFrame;
+
 /**
  * 
  * @author GEORGE RADUTA
  * 
  */
-public class Room {
+public class Room extends JFrame{
     // CHANGE: variable names to make it more consistent with the Lobby class
 //	private Player localPlayer;
     private String enemyPlayer;
@@ -46,6 +48,12 @@ public class Room {
         this.isPrivate = true;
         this.password = password;
         this.userName = userName;
+        setUpUI();
+    }
+    
+    //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
+    public void setUpUI(){
+    	JFrame.
     }
 
 //	/**

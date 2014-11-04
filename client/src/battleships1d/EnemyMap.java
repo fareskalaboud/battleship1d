@@ -1,7 +1,12 @@
 package battleships1d;
 
-import javax.swing.*;
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.GridLayout;
+
+import javax.swing.JFrame;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -9,11 +14,10 @@ import java.awt.*;
  */
 public class EnemyMap extends Map {
 
-    public EnemyMap() {
+    public EnemyMap(Room room) {
         super();
-        // TODO: Fix next line
-        this.setUpUI(new EnemyButton(1,1));
-
+        this.room = room;
+        this.setUpUI();
     }
 
     public static void main(String args[]) {
@@ -28,7 +32,7 @@ public class EnemyMap extends Map {
 
     }
 
-    public void setUpUI(GameButton btn) {
+    public void setUpUI() {
         this.setLayout(new BorderLayout());
         this.setSize(300, 300);
 
@@ -48,7 +52,17 @@ public class EnemyMap extends Map {
         // Add the panels to the map
         this.add(mapPanel, BorderLayout.CENTER);
         mapPanel.add(healthPanel, BorderLayout.NORTH);
+        
+        addButtons();
 
+    }
+    
+    public void addButtons(){
+    	for (int i = 0; i<10; i++){
+    		for (int j = 0; j<10; j++){
+    			mapPanel.add(new EnemyButton(i,j, room));
+    		}
+    	}
     }
 
     public void setActionListeners() {

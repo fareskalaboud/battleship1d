@@ -14,6 +14,7 @@ public class EnemyButton extends GameButton {
 	
 	public EnemyButton(int row, int col, Room room) {
 		super(row, col);
+		this.room = room;
 		state = EnemyButtonState.NOT_PLAYED;
 	}
 	
@@ -22,7 +23,7 @@ public class EnemyButton extends GameButton {
 	 */
 	public void playButton(){
 		//For test:
-		Result resultOfPlay = Result.SINK;
+		Result resultOfPlay = Result.SUNK;
 		//Result resultOfPlay = room.playButton(row, col);
 		
 		setEnabled(false);
@@ -31,7 +32,7 @@ public class EnemyButton extends GameButton {
 			state = EnemyButtonState.MISS;
 			setBackground(Color.RED);
 			return;
-		} if (resultOfPlay.equals(Result.SINK)){
+		} if (resultOfPlay.equals(Result.SUNK)){
 			System.out.println("You sunk a ship");
 		} state = EnemyButtonState.HIT;
 			setBackground(Color.GREEN);
@@ -39,3 +40,6 @@ public class EnemyButton extends GameButton {
 	}
 
 }
+
+Game::Fire::1::1 --> Game::Fire / Game::Hit / Game::Sunk
+Game::Turn::Change 
