@@ -40,6 +40,3 @@ public class EnemyButton extends GameButton {
 	}
 
 }
-
-Game::Fire::1::1 --> Game::Fire / Game::Hit / Game::Sunk
-Game::Turn::Change 

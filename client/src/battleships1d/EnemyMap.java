@@ -20,14 +20,6 @@ public class EnemyMap extends Map {
         this.setUpUI();
     }
 
-    public static void main(String args[]) {
-        EnemyMap map = new EnemyMap();
-        JFrame frame = new JFrame();
-        frame.add(map);
-        frame.setSize(300, 300);
-        frame.setVisible(true);
-    }
-
     public void setUpHealthBar() {
 
     }
@@ -68,4 +60,5 @@ public class EnemyMap extends Map {
     public void setActionListeners() {
 
     }
+
 }

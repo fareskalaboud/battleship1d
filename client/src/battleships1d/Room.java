@@ -1,5 +1,12 @@
 package battleships1d;
 
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 import javax.swing.JFrame;
 
 /**
@@ -18,6 +25,10 @@ public class Room extends JFrame{
 
 	private boolean isPrivate;
     private String password;
+    
+    private PrintWriter out;
+    private BufferedReader in;
+    private Socket socket;
 
 
     /**
@@ -48,13 +59,32 @@ public class Room extends JFrame{
         this.isPrivate = true;
         this.password = password;
         this.userName = userName;
+        localMap = new LocalMap(this);
+        enemyMap = new EnemyMap(this);
         setUpUI();
+        setUpServer();
     }
     
     //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
     public void setUpUI(){
-    	JFrame.
+    	add(localMap, BorderLayout.WEST);
+    	add(enemyMap, BorderLayout.EAST);
     }
+
+    public void setUpServer() throws IOException {
+        
+ 
+        String hostName = "local";
+        int portNumber = 8000;
+        socket = new Socket(hostName, portNumber);
+     
+        out =   new PrintWriter(socket.getOutputStream(), true);
+           this.in =
+                new BufferedReader(
+                    new InputStreamReader(socket.getInputStream()));
+           
+        } 
+    
 
 //	/**
 //	 * setLocalPlayer()
@@ -147,7 +177,22 @@ public class Room extends JFrame{
 	 * @param col
 	 */
 	public Result playButton(int row, int col) {
-		
-		return localMap.getClikedButton(row, col).playButton();
+		out.println("Game::Fire::1::1");
+		String returnedResult;
+		try {
+			returnedResult = in.readLine();
+		} catch (IOException e) {
+			System.err.println("IOException");
+			return null;
+		}
+		if (returnedResult.equals("Game::Fire")){
+			return Result.MISS;
+		} if (returnedResult.equals("Game::Hit")){
+			return Result.HIT;
+		} if (returnedResult.equals("Game::Sunk")){
+			return Result.SUNK;
+		}
+		System.err.println("Result from button: " + row + " " + col + " is not valid");
+		return null; 
 	}
 }

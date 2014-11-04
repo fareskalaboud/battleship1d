@@ -18,7 +18,7 @@ public abstract class Map extends JPanel {
 
     public abstract void setUpHealthBar();
 
-    public abstract void setUpUI(GameButton btn);
+    public abstract void setUpUI();
     	
 
     public abstract void setActionListeners();
