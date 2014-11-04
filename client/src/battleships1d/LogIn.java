@@ -26,6 +26,7 @@ public class LogIn {
 	private AppManager appManager;
 	public LogIn(AppManager appManager) {
 		this.appManager = appManager;
+		setUpUI();
 	}
 	public LogIn() {
 		
