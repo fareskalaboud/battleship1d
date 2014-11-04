@@ -6,5 +6,5 @@ package battleships1d;
  *
  */
 public enum Result {
-	MISS, HIT, SINK
+	MISS, HIT, SUNK
 }

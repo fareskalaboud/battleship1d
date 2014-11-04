@@ -9,6 +9,7 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -19,7 +20,6 @@ import javax.swing.JTextField;
  */
 public class LogIn {
 
-    // CHANGE: Declared global variables as private.
     private JFrame mainFrame;
     private JPanel logInPanel;
 
@@ -35,22 +35,25 @@ public class LogIn {
     private JTextField passwordTextField;
     private JButton logInAsPlayerButton, logInAsGuestButton, createAccountButton;
 
-    // CHANGE: No constructor needed
-
+    
     public static void main(String[] args) {
-        new LogIn().start();
+        new LogIn().setUpUI();
+        
     }
 
-    public void start() {
-        setUpUI();
-    }
-
+    /**
+     * 
+     * @param testFrame
+     * @author GEORGE RADUTA
+     */
     public void enableLogInFrame(JFrame testFrame) {
         this.mainFrame = testFrame;
         mainFrame.setEnabled(true);
     }
 
-    // CHANGE: Put all UI building in one method: setUpUI()
+    /**
+     * @author GEORGE RADUTA
+     */
     public void setUpUI() {
         mainFrame = new JFrame();
         logInPanel = new JPanel();
@@ -107,12 +110,26 @@ public class LogIn {
         logInCenterPanel.add(logInAsGuestButton, BorderLayout.SOUTH);
         logInPanel.add(logInCenterPanel, BorderLayout.CENTER);
 
+
+        mainFrame.setTitle("BattleShip - 1 D");
+
+        mainFrame.add(logInPanel);
+        mainFrame.pack();
+        mainFrame.setVisible(true);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setActionListeners();
+    }
+    
+    /**
+     * @author GEORGE RADUTA
+     */
+    public void setActionListeners() {
         createAccountButton.addActionListener(new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
-                CreateNewAccount test = new CreateNewAccount(mainFrame);
-                test.setUpUI();
+                CreateNewAccount createAccount = new CreateNewAccount(mainFrame, userNameTextField);
+                createAccount.setUpUI();
                 mainFrame.setEnabled(false);
             }
         });
@@ -122,19 +139,29 @@ public class LogIn {
             @Override
             public void actionPerformed(ActionEvent e) {
                 // TODO Auto-generated method stub
-                MainMenu test = new MainMenu();
+                MainMenu test = new MainMenu("GUEST");
                 test.setUpUI();
                 mainFrame.dispose();
             }
-        });;
+        });
+        
+        logInAsPlayerButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TO DO check for user in data base;
+				
+				boolean ok = false;
+				
+				if (ok) {
+	                MainMenu test = new MainMenu(userNameTextField.getText().trim());
+	                test.setUpUI();
+	                mainFrame.dispose();
+				} else {
+					JOptionPane.showMessageDialog(mainFrame, "UserName or Password is incorrect");
+				}
+			}
+		});
 
-        mainFrame.setTitle("BattleShip - 1 D");
-
-        mainFrame.add(logInPanel);
-        mainFrame.pack();
-        mainFrame.setVisible(true);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
-
-
 }

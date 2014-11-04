@@ -9,26 +9,20 @@ import java.awt.*;
  */
 public class LocalMap extends Map {
 
-    public LocalMap() {
+    public LocalMap(Room room) {
         super();
         // TODO: Fix next line
-        this.setUpUI(new GameButton(1,1));
+        this.setUpUI();
 
     }
 
-    public static void main(String args[]) {
-        LocalMap map = new LocalMap();
-        JFrame frame = new JFrame();
-        frame.add(map);
-        frame.setSize(300, 300);
-        frame.setVisible(true);
-    }
+
 
     public void setUpHealthBar() {
 
     }
 
-    public void setUpUI(GameButton btn) {
+    public void setUpUI() {
         this.setLayout(new BorderLayout());
         this.setSize(300, 300);
 
@@ -53,5 +47,10 @@ public class LocalMap extends Map {
 
     public void setActionListeners() {
 
+    }
+    public LocalButton getClikedButton(int row, int col) {
+    	// TO DO :  Fares, return the button at given coordinates;
+    	return new LocalButton(0, 0);
+    	
     }
 }

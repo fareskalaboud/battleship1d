@@ -28,7 +28,9 @@ public class Lobby extends JFrame {
         this.manager = manager;
         setUpUI();
     }
+    public Lobby() {
 
+    }
     /**
      * @author Alexander Hanbury-Botherway
      */
@@ -119,7 +121,7 @@ public class Lobby extends JFrame {
         jpEast.add(jpEastNorth, BorderLayout.NORTH);
 
         add(jpEast, BorderLayout.EAST);
-
+setVisible(true);
         pack();
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -167,7 +169,7 @@ public class Lobby extends JFrame {
         refreshRoomLists();
     }
 
-//    public static void main(String args[]){
-//        new Lobby(manager).setVisible(true);
-//    }
+    public static void main(String args[]){
+        new Lobby();
+    }
 }

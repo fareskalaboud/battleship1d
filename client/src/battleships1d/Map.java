@@ -7,6 +7,7 @@ import javax.swing.*;
  */
 public abstract class Map extends JPanel {
     protected UIManager uiManager;
+    protected Room room;
 
     protected GameButton[][] mapTiles;
     //private Ship[] ships;
@@ -17,7 +18,8 @@ public abstract class Map extends JPanel {
 
     public abstract void setUpHealthBar();
 
-    public abstract void setUpUI(GameButton btn);
+    public abstract void setUpUI();
+    	
 
     public abstract void setActionListeners();
 

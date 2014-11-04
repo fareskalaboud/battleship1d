@@ -5,7 +5,7 @@ package battleships1d;
  */
 public class Test {
     public static void main(String[] args) {
-        UserManager.init();
+        //UserManager.init();
         ServerManager.start();
     }
 }

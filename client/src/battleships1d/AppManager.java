@@ -1,7 +1,16 @@
 package battleships1d;
 
-import javax.swing.*;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+import java.net.UnknownHostException;
 import java.util.Vector;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,6 +27,14 @@ public class AppManager {
     // Lobby Variables
     private static Vector<Room> publicRooms;
     private static Vector<Room> privateRooms;
+    
+    // Server Variables
+    private static BufferedWriter out;
+    private static BufferedReader in;
+    private static Socket socket;
+    
+    // Game Variables
+    private boolean isLocalMove;
 
     // UI Management
 
@@ -44,6 +61,48 @@ public class AppManager {
     }
 
     /**
+     * Checks the server if the player's login details are correct or not.
+     *
+     * @param username Player's username
+     * @param password Player's password
+     *
+     * @return the server response
+     */
+    public static String checkPlayerLoginDetails(String username, String password) {
+        //TODO: Send to server, and fix line below
+        String response = "hello";
+
+        String[] serverResponse = response.split("::");
+        if(serverResponse[2].equals("Successful")) {
+            return "Successful";
+        } else if (serverResponse[2].equals("Error")){
+            if (serverResponse.length == 3) {
+                return "Error";
+            } else {
+                return "Error::" + username;
+            }
+        }
+        return "Error";
+    }
+
+    public static String createAccount(String username, String password) {
+        //TODO: Send to server, and fix line below
+        String response = "hello";
+
+        String[] serverResponse = response.split("::");
+        if(serverResponse[2].equals("Successful")) {
+            return "Successful";
+        } else if (serverResponse[2].equals("Error")){
+            if (serverResponse.length == 3) {
+                return "Error";
+            } else {
+                return "Error::" + username;
+            }
+        }
+        return "Error";
+    }
+
+    /**
      * Sets the main player according to mainPlayer's current value
      * (if it's null, assign it a Guest value; else assign it the logged
      * in user.)
@@ -60,7 +119,7 @@ public class AppManager {
         }
     }
 
-    // Lobby Management
+    // Server Management
 
     /**
      * Obtains a list of the rooms from the server and adds them to
@@ -68,6 +127,7 @@ public class AppManager {
      *
      * @author faresalaboud
      */
+
     public static void getRoomsFromServer() {
         // TODO: Remove initialisation, obtain rooms from server
         Vector<Room> allRooms = new Vector<Room>();
@@ -124,23 +184,83 @@ public class AppManager {
     /** Connect to the server.
      *
      * @return a boolean value: was the connection successful?
-     * @author faresalaboud
+     * @author Alexander Hanbury-Botherway
      */
     public static boolean connectToServer() {
-        boolean connected = false;
 
-        //TODO: Attempt connection to server
+        String hostName = "local";
+        int portNumber = 8000;
+        try {
+			socket = new Socket(hostName, portNumber);
+		} catch (UnknownHostException e2) {
+			System.err.println("Unknown host :(");
+			return false;
+		} catch (IOException e2) {
+			System.err.println("IO Exception :(");
+			return false;
+		}
+     
+        try {
+			out =   new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+		} catch (IOException e1) {
+			System.err.println("IO Exception :(");
+			return false;
+		}
+        try {
+			in =    new BufferedReader(
+			            new InputStreamReader(socket.getInputStream()));
+		} catch (IOException e) {
+			System.err.println("IO Exception :(");
+			return false;
+		}
 
-        return connected;
+        return true;
     }
+    
+    /**
+	 * 
+	 * @param row
+	 * @param col
+	 * @author Alexander Hanbury-Botherway
+	 */
+	public Result playButton(int row, int col) {
+		try {
+			out.write("Game::Fire::" + row + "::" + col + "\n");
+			out.flush();
+		} catch (IOException e1) {
+			System.err.println("Output issuess");
+		}
+		
+		isLocalMove = false;
+		
+		String returnedResult;
+		try {
+			returnedResult = in.readLine();
+		} catch (IOException e) {
+			System.err.println("IOException");
+			return null;
+		}
+		if (returnedResult.equals("Game::Fire")){
+			return Result.MISS;
+		} if (returnedResult.equals("Game::Hit")){
+			return Result.HIT;
+		} if (returnedResult.equals("Game::Sunk")){
+			return Result.SUNK;
+		}
+		System.err.println("Result from button: " + row + " " + col + " is not valid");
+		return null; 
+	}
 
     public static void main(String args[]) {
         if (connectToServer()) {
             setUpUI();
             setMainPlayer();
-            getRoomsFromServer();
-            frame.setVisible(true);
+           // getRoomsFromServer();
+           // frame.setVisible(true);
+            new LogIn().setUpUI();
+
         } else {
+        	
             JOptionPane.showMessageDialog(new JFrame(),
                     "Please ensure you have a working internet connection.",
                     "Error: Unable to connect to server",

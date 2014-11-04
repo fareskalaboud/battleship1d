@@ -23,20 +23,18 @@ import javax.swing.JPanel;
  * 
  */
 public class MainMenu {
-
-	public MainMenu() {
+	String userName;
+	public MainMenu(String userName) {
+		this.userName = userName;
 	}
 
-	public void setUpUI() {
-		createMainWindow();
-	}
 	JFrame mainWindow;
 	JPanel mainPanel;
 	/**
 	 * Creating the MainWindow (More like MainPanel as Fares wanted it so that
 	 * we could just switch the panels)
 	 */
-	public void createMainWindow() {
+	public void setUpUI() {
 
 		mainWindow = new JFrame();
 		mainPanel = new JPanel();
@@ -77,10 +75,11 @@ public class MainMenu {
 	JPanel firstGridPanel, secondGridPanel;
 	JPanel userNameGridPanel;
 	JPanel matchesGridPanel;
-	JLabel userNameLabel;
+	JLabel welcomeLabel;
 	JLabel userSelectedNameLabel;
-	JButton setUserNameButton, enterLobbyButton, quickMatchButton;
+	JButton watchTutorialButton, enterLobbyButton, quickMatchButton;
 
+	//TO DO :  QuickMatch button
 	/**
 	 * createCenterComponent() - creates the Center Component of the mainPanel;
 	 * 
@@ -94,13 +93,13 @@ public class MainMenu {
 		userNameGridPanel = new JPanel();
 		matchesGridPanel = new JPanel();
 	       
-		userNameLabel = new JLabel("UserName : ");
-		userSelectedNameLabel = new JLabel();
-		setUserNameButton = new JButton("Set UserName");
+		welcomeLabel = new JLabel("Welcome, ");
+		userSelectedNameLabel = new JLabel(userName + " ! ");
+		watchTutorialButton = new JButton("Watch a tutorial");
 		enterLobbyButton = new JButton("Enter Lobby");
 		quickMatchButton = new JButton("Quick Match");
 
-		userNameLabel.setFont(new Font("Arial", Font.ITALIC, 16));
+		welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 16));
 		userSelectedNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
 
 		centerPanel.setLayout(new GridLayout(3, 1));
@@ -120,12 +119,12 @@ public class MainMenu {
 
 		JPanel userNameLabelPanel = new JPanel();
 		userNameLabelPanel.setLayout(new FlowLayout());
-		userNameLabelPanel.add(userNameLabel);
+		userNameLabelPanel.add(welcomeLabel);
 		userNameLabelPanel.add(userSelectedNameLabel);
 
 		JPanel setUserNameButtonPanel = new JPanel();
 		setUserNameButtonPanel.setLayout(new FlowLayout());
-		setUserNameButtonPanel.add(setUserNameButton);
+		setUserNameButtonPanel.add(watchTutorialButton);
 
 		userNameGridPanel.add(userNameLabelPanel);
 		userNameGridPanel.add(setUserNameButtonPanel);
@@ -140,28 +139,18 @@ public class MainMenu {
 
 		matchesGridPanel.add(enterLobbyButtonPanel);
 		matchesGridPanel.add(quickMatchButtonPanel);
-
-	     
-
-		/**
-		 * ActionListener which will set the UserName;
-		 */
-		setUserNameButton.addActionListener(new ActionListener() {
-
+		setActionListeners();
+	}
+	
+	private Lobby lobby = new Lobby();
+	private void setActionListeners() {
+		enterLobbyButton.addActionListener(new ActionListener() {
+			
 			@Override
-			public void actionPerformed(ActionEvent e) {
-				String userName = JOptionPane.showInputDialog(mainWindow,
-						"Insert UserName", "UserName",
-						JOptionPane.OK_CANCEL_OPTION);
-				while (userName.toUpperCase().trim().equals("")) {
-					userName = JOptionPane
-							.showInputDialog(
-									mainWindow,
-									"UserName is empty or is already taken. Please select another one.",
-									"UserName",
-									JOptionPane.OK_CANCEL_OPTION);
-				}
-				userSelectedNameLabel.setText(userName);
+			public void actionPerformed(ActionEvent arg0) {
+
+				lobby.setUpUI();
+				mainWindow.dispose();
 			}
 		});
 	}

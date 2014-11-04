@@ -2,12 +2,19 @@ package battleships1d;
 
 import java.awt.Color;
 
+/**
+ * 
+ * @author Alexander Hanbury-Botherway
+ *
+ */
 public class EnemyButton extends GameButton {
 
 	EnemyButtonState state;
+	Room room;
 	
-	public EnemyButton(int row, int col) {
+	public EnemyButton(int row, int col, Room room) {
 		super(row, col);
+		this.room = room;
 		state = EnemyButtonState.NOT_PLAYED;
 	}
 	
@@ -16,8 +23,8 @@ public class EnemyButton extends GameButton {
 	 */
 	public void playButton(){
 		//For test:
-		Result resultOfPlay = Result.SINK;
-		//Result resultOfPlay = AppManager.playButton(row, col);
+		Result resultOfPlay = Result.SUNK;
+		//Result resultOfPlay = room.playButton(row, col);
 		
 		setEnabled(false);
 		
@@ -25,7 +32,7 @@ public class EnemyButton extends GameButton {
 			state = EnemyButtonState.MISS;
 			setBackground(Color.RED);
 			return;
-		} if (resultOfPlay.equals(Result.SINK)){
+		} if (resultOfPlay.equals(Result.SUNK)){
 			System.out.println("You sunk a ship");
 		} state = EnemyButtonState.HIT;
 			setBackground(Color.GREEN);

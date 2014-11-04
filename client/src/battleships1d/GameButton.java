@@ -20,7 +20,5 @@ public abstract class GameButton extends JButton {
 	}
 	
 	
-	
-	
-	
+
 }

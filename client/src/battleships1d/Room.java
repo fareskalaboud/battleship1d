@@ -1,21 +1,38 @@
 package battleships1d;
 
+import java.awt.BorderLayout;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.net.Socket;
+
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+
 /**
  * 
  * @author GEORGE RADUTA
  * 
  */
-public class Room {
+public class Room extends JFrame{
     // CHANGE: variable names to make it more consistent with the Lobby class
 //	private Player localPlayer;
     private String enemyPlayer;
-	private Map localMap;
-    private Map enemyMap;
+	private LocalMap localMap;
+    private EnemyMap enemyMap;
 	private String roomID;
     private String userName;
 
 	private boolean isPrivate;
     private String password;
+    
+    private boolean isLocalsMove;
+    
+
+    
+    private JLabel jlHeaderText;
 
 
     /**
@@ -26,6 +43,7 @@ public class Room {
      * @author faresalaboud
      */
 	public Room(String roomID, String userName) {
+		super("Battleships (Room ID: " + roomID +")");
         this.roomID = roomID;
         this.isPrivate = false;
         this.password = "";
@@ -46,7 +64,24 @@ public class Room {
         this.isPrivate = true;
         this.password = password;
         this.userName = userName;
+        localMap = new LocalMap(this);
+        enemyMap = new EnemyMap(this);
+        setUpUI();
+        }
     }
+    
+    //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
+    public void setUpUI(){
+    	add(localMap, BorderLayout.WEST);
+    	add(enemyMap, BorderLayout.EAST);
+    	add(jlHeaderText, BorderLayout.NORTH);
+    	
+    	setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
+    }
+
+
 
 //	/**
 //	 * setLocalPlayer()
@@ -133,4 +168,5 @@ public class Room {
 	public String toString() {
 		return this.roomID;
 	}
+	
 }
