@@ -32,6 +32,9 @@ public class AppManager {
     private static BufferedWriter out;
     private static BufferedReader in;
     private static Socket socket;
+    
+    // Game Variables
+    private boolean isLocalMove;
 
     // UI Management
 
@@ -181,7 +184,7 @@ public class AppManager {
     /** Connect to the server.
      *
      * @return a boolean value: was the connection successful?
-     * @author faresalaboud
+     * @author Alexander Hanbury-Botherway
      */
     public static boolean connectToServer() {
 
@@ -213,6 +216,40 @@ public class AppManager {
 
         return true;
     }
+    
+    /**
+	 * 
+	 * @param row
+	 * @param col
+	 * @author Alexander Hanbury-Botherway
+	 */
+	public Result playButton(int row, int col) {
+		try {
+			out.write("Game::Fire::" + row + "::" + col + "\n");
+			out.flush();
+		} catch (IOException e1) {
+			System.err.println("Output issuess");
+		}
+		
+		isLocalMove = false;
+		
+		String returnedResult;
+		try {
+			returnedResult = in.readLine();
+		} catch (IOException e) {
+			System.err.println("IOException");
+			return null;
+		}
+		if (returnedResult.equals("Game::Fire")){
+			return Result.MISS;
+		} if (returnedResult.equals("Game::Hit")){
+			return Result.HIT;
+		} if (returnedResult.equals("Game::Sunk")){
+			return Result.SUNK;
+		}
+		System.err.println("Result from button: " + row + " " + col + " is not valid");
+		return null; 
+	}
 
     public static void main(String args[]) {
         if (connectToServer()) {

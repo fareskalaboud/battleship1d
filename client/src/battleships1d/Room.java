@@ -67,12 +67,7 @@ public class Room extends JFrame{
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
         setUpUI();
-        try {
-			setUpServer();
-		} catch (IOException e) {
-			System.err.println("Server could not sucesfully be set up due to IOException");
-			e.printStackTrace();
-		}
+        }
     }
     
     //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
@@ -86,20 +81,7 @@ public class Room extends JFrame{
 		pack();
     }
 
-    public void setUpServer() throws IOException {
-        
- 
-        String hostName = "local";
-        int portNumber = 8000;
-        socket = new Socket(hostName, portNumber);
-     
-        out =   new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-           this.in =
-                new BufferedReader(
-                    new InputStreamReader(socket.getInputStream()));
-           
-        } 
-    
+
 
 //	/**
 //	 * setLocalPlayer()
@@ -186,36 +168,5 @@ public class Room extends JFrame{
 	public String toString() {
 		return this.roomID;
 	}
-	/**
-	 * 
-	 * @param row
-	 * @param col
-	 */
-	public Result playButton(int row, int col) {
-		try {
-			out.write("Game::Fire::" + row + "::" + col + "\n");
-			out.flush();
-		} catch (IOException e1) {
-			System.err.println("Output issuess");
-		}
-		
-		isLocalsMove = false;
-		
-		String returnedResult;
-		try {
-			returnedResult = in.readLine();
-		} catch (IOException e) {
-			System.err.println("IOException");
-			return null;
-		}
-		if (returnedResult.equals("Game::Fire")){
-			return Result.MISS;
-		} if (returnedResult.equals("Game::Hit")){
-			return Result.HIT;
-		} if (returnedResult.equals("Game::Sunk")){
-			return Result.SUNK;
-		}
-		System.err.println("Result from button: " + row + " " + col + " is not valid");
-		return null; 
-	}
+	
 }
