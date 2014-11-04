@@ -5,9 +5,18 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.Vector;
 
-import javax.swing.*;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JList;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
 
 /**
  * 
@@ -27,6 +36,7 @@ public class Lobby extends JFrame {
 		super("Battleships 1-D: Lobby");
 		this.manager = manager;
 		setUpUI();
+		setActionListeners();
 	}
 
 	public Lobby() {
@@ -126,12 +136,12 @@ public class Lobby extends JFrame {
 				jlPassword.setVisible(true);
 			}
 		});
-
 		jpEast.add(jpEastNorth, BorderLayout.NORTH);
 
 		add(jpEast, BorderLayout.EAST);
 		setVisible(true);
 		pack();
+
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 	}
@@ -180,7 +190,80 @@ public class Lobby extends JFrame {
 	}
 
 	public void setActionListeners() {
+		jlPrivateRooms.addMouseListener(new  MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				// TODO Auto-generated method stub
+				if (arg0.getClickCount() == 2) {
+					refreshRoomLists();
+					int position = jlPublicRooms.getSelectedIndex();
+					// TODO check for room if still exists
+					
+					// if not refresh list and tell user that room does no longer exists;
+					// if yes connect player to the room
+				}
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 		
+		jlPublicRooms.addMouseListener(new MouseListener() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				if (e.getClickCount() == 2) {
+					int position = jlPublicRooms.getSelectedIndex();
+					// TODO check for room if still exists
+					
+					// if not refresh list and tell user that room does no longer exists;
+					// if yes connect player to the room
+					refreshRoomLists();
+				}
+				
+			}
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
 	}
 	
 	
