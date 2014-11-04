@@ -59,6 +59,27 @@ public class LocalMap extends Map {
 
 		// Initialise UI objects
 		mapPanel = new JPanel(new GridLayout(10, 10));
+		
+		
+		
+		//@Cham TODO: finish this
+		JPanel infoPanel = new JPanel();
+		JLabel sizeOfNextShip = new JLabel("Size: ");
+		JTextField sizeOfNextShipText = new JTextField();
+		
+		
+		JLabel currentOrientation = new JLabel("Current Orientation: ");
+		JTextField currentOrientationText = new JTextField();
+		
+		infoPanel.setLayout(new FlowLayout());
+		infoPanel.add(sizeOfNextShip);
+		infoPanel.add(sizeOfNextShipText);
+		infoPanel.add(currentOrientation);
+		infoPanel.add(currentOrientationText);
+		
+		
+		
+		
 
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -69,14 +90,14 @@ public class LocalMap extends Map {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
-						if(shipArrayCounter > 5){
+						if(shipArrayCounter > 4){
 						
 						} else{						
 							Ship genericShip = new Ship(shipSize[shipArrayCounter],
 									orientationOfShip);
 							int size = genericShip.getSize();
 							Orientation orientation = genericShip.getOrientation();
-							if (shipArrayCounter < 5 &&checkIfCanAddShip(size, row, column, orientation)) {
+							if (checkIfCanAddShip(size, row, column, orientation)) {
 								if (orientation == Orientation.HORIZONTAL) {
 									for (int i = column; i < column + size; i++) {
 										hasShip[row][i] = true;
@@ -103,6 +124,12 @@ public class LocalMap extends Map {
 				mapPanel.add(localButtons[i][j]);
 			}
 		}
+		
+		
+		
+		
+		
+		
 
 		healthPanel = new JPanel();
 		healthBar = new JProgressBar(0, 17);
@@ -200,6 +227,8 @@ public class LocalMap extends Map {
 			}
 		}
 	}
+	
+	
 	
 	public void flipOrientation(){
 		if(orientationOfShip == Orientation.HORIZONTAL){

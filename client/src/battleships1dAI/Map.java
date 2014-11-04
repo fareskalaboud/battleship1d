@@ -25,6 +25,12 @@ public class Map extends JFrame {
 	public static final int[] battlesize = { 2, 4, 5, 3, 3 };
 	private int shipNumber;
 	private boolean isHorizontal = true;
+	
+	//TODO: implement stack
+	private int[] lastPlacedShip;
+	private boolean lastPlacedisHorizontal;
+	
+	
 
 	private JTextArea horizontalOrVertical;
 	private JTextArea size;
@@ -32,6 +38,7 @@ public class Map extends JFrame {
 	public Map() {
 		unitSquare = new String[10][10];
 		button = new JButton[10][10];
+		lastPlacedShip = new int[2];
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				unitSquare[i][j] = "";
@@ -90,7 +97,6 @@ public class Map extends JFrame {
 		JButton horizontalButton = new JButton("Flip Orientation");
 		horizontalButton.addActionListener(new ActionListener() {
 
-			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				flipOrientation();
@@ -120,12 +126,26 @@ public class Map extends JFrame {
 			}
 
 		});
+		
+		JButton undoButton = new JButton("Undo");
+		undoButton.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				undoMove();
+			}
+			
+		});
+		
 
 		bottomPanel.setLayout(new FlowLayout());
 		bottomPanel.add(horizontalButton);
 		bottomPanel.add(launchEnemyView);
 		bottomPanel.add(launchAIEnemyView);
-
+		bottomPanel.add(undoButton);
+		
+		
 		add(topPanel, BorderLayout.NORTH);
 		add(mainPanel, BorderLayout.CENTER);
 		add(bottomPanel, BorderLayout.SOUTH);
@@ -182,6 +202,10 @@ public class Map extends JFrame {
 					unitSquare[i][column] = shipName;
 				}
 			}
+			lastPlacedShip[0] = row;
+			lastPlacedShip[1] = column;
+			lastPlacedisHorizontal = isHorizontal;
+			
 		}
 	}
 
@@ -223,6 +247,43 @@ public class Map extends JFrame {
 	public void launchAIEnemyMap() {
 		new AIEnemyMap(this);
 	}
+	
+	public boolean isHorizontal(){
+		return isHorizontal;
+	}
+	
+	public void undoMove(){
+		if(lastPlacedisHorizontal == true && shipNumber > 0){
+			for(int i = lastPlacedShip[1]; i < lastPlacedShip[1] + battlesize[shipNumber - 1]; i++){
+				unitSquare[lastPlacedShip[0]][i] = "";		
+				
+			}
+			shipNumber--;
+			updateButtonText();
+			if (shipNumber > 4) {
+
+			} else {
+				size.setText("" + battlesize[shipNumber]);
+			}
+			
+			
+		} else 
+		if(lastPlacedisHorizontal == false && shipNumber > 0){
+			for(int i = lastPlacedShip[0]; i < lastPlacedShip[0] + battlesize[shipNumber - 1]; i++){
+				unitSquare[lastPlacedShip[i]][0] = "";				
+			}
+			shipNumber--;
+			updateButtonText();
+			if (shipNumber > 4) {
+
+			} else {
+				size.setText("" + battlesize[shipNumber]);
+			}
+		}
+		
+		
+	}
+	
 
 	public static void main(String args[]){
 		new Map();
