@@ -1,6 +1,7 @@
 package battleships1d;
 
 import java.util.HashMap;
+import java.util.Random;
 
 /**
  * Created by Thomas on 4/11/2014.
@@ -10,6 +11,10 @@ public class Game {
     private Room room;
     private HashMap<String, Ship> hostsShips = new HashMap<String, Ship>();
     private HashMap<String, Ship> guestsShips = new HashMap<String, Ship>();
+
+    private Boolean inGame = false;
+    private Boolean hostReady = false;
+    private Boolean guestReady = false;
 
     public Game(Room room) {
         this.room = room;
@@ -41,7 +46,40 @@ public class Game {
                     setGuestShip(shipName, x, y);
                     connection.writeLine("Game::Setup::Ship::Success");
                 }
+            } else if (cmd.getParameters()[1].equals("Ready")) {
+                if (connection.getUser().getUsername().equals(room.getHost().getUsername())) {
+                    //Host
+                    if (hostsShips.size() != 5) {
+                        connection.writeLine("Game::Setup::Ready::Error::InsufficientShips");
+                        return;
+                    }
+                    else {
+                        connection.writeLine("Game::Setup::Ready::Success");
+                        hostReady = true;
+                    }
+                } else {
+                    if (guestsShips.size() != 5) {
+                        connection.writeLine("Game::Setup::Ready::Error::InsufficientShips");
+                        return;
+                    }
+                    else {
+                        connection.writeLine("Game::Setup::Ready::Success");
+                        hostReady = true;
+                    }
+                }
+
+                if (hostReady && guestReady) {
+                    //Start Game
+                    int starting = new Random().nextInt(2);
+                    if (starting == 0) {
+                        room.getHost().getConnection().writeLine("Game::Turn");
+                    } else {
+                        room.getGuest().getConnection().writeLine("Game::Turn");
+                    }
+                }
             }
+        } else if (cmd.getParameters()[0].equals("Fire")) {
+
         }
     }
 

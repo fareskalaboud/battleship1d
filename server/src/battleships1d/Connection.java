@@ -74,7 +74,7 @@ public class Connection implements Runnable {
 
                handleCommand(cmd);
             }
-        } catch (Exception e) { }
+        } catch (Exception e) { System.out.println(e); }
 
         System.out.println("Client disconnected");
         disconnect();
