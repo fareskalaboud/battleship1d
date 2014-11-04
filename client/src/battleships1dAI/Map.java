@@ -224,5 +224,7 @@ public class Map extends JFrame {
 		new AIEnemyMap(this);
 	}
 
-
+	public static void main(String args[]){
+		new Map();
+	}
 }

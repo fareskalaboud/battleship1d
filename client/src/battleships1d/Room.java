@@ -2,12 +2,14 @@ package battleships1d;
 
 import java.awt.BorderLayout;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.io.PrintWriter;
+import java.io.OutputStreamWriter;
 import java.net.Socket;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 
 /**
  * 
@@ -26,9 +28,13 @@ public class Room extends JFrame{
 	private boolean isPrivate;
     private String password;
     
-    private PrintWriter out;
+    private boolean isLocalsMove;
+    
+    private BufferedWriter out;
     private BufferedReader in;
     private Socket socket;
+    
+    private JLabel jlHeaderText;
 
 
     /**
@@ -39,6 +45,7 @@ public class Room extends JFrame{
      * @author faresalaboud
      */
 	public Room(String roomID, String userName) {
+		super("Battleships (Room ID: " + roomID +")");
         this.roomID = roomID;
         this.isPrivate = false;
         this.password = "";
@@ -62,13 +69,23 @@ public class Room extends JFrame{
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
         setUpUI();
-        setUpServer();
+        try {
+			setUpServer();
+		} catch (IOException e) {
+			System.err.println("Server could not sucesfully be set up due to IOException");
+			e.printStackTrace();
+		}
     }
     
     //Alexander: Setting up this method so that it adds local map to west, and enemy map to east
     public void setUpUI(){
     	add(localMap, BorderLayout.WEST);
     	add(enemyMap, BorderLayout.EAST);
+    	add(jlHeaderText, BorderLayout.NORTH);
+    	
+    	setVisible(true);
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		pack();
     }
 
     public void setUpServer() throws IOException {
@@ -78,7 +95,7 @@ public class Room extends JFrame{
         int portNumber = 8000;
         socket = new Socket(hostName, portNumber);
      
-        out =   new PrintWriter(socket.getOutputStream(), true);
+        out =   new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
            this.in =
                 new BufferedReader(
                     new InputStreamReader(socket.getInputStream()));
@@ -177,7 +194,15 @@ public class Room extends JFrame{
 	 * @param col
 	 */
 	public Result playButton(int row, int col) {
-		out.println("Game::Fire::1::1");
+		try {
+			out.write("Game::Fire::" + row + "::" + col + "\n");
+			out.flush();
+		} catch (IOException e1) {
+			System.err.println("Output issuess");
+		}
+		
+		isLocalsMove = false;
+		
 		String returnedResult;
 		try {
 			returnedResult = in.readLine();
