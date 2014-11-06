@@ -1,6 +1,5 @@
 package battleships1d;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Vector;
 
@@ -230,19 +229,20 @@ public class AppManager {
 		isLocalMove = false;
 
 		String returnedResult = rv.getCommand();
-		try {
-			returnedResult = Server.getReader().readLine();
-		} catch (IOException e) {
-			System.err.println("IOException");
-			return null;
-		}
+
 		if (returnedResult.equals("Game::Miss")) {
+			isLocalMove = false;
 			return Result.MISS;
 		}
 		if (returnedResult.equals("Game::Hit")) {
+			isLocalMove = false;
+			new JDialog(new JFrame(), "You hit an enemy ship");
 			return Result.HIT;
 		}
 		if (returnedResult.equals("Game::Sunk")) {
+			isLocalMove = false;
+			String shipName = returnedResult.substring(19);
+			new JDialog(new JFrame(), "You sunk the enemie's " + shipName + "!");
 			return Result.SUNK;
 		}
 		System.err.println("Result from button: " + row + " " + col
@@ -257,23 +257,47 @@ public class AppManager {
 	 * @param rv
 	 * @return
 	 */
-	public void sendMove(int row, int col) {
+	public void sendMove() {
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Game::Fired::");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		waitOnThread(rv);
+		
+		String returnedResult = rv.getCommand();
+		
+		int row = Integer.parseInt(returnedResult.substring(14, 14));
+		int col = Integer.parseInt(returnedResult.substring(17, 17));
+		
+		
 		LocalButton targetButton = openRoom.getLocalMap().getClikedButton(row, col);
 
 		Result result = targetButton.playButton();
 
 		if (result.equals(Result.HIT)) {
 			new JDialog(new JFrame(), "You've been hit!");
+			isLocalMove = true;
 			return;
 		}
 		if (result.equals(Result.SUNK)) {
 			String shipName = targetButton.getShip().getName();
 			new JDialog(new JFrame(), "The enemy has sunk your " + shipName
 					+ "!");
+			isLocalMove = true;
 			return;
 		}
 		if (result.equals(Result.MISS)) {
 			new JDialog(new JFrame(), "Enemy failed to hit a ship: Your move!");
+			isLocalMove = true;
 			return;
 		} else {
 			System.err
@@ -338,12 +362,7 @@ public class AppManager {
 
 
 		String returnedResult = rv.getCommand();
-		try {
-			returnedResult = Server.getReader().readLine();
-		} catch (IOException e) {
-			System.err.println("IOException");
-			return null;
-		}
+
 		if (returnedResult.equals("Room::Create::")) {
 			return returnedResult.substring(13); 
 		}

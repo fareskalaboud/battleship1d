@@ -2,6 +2,9 @@ package battleships1d;
 
 import java.awt.Color;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 /**
  * 
  * @author Alexander Hanbury-Botherway
@@ -31,7 +34,6 @@ public class EnemyButton extends GameButton {
 			setBackground(Color.RED);
 			return;
 		} if (resultOfPlay.equals(Result.SUNK)){
-			System.out.println("You sunk a ship");
 		} state = EnemyButtonState.HIT;
 			setBackground(Color.GREEN);
 			return;

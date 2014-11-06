@@ -75,15 +75,6 @@ public class Server implements Runnable {
         }
     }
     
-    /**
-     * Temp measure until handle command is completed 
-     * 
-     * @author Alexander Hanbury-Botherway
-     * @return
-     */
-    public static BufferedReader getReader(){
-    	return in;
-    }
 
     @Override
     public void run() {
