@@ -1,17 +1,15 @@
 package battleships1d;
 
 import java.awt.BorderLayout;
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Font;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
+import javax.swing.border.Border;
+import javax.swing.border.TitledBorder;
 
 /**
  * 
@@ -84,24 +82,25 @@ public class Room extends JFrame{
     	jlHeaderText = new JLabel("Header Text");
 
     	setLayout(new BorderLayout());
-    	JPanel jpWest = new JPanel(new BorderLayout());
-    		jpWest.setBorder(BorderFactory.createEmptyBorder(1000, 40, 40, 40));
-    		jpWest.add(new JLabel("My Map"), BorderLayout.NORTH);
-    		jpWest.add(localMap, BorderLayout.CENTER);
-    	add(jpWest, BorderLayout.WEST);
-    	
-    	JPanel jpEast = new JPanel(new BorderLayout());
-    		jpEast.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
-			jpEast.add(new JLabel("Enemy Map"), BorderLayout.NORTH);
-			jpEast.add(enemyMap, BorderLayout.CENTER);
-		add(jpEast, BorderLayout.EAST);
+    	Border emptyBoarder = BorderFactory.createEmptyBorder(20, 20, 20, 20);
+    	int textJustivaction = TitledBorder.LEFT;
+    	int textPosistion = TitledBorder.TOP;
+    	Font font = new Font("monospaced", Font.BOLD, 24);
+ 
+    	localMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder, "Local Map", textJustivaction, textPosistion, font, Color.BLACK));
+    	add(localMap, BorderLayout.WEST);
+
+    	enemyMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder, "Enemy Map", textJustivaction, textPosistion, font, Color.BLACK));
+		add(enemyMap, BorderLayout.EAST);
 
 
     	add(localMap, BorderLayout.WEST);
     	add(enemyMap, BorderLayout.EAST);
     	add(jlHeaderText, BorderLayout.NORTH);
 
-    	
+ 
+    	setResizable(false);
+    	setLocationRelativeTo(null);
     	setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
