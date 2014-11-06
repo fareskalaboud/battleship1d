@@ -50,18 +50,18 @@ public class Lobby extends JFrame {
 	/**
 	 * @author Alexander Hanbury-Botherway
 	 */
-	private JPanel jpMain, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastNorth;
+	private JPanel jpMain, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastSouth;
 	private JScrollPane jspPublicRooms, jspPrivateRooms;
 	private final JLabel jlPassword = new JLabel("Room Password: ");
+	private final JLabel jlConfirmPassword = new JLabel("Confirm Password: ");
 	private final JLabel jlblPublicRooms = new JLabel("Public Rooms: ");
 	private final JLabel jlblPrivateRooms = new JLabel("Private Rooms: ");
-	private final JLabel jlblRoomName = new JLabel("Room Name: ");
-	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
+	private final JPasswordField jpfConfirmPassword = new JPasswordField(20);
 	private final JButton jbPublic = new JButton("Public");
 	private final JButton jbPrivate = new JButton("Private");
 	private final JButton jbCreateRoom = new JButton("Create Room");
 
-	private JTextField jtfRoomName;
+	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
 	public void setUpUI() {
 		// Main panel
 		jpMain = new JPanel(new BorderLayout());
@@ -95,20 +95,22 @@ public class Lobby extends JFrame {
 		
 		// Room variable fields
 		jpEastCenter = new JPanel(new GridLayout(5, 1));
-		// Room name
-		jpEastCenter.add(jlblRoomName);
-
-		jtfRoomName = new JTextField(20);
-		jpEastCenter.add(jtfRoomName);
-
 		// Room password (not visible when public is selected)
-		
 		jlPassword.setVisible(false);
 		jpEastCenter.add(jlPassword);
 
 		jpfRoomPassword.setEnabled(false);
 		jpfRoomPassword.setVisible(false);
 		jpEastCenter.add(jpfRoomPassword);
+
+		// Room confirm password (not visible when public is selected)
+		
+		jlConfirmPassword.setVisible(false);
+		jpEastCenter.add(jlConfirmPassword);
+
+		jpfConfirmPassword.setEnabled(false);
+		jpfConfirmPassword.setVisible(false);
+		jpEastCenter.add(jpfConfirmPassword);
 
 		// Create panel for create button
 		jpCreateRoom = new JPanel();
@@ -122,14 +124,14 @@ public class Lobby extends JFrame {
 		jpEast.add(jpEastCenter, BorderLayout.CENTER);
 
 		// Public/private option
-		jpEastNorth = new JPanel(new FlowLayout());
+		jpEastSouth = new JPanel(new FlowLayout());
 
 		// Public button (chosen as default)
 		jbPublic.setEnabled(false);
-		jpEastNorth.add(jbPublic);
+		jpEastSouth.add(jbPublic);
 
 		// Private button
-		jpEastNorth.add(jbPrivate);
+		jpEastSouth.add(jbPrivate);
 
 		// Action Listeners
 		// Public button action listener
@@ -141,6 +143,9 @@ public class Lobby extends JFrame {
 				jpfRoomPassword.setEnabled(false);
 				jpfRoomPassword.setVisible(false);
 				jlPassword.setVisible(false);
+				jpfConfirmPassword.setEnabled(false);
+				jpfConfirmPassword.setVisible(false);
+				jlConfirmPassword.setVisible(false);
 				setColourTheme();
 			}
 		});
@@ -154,10 +159,13 @@ public class Lobby extends JFrame {
 				jpfRoomPassword.setEnabled(true);
 				jpfRoomPassword.setVisible(true);
 				jlPassword.setVisible(true);
+				jpfConfirmPassword.setEnabled(true);
+				jpfConfirmPassword.setVisible(true);
+				jlConfirmPassword.setVisible(true);
 				setColourTheme();
 			}
 		});
-		jpEast.add(jpEastNorth, BorderLayout.NORTH);
+		jpEast.add(jpEastSouth, BorderLayout.SOUTH);
 
 		jpMain.add(jpEast, BorderLayout.EAST);
 		
@@ -165,6 +173,7 @@ public class Lobby extends JFrame {
 		
 		pack();
 
+		refreshLists();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setColourTheme();
@@ -182,7 +191,7 @@ public class Lobby extends JFrame {
 		jpCenterSouth.setBackground(new Color(90, 90, 90));
 		jpEast.setBackground(new Color(90, 90, 90));
 		jpEastCenter.setBackground(new Color(90, 90, 90));
-		jpEastNorth.setBackground(new Color(90, 90, 90));
+		jpEastSouth.setBackground(new Color(90, 90, 90));
 		jpCreateRoom.setBackground(new Color(90, 90, 90));
 		
 		jlPassword.setForeground(new Color(255, 255, 255));
@@ -194,8 +203,8 @@ public class Lobby extends JFrame {
 		jlblPublicRooms.setForeground(new Color(255, 255, 255));
 		jlblPublicRooms.setFont(new Font("Monospaced", Font.BOLD, 15));
 		
-		jlblRoomName.setForeground(new Color(255, 255, 255));
-		jlblRoomName.setFont(new Font("Monospaced", Font.BOLD, 15));
+		jlConfirmPassword.setForeground(new Color(255, 255, 255));
+		jlConfirmPassword.setFont(new Font("Monospaced", Font.BOLD, 15));
 		
 		if(!jbPublic.isEnabled()) {
 			jbPublic.setBackground(new Color(110, 110, 110));
@@ -339,7 +348,30 @@ public class Lobby extends JFrame {
 		});
 	}
 	
-	
+	/**
+	 * Refreshes the lists by contacting the server
+	 * @author Alexander Hanbury-Botherway
+	 */
+	private void refreshLists(){
+		Vector<RoomData> vAllRooms = manager.getRoomsFromServer();
+		
+		publicRooms = new Vector<RoomData>();
+		privateRooms = new Vector<RoomData>();
+		
+		for (int i=0; i<vAllRooms.size(); i++){
+			RoomData currentRoom = vAllRooms.get(i);
+			if(currentRoom.isPrivate()){
+				privateRooms.add(currentRoom);
+			} else {
+				publicRooms.add(currentRoom);
+			}
+		}
+		
+		jlPublicRooms.setListData(publicRooms);
+		jlPrivateRooms.setListData(privateRooms);
+		return;
+		
+	}
 	
 	public static void main(String args[]) {
 		new Lobby().setUpUI();
