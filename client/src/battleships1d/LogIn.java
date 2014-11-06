@@ -80,10 +80,10 @@ public class LogIn {
 		mainFrame.setResizable(false);
 
 		// NORTH COMPONENT
-		northPanel = new JPanel();
-		titleLabel = new JLabel("Battleship - 1D");
 		// titleLabel.setText("test");
 		// goGreenLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+		northPanel = new JPanel();
+		titleLabel = new JLabel("Battleships - 1D");
 		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 48));
 		titleLabel.setForeground(new Color(255, 255, 255));
 		northPanel.setLayout(new FlowLayout());
