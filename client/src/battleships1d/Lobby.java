@@ -346,6 +346,16 @@ public class Lobby extends JFrame {
 				
 			}
 		});
+		
+		jbCreateRoom.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				//Assume public
+				
+				publicRooms.add(new RoomData("My User Name", "")); //empty string indicates public room
+			}
+		});
 	}
 	
 	/**

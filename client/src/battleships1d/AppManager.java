@@ -162,8 +162,28 @@ public class AppManager {
 	 * @author faresalaboud
 	 */
 
-	public static Vector<RoomData>getRoomsFromServer() {
-		// TODO: Remove initialisation, obtain rooms from server
+	public static Vector<RoomData> getRoomsFromServer() {
+		// ArrayList<String> commands = new ArrayList<String>();
+		// commands.add("Room::");
+		// commands.add("Game::Fire::Miss");
+		// commands.add("Game::Fire::Sunk::");
+		//
+		// final Server.RequestVariables rv = new Server.RequestVariables();
+		//
+		// Server.registerCommands(commands, new Server.RequestFunction() {
+		// @Override
+		// public void Response(String command) {
+		// rv.setCommand(command);
+		// rv.setContinueThread(true);
+		// }
+		// });
+		//
+		// Server.writeLineToServer("Room::List");
+		// waitOnThread(rv);
+
+		//
+		// String returnedResult = rv.getCommand();
+		// // TODO: Remove initialisation, obtain rooms from server
 		Vector<RoomData> allRooms = new Vector<RoomData>();
 
 		// TODO: Command.getParameters
@@ -374,15 +394,19 @@ public class AppManager {
 		});
 
 		Server.writeLineToServer("Room::Create::" + password);
+		System.err.println("about to wait on thread");
 		waitOnThread(rv);
 
 		String returnedResult = rv.getCommand();
 
-		if (returnedResult.equals("Room::Create::")) {
-			return returnedResult.substring(13);
-		}
+		System.err.println(returnedResult + " createroom method");
 		if (returnedResult.equals("Room::Create:Error:UserInARoom")) {
 			return "Error: User In Room";
+		}
+		if (returnedResult.substring(0, 12).equals("Room::Create")) {
+			//TestLine
+			System.err.println(returnedResult);
+			return returnedResult.substring(13);
 		}
 		return "Error";
 	}
