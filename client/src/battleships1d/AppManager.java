@@ -21,8 +21,8 @@ public class AppManager {
 	private static String mainPlayer;
 
 	// Lobby Variables
-	private static Vector<Room> publicRooms;
-	private static Vector<Room> privateRooms;
+	private static Vector<RoomData> publicRooms;
+	private static Vector<RoomData> privateRooms;
 
 	// Game Variables
 	private boolean isLocalMove;
@@ -147,11 +147,11 @@ public class AppManager {
 
 	public static void getRoomsFromServer() {
 		// TODO: Remove initialisation, obtain rooms from server
-		Vector<Room> allRooms = new Vector<Room>();
+		Vector<RoomData> allRooms = new Vector<RoomData>();
 
 		// TODO: Command.getParameters
 		String[] parameters = new String[0];
-		Room r;
+		RoomData r;
 
 		int noOfRooms = Integer.parseInt(parameters[0]);
 		String roomID = new String();
@@ -166,11 +166,11 @@ public class AppManager {
 			} else {
 				password = parameters[i];
 				if (password.equals("")) {
-					r = new Room(roomID, userName);
+					r = new RoomData(roomID, userName, "");
 					allRooms.add(r);
 					publicRooms.add(r);
 				} else {
-					r = new Room(roomID, password, userName);
+					r = new RoomData(roomID, userName, password);
 					allRooms.add(r);
 					privateRooms.add(r);
 				}
@@ -184,7 +184,7 @@ public class AppManager {
 	 * @return a Vector of public rooms
 	 * @author faresalaboud
 	 */
-	public static Vector<Room> getPublicRooms() {
+	public static Vector<RoomData> getPublicRooms() {
 		return publicRooms;
 	}
 
@@ -194,7 +194,7 @@ public class AppManager {
 	 * @return a Vector of private rooms
 	 * @author faresalaboud
 	 */
-	public static Vector<Room> getPrivateRooms() {
+	public static Vector<RoomData> getPrivateRooms() {
 		return privateRooms;
 	}
 
@@ -257,7 +257,7 @@ public class AppManager {
 	 * @return
 	 */
 	public void sendMove(int row, int col) {
-		LocalButton targetButton = openRoom.getLocalMap().getButton(row, col);
+		LocalButton targetButton = openRoom.getLocalMap().getClikedButton(row, col);
 
 		Result result = targetButton.playButton();
 

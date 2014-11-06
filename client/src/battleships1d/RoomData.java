@@ -7,30 +7,52 @@ package battleships1d;
  */
 public class RoomData {
 	private String roomID;
-	private String roomName;
 	private boolean isPrivate;
 	private String password;
+	private String host;
 	
-	public RoomData(String roomName, boolean isPrivate, String password){
-		this.roomName = roomName;
-		this.isPrivate = isPrivate;
-		if (isPrivate){
-		this.password = password;
+	/**
+	 * Constructor for user creating room
+	 * @param roomName
+	 * @param isPrivate
+	 * @param password
+	 */
+	public RoomData(String host, String password){
+		this.host = host;
+		if (password.equals("")){
+			isPrivate = false;
 		} else {
-			password = "";
+			isPrivate = true;
 		}
+		this.password = password;
+		
 		String serverResponse = AppManager.createRoom(password);
 		
 		if (serverResponse.equals("Error")){
 			System.err.println("Error when creating room: room already in use?");
-			roomName += " (FAILED TO SYNC WITH SERVER)";
+			roomID += " (FAILED TO SYNC WITH SERVER)";
 		} else {
 			roomID = serverResponse;
 		}
 	}
 	
+	/**
+	 * Constructor for creating room based on server data
+	 */
+	public RoomData(String roomID, String host, String password){
+		this.roomID = roomID;
+		this.host = host;
+		this.password = password;
+		
+		if (password.equals("")){
+			isPrivate = false;
+		} else {
+			isPrivate = true;
+		}
+	}
+	
 	public String toString(){
-		return roomName + " (" + roomID + ")" ;
+		return roomID + " (" + host + ")";
 	}
 	
 	

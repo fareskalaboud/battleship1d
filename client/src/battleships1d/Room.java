@@ -30,6 +30,7 @@ public class Room extends JFrame{
     
     private boolean isLocalsMove;
     
+    private AppManager am;
 
     
     private JLabel jlHeaderText;
@@ -42,7 +43,7 @@ public class Room extends JFrame{
      * @param roomID the room name/id
      * @author faresalaboud
      */
-	public Room(String roomID, String userName) {
+	public Room(String roomID, String userName, AppManager am) {
 		super("Battleships (Room ID: " + roomID +")");
         this.roomID = roomID;
         this.isPrivate = false;
@@ -50,6 +51,7 @@ public class Room extends JFrame{
         this.userName = userName;
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
+        this.am = am;
         setUpUI();
     }
 
@@ -62,13 +64,14 @@ public class Room extends JFrame{
      * @param password the password to the private room
      * @author faresalaboud
      */
-    public Room(String roomID, String password, String userName) {
+    public Room(String roomID, String password, String userName, AppManager am) {
         this.roomID = roomID;
         this.isPrivate = true;
         this.password = password;
         this.userName = userName;
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
+        this.am = am;
         setUpUI();
     }
     
@@ -200,6 +203,15 @@ public class Room extends JFrame{
 	}
 	
 	/**
+	 * 
+	 * @return AppManager
+	 * @author Alexander Hanbury-Botherway
+	 */
+	public AppManager getAM(){
+		return am;
+	}
+	
+	/**
 	 * Overrides the toString() method
 	 * 
 	 * @return the ID(Name) of the room;
@@ -211,7 +223,7 @@ public class Room extends JFrame{
 	}
 	
 	public static void main(String args[]){
-		new Room("Room name", "User name");
+		new Room("Room name", "User name", new AppManager());
 	}
 	
 }
