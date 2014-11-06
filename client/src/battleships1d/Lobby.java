@@ -173,7 +173,7 @@ public class Lobby extends JFrame {
 		
 		pack();
 
-		refreshLists();
+		//refreshLists();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setColourTheme();
@@ -268,7 +268,7 @@ public class Lobby extends JFrame {
 		} else {
 			publicRooms.add(newRoom);
 		} // TODO: send info to server
-		refreshRoomLists();
+		//refreshRoomLists();
 	}
 
 	public void setActionListeners() {
