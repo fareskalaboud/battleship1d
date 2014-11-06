@@ -94,9 +94,11 @@ public class LocalMap extends Map {
 		JPanel infoPanel = new JPanel();
 		JLabel sizeOfShip = new JLabel("Size: ");
 		sizeOfShipText = new JTextField();
-
+		sizeOfShipText.setEditable(false);
+		
 		JLabel currentOrientation = new JLabel("Current Orientation: ");
 		currentOrientationText = new JTextField();
+		currentOrientationText.setEditable(false);
 
 		infoPanel.setLayout(new FlowLayout());
 		infoPanel.add(sizeOfShip);
