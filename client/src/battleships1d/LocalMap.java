@@ -373,6 +373,8 @@ public class LocalMap extends Map {
 		}
 	}
 	
-	
+	public LocalButton getButton(int row, int col){
+		return localButtons[row][col];
+	}
 
 }

@@ -1,15 +1,10 @@
 package battleships1d;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
-import java.net.Socket;
-import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
@@ -31,6 +26,7 @@ public class AppManager {
 
     // Game Variables
     private boolean isLocalMove;
+    private Room openRoom;
 
     // UI Management
 
@@ -206,31 +202,52 @@ public class AppManager {
 	 * @author Alexander Hanbury-Botherway
 	 */
 	public Result playButton(int row, int col) {
-//		try {
-//			out.write("Game::Fire::" + row + "::" + col + "\n");
-//			out.flush();
-//		} catch (IOException e1) {
-//			System.err.println("Output issuess");
-//		}
-//
-//		isLocalMove = false;
-//
-//		String returnedResult;
-//		try {
-//			returnedResult = in.readLine();
-//		} catch (IOException e) {
-//			System.err.println("IOException");
-//			return null;
-//		}
-//		if (returnedResult.equals("Game::Fire")){
-//			return Result.MISS;
-//		} if (returnedResult.equals("Game::Hit")){
-//			return Result.HIT;
-//		} if (returnedResult.equals("Game::Sunk")){
-//			return Result.SUNK;
-//		}
-//		System.err.println("Result from button: " + row + " " + col + " is not valid");
+		Server.writeLineToServer("Game::Fire::" + row + "::" + col);
+
+		isLocalMove = false;
+
+		String returnedResult;
+		try {
+			returnedResult = Server.getReader().readLine();
+		} catch (IOException e) {
+			System.err.println("IOException");
+			return null;
+		}
+		if (returnedResult.equals("Game::Fire")){
+			return Result.MISS;
+		} if (returnedResult.equals("Game::Hit")){
+			return Result.HIT;
+		} if (returnedResult.equals("Game::Sunk")){
+			return Result.SUNK;
+		}
+		System.err.println("Result from button: " + row + " " + col + " is not valid");
 		return null; 
+	}
+	
+	/**
+	 * Called if server sends a players move
+	 * @param rv
+	 * @return
+	 */
+	public void sendMove(int row, int col){
+		LocalButton targetButton = openRoom.getLocalMap().getButton(row, col);
+		
+		Result result = targetButton.playButton();
+		
+		if (result.equals(Result.HIT)){
+			new JDialog (new JFrame(), "You've been hit!");
+			return;
+		} if (result.equals(Result.SUNK)){
+			String shipName = targetButton.getShip().getName();
+			new JDialog (new JFrame(), "The enemy has sunk your " + shipName + "!");
+			return;
+		} if (result.equals(Result.MISS)){
+			new JDialog (new JFrame(), "Enemy failed to hit a ship: Your move!");
+			return;
+		} else {
+		System.err.println("Unexpected response from local button after being hit");
+		return;
+		}
 	}
 
     private static Boolean waitOnThread(Server.RequestVariables rv) {
@@ -245,7 +262,7 @@ public class AppManager {
     }
 
     public static void main(String args[]) {
-        if (Server.connectToServer()) {
+    	if (Server.connectToServer()) {
             setUpUI();
             setMainPlayer();
            // getRoomsFromServer();

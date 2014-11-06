@@ -191,7 +191,13 @@ public class Room extends JFrame{
 		isLocalsMove = true;
 	}
 	
-	
+	/**
+	 * Called from app manager to access maps
+	 * @author Alexander Hanbury-Botherway
+	 */
+	public LocalMap getLocalMap(){
+		return localMap;
+	}
 	
 	/**
 	 * Overrides the toString() method
