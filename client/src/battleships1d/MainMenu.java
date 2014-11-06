@@ -8,11 +8,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
+import javax.swing.border.EtchedBorder;
 
 /**
  * 
@@ -40,7 +42,7 @@ public class MainMenu {
 	private JLabel userSelectedNameLabel;
 	private JButton watchTutorialButton, enterLobbyButton, quickMatchButton;
 	private JPanel userNameLabelPanel;
-	private JPanel setUserNameButtonPanel;
+	private JPanel watchTutorialButtonPanel;
 	private JPanel enterLobbyButtonPanel;
 	private JPanel quickMatchButtonPanel;
 	
@@ -55,8 +57,9 @@ public class MainMenu {
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		mainWindow.setTitle("BattleShip - 1 D");
-		mainWindow.setBounds(400, 100, 600, 400);
-
+		mainWindow.setBounds(400, 100, 550, 520);
+		mainWindow.setResizable(false);
+		
 		mainPanel.setLayout(new BorderLayout());
 
 		createNorthComponent();
@@ -81,7 +84,7 @@ public class MainMenu {
 		userNameGridPanel.setBackground(new Color(90, 90, 90));
 		matchesGridPanel.setBackground(new Color(90, 90, 90));
 		userNameLabelPanel.setBackground(new Color(90, 90, 90));
-		setUserNameButtonPanel.setBackground(new Color(90, 90, 90));
+		watchTutorialButtonPanel.setBackground(new Color(90, 90, 90));
 		enterLobbyButtonPanel.setBackground(new Color(90, 90, 90));
 		quickMatchButtonPanel.setBackground(new Color(90, 90, 90));
 		
@@ -134,19 +137,16 @@ public class MainMenu {
 		matchesGridPanel = new JPanel();
 	       
 		welcomeLabel = new JLabel("Welcome, ");
-		userSelectedNameLabel = new JLabel(userName + " ! ");
-		watchTutorialButton = new JButton("Watch a tutorial");
+		userSelectedNameLabel = new JLabel(userName + " !");
+		watchTutorialButton = new JButton("Watch a Tutorial");
 		enterLobbyButton = new JButton("Enter Lobby");
 		quickMatchButton = new JButton("Quick Match");
-
-		welcomeLabel.setFont(new Font("Arial", Font.ITALIC, 16));
-		userSelectedNameLabel.setFont(new Font("Arial", Font.BOLD, 16));
-
+		
 		centerPanel.setLayout(new GridLayout(3, 1));
 		firstGridPanel.setLayout(new BorderLayout());
 		secondGridPanel.setLayout(new BorderLayout());
 		userNameGridPanel.setLayout(new GridLayout(2, 1));
-		matchesGridPanel.setLayout(new GridLayout(2, 1));
+		matchesGridPanel.setLayout(new GridLayout(3, 1));
 
 		// centerPanel.add(new JPanel());
 
@@ -158,28 +158,40 @@ public class MainMenu {
 		
 		userNameLabelPanel = new JPanel();
 		userNameLabelPanel.setLayout(new FlowLayout());
+		userNameLabelPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10), new EtchedBorder()));
 		userNameLabelPanel.add(welcomeLabel);
 		userNameLabelPanel.add(userSelectedNameLabel);
 
-		setUserNameButtonPanel = new JPanel();
-		setUserNameButtonPanel.setLayout(new FlowLayout());
-		setUserNameButtonPanel.add(watchTutorialButton);
+		watchTutorialButtonPanel = new JPanel();
+		watchTutorialButtonPanel.setLayout(new GridLayout(1, 3));
+		watchTutorialButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		watchTutorialButtonPanel.add(new JLabel());
+		watchTutorialButtonPanel.add(watchTutorialButton);
+		watchTutorialButtonPanel.add(new JLabel());
 
 		userNameGridPanel.add(userNameLabelPanel);
-		userNameGridPanel.add(setUserNameButtonPanel);
+		matchesGridPanel.add(watchTutorialButtonPanel);
 
 		enterLobbyButtonPanel = new JPanel();
-		enterLobbyButtonPanel.setLayout(new FlowLayout());
+		enterLobbyButtonPanel.setLayout(new GridLayout(1, 3));
+		enterLobbyButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		enterLobbyButtonPanel.add(new JLabel());
 		enterLobbyButtonPanel.add(enterLobbyButton);
+		enterLobbyButtonPanel.add(new JLabel());
 
 		quickMatchButtonPanel = new JPanel();
-		quickMatchButtonPanel.setLayout(new FlowLayout());
+		quickMatchButtonPanel.setLayout(new GridLayout(1, 3));
+		quickMatchButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		quickMatchButtonPanel.add(new JLabel());
 		quickMatchButtonPanel.add(quickMatchButton);
+		quickMatchButtonPanel.add(new JLabel());
 
 		matchesGridPanel.add(enterLobbyButtonPanel);
 		matchesGridPanel.add(quickMatchButtonPanel);
+		
 		setActionListeners();
 	}
+	
 	private Lobby lobby;
 	
 	private void setActionListeners() {
