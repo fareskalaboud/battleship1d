@@ -55,7 +55,7 @@ public class CreateNewAccount {
 	/**
 	 * @author GEORGE RADUTA
 	 */
-	public void setUpUI() {
+	public void setUpUI() { 
 		accountFrame = new JFrame();
 		accountFrame.setMinimumSize(new Dimension(220, 80));
 		accountPanel = new JPanel(new GridLayout(4, 1));
