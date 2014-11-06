@@ -166,16 +166,6 @@ public class LogIn {
 	 */
 	private void setColourTheme() {
 		
-		
-		try {
-			MetalLookAndFeel metal = new MetalLookAndFeel();
-			UIManager.setLookAndFeel(metal);
-			
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
 		logInPanel.setBackground(new Color(50, 50, 50));
 		northPanel.setBackground(new Color(90, 90, 90));
 		logInCenterPanel.setBackground(new Color(90, 90, 90));
