@@ -32,10 +32,12 @@ public class EnemyButton extends GameButton {
 		if (resultOfPlay.equals(Result.MISS)){
 			state = EnemyButtonState.MISS;
 			setBackground(Color.RED);
+			room.getAM().sendMove();
 			return;
 		} if (resultOfPlay.equals(Result.SUNK)){
 		} state = EnemyButtonState.HIT;
 			setBackground(Color.GREEN);
+			room.getAM().sendMove();
 			return;
 	}
 	
