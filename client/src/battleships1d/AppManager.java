@@ -99,6 +99,7 @@ public class AppManager {
     }
 
     public static String createAccount(String username, String password) {
+    	Server.writeLineToServer("Login::Create::" + username + "::" + password);
         //TODO: Send to server, and fix line below
         String response = "hello";
 
