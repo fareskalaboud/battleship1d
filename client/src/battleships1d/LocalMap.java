@@ -38,8 +38,9 @@ public class LocalMap extends Map {
 	
 	JTextField sizeOfShipText;
 	JTextField currentOrientationText;
-	final JComboBox listOfNames = new JComboBox(shipNames);;
+	final JComboBox listOfNames = new JComboBox(shipNames);
 
+	
 	public LocalMap(Room room) {
 		super();
 		// Initialise the whole map as not having any ship
@@ -99,6 +100,11 @@ public class LocalMap extends Map {
 		infoPanel.add(sizeOfShipText);
 		infoPanel.add(currentOrientation);
 		infoPanel.add(currentOrientationText);
+			
+		
+		listOfNames.setSelectedIndex(0);
+		updateSize((String) listOfNames.getSelectedItem());
+		updateTexts();
 		
 		
 		listOfNames.addActionListener(new ActionListener(){
@@ -106,8 +112,10 @@ public class LocalMap extends Map {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				updateSize((String) listOfNames.getSelectedItem());
-				updateTexts();
+				if(listOfNames.getSelectedItem() != null){
+					updateSize((String) listOfNames.getSelectedItem());
+					updateTexts();
+				}
 			}
 			
 		});
@@ -218,16 +226,30 @@ public class LocalMap extends Map {
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
 				flipOrientation();
+				updateTexts();
 			}
 			
 		});
 		
+		JButton undoMove = new JButton("Undo Move");
+		undoMove.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				undoMove();
+				updateTexts();
+			}
+			
+		});
+		
+		bottomPanel.add(undoMove);
 		bottomPanel.add(flipOrientation);
 
 		// Add the panels to the map
 		add(topPanel, BorderLayout.NORTH);
 		add(mapPanel, BorderLayout.CENTER);
-		add(healthPanel, BorderLayout.NORTH);
+	//	add(healthPanel, BorderLayout.NORTH);
 		add(bottomPanel,BorderLayout.SOUTH);
 
 	}
@@ -341,6 +363,8 @@ public class LocalMap extends Map {
 			}
 			
 			listOfNames.addItem(jComboBoxItem);
+			listOfNames.setSelectedItem(jComboBoxItem);
+			shipArrayCounter--;
 			
 			
 			

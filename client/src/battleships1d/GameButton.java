@@ -20,7 +20,7 @@ public abstract class GameButton extends JButton {
 		char[] rowLetters = {'A','B','C','D','E','F','G','H','I','J'};
 		int correctedCol = col + 1;
 	
-		setToolTipText(rowLetters[row] + correctedCol + "");
+		setToolTipText(rowLetters[row] + "" + correctedCol);
 		
 		setSize(10,10);
 	}
