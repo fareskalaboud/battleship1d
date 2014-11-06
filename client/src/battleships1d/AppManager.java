@@ -162,7 +162,7 @@ public class AppManager {
 	 * @author faresalaboud
 	 */
 
-	public static void getRoomsFromServer() {
+	public static Vector<RoomData>getRoomsFromServer() {
 		// TODO: Remove initialisation, obtain rooms from server
 		Vector<RoomData> allRooms = new Vector<RoomData>();
 
@@ -193,6 +193,7 @@ public class AppManager {
 				}
 			}
 		}
+		return allRooms;
 	}
 
 	/**
