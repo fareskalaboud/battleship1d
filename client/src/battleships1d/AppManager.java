@@ -101,9 +101,27 @@ public class AppManager {
 	}
 
 	public static String createAccount(String username, String password) {
+
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Login::Create::Successful::");
+		commands.add("Login::Create::Error::Username");
+		commands.add("Login::Create::Error");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
 		Server.writeLineToServer("Login::Create::" + username + "::" + password);
+		waitOnThread(rv);
+
 		// TODO: Send to server, and fix line below
-		String response = "hello";
+		String response = rv.getCommand();
 
 		String[] serverResponse = response.split("::");
 		if (serverResponse[2].equals("Successful")) {
@@ -111,9 +129,9 @@ public class AppManager {
 		} else if (serverResponse[2].equals("Error")) {
 			if (serverResponse.length == 3) {
 				return "Error";
-			} else {
-				return "Error::" + username;
 			}
+		} else {
+			return "ErrorU";
 		}
 		return "Error";
 	}
@@ -223,9 +241,6 @@ public class AppManager {
 		Server.writeLineToServer("Game::Fire::" + row + "::" + col);
 		waitOnThread(rv);
 
-		
-		
-
 		isLocalMove = false;
 
 		String returnedResult = rv.getCommand();
@@ -272,14 +287,14 @@ public class AppManager {
 		});
 
 		waitOnThread(rv);
-		
+
 		String returnedResult = rv.getCommand();
-		
+
 		int row = Integer.parseInt(returnedResult.substring(14, 14));
 		int col = Integer.parseInt(returnedResult.substring(17, 17));
-		
-		
-		LocalButton targetButton = openRoom.getLocalMap().getClikedButton(row, col);
+
+		LocalButton targetButton = openRoom.getLocalMap().getClikedButton(row,
+				col);
 
 		Result result = targetButton.playButton();
 
@@ -342,7 +357,7 @@ public class AppManager {
 	 * @return
 	 */
 	public static String createRoom(String password) {
-		
+
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Create::");
 		commands.add("Room::Create::Error::UserInARoom");
@@ -360,17 +375,15 @@ public class AppManager {
 		Server.writeLineToServer("Room::Create::" + password);
 		waitOnThread(rv);
 
-
 		String returnedResult = rv.getCommand();
 
 		if (returnedResult.equals("Room::Create::")) {
-			return returnedResult.substring(13); 
+			return returnedResult.substring(13);
 		}
 		if (returnedResult.equals("Room::Create:Error:UserInARoom")) {
 			return "Error: User In Room";
 		}
 		return "Error";
 	}
-	
-	
+
 }
