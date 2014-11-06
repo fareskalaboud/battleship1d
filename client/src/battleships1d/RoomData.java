@@ -1,5 +1,10 @@
 package battleships1d;
 
+/**
+ * 
+ * @author Alexander Hanbury-Botherway
+ *
+ */
 public class RoomData {
 	private String roomID;
 	private String roomName;
