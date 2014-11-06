@@ -50,6 +50,9 @@ public class Room extends JFrame{
         this.isPrivate = false;
         this.password = "";
         this.userName = userName;
+        localMap = new LocalMap(this);
+        enemyMap = new EnemyMap(this);
+        setUpUI();
     }
 
     /**
@@ -69,29 +72,30 @@ public class Room extends JFrame{
         localMap = new LocalMap(this);
         enemyMap = new EnemyMap(this);
         setUpUI();
-        }
     }
+    
     
     /**
      * Sets up room perspective for user
      * @author Alexander Hanbury-Botherway
      */
     public void setUpUI(){
+    	
+    	jlHeaderText = new JLabel("Header Text");
 
     	setLayout(new BorderLayout());
     	JPanel jpWest = new JPanel(new BorderLayout());
-    		jpWest.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    		jpWest.setBorder(BorderFactory.createEmptyBorder(1000, 40, 40, 40));
     		jpWest.add(new JLabel("My Map"), BorderLayout.NORTH);
     		jpWest.add(localMap, BorderLayout.CENTER);
     	add(jpWest, BorderLayout.WEST);
     	
     	JPanel jpEast = new JPanel(new BorderLayout());
-    		jpEast.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+    		jpEast.setBorder(BorderFactory.createEmptyBorder(40, 40, 40, 40));
 			jpEast.add(new JLabel("Enemy Map"), BorderLayout.NORTH);
 			jpEast.add(enemyMap, BorderLayout.CENTER);
 		add(jpEast, BorderLayout.EAST);
 
-  //  	add(jlHeaderText, BorderLayout.NORTH);
 
     	add(localMap, BorderLayout.WEST);
     	add(enemyMap, BorderLayout.EAST);
@@ -189,6 +193,10 @@ public class Room extends JFrame{
 	@Override
 	public String toString() {
 		return this.roomID;
+	}
+	
+	public static void main(String args[]){
+		new Room("Room name", "User name");
 	}
 	
 }
