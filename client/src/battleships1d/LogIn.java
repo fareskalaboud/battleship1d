@@ -1,167 +1,252 @@
 package battleships1d;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.border.EmptyBorder;
+import javax.swing.plaf.metal.MetalLookAndFeel;
 
 /**
- *
+ * 
  * @author GEORGE RADUTA
- *
+ * 
  */
 public class LogIn {
+	
+	private AppManager appManager;
+	public LogIn(AppManager appManager) {
+		this.appManager = appManager;
+		setUpUI();
+	}
+	public LogIn() {
+		
+	}
 
-    private JFrame mainFrame;
-    private JPanel logInPanel;
+	private JFrame mainFrame;
+	private JPanel logInPanel;
 
-    private JPanel northPanel;
-    private JLabel titleLabel;
+	private JPanel northPanel;
+	private JLabel titleLabel;
 
-    private JPanel logInCenterPanel;
-    private JPanel userNamePanel, passwordPanel;
-    private JPanel logInButtonsPanel, centerPassPanel;
-    private JLabel userNameLabel;
-    private JLabel passwordLabel;
-    private JTextField userNameTextField;
-    private JTextField passwordTextField;
-    private JButton logInAsPlayerButton, logInAsGuestButton, createAccountButton;
-
-    
-    public static void main(String[] args) {
-        new LogIn().setUpUI();
-        
-    }
-
-    /**
-     * 
-     * @param testFrame
-     * @author GEORGE RADUTA
-     */
-    public void enableLogInFrame(JFrame testFrame) {
-        this.mainFrame = testFrame;
-        mainFrame.setEnabled(true);
-    }
-
-    /**
-     * @author GEORGE RADUTA
-     */
-    public void setUpUI() {
-        mainFrame = new JFrame();
-        logInPanel = new JPanel();
-
-        logInPanel.setLayout(new BorderLayout());
-
-        mainFrame.setLocation(450, 200);
-        mainFrame.setResizable(false);
-
-        // NORTH COMPONENT
-        northPanel = new JPanel();
-        titleLabel = new JLabel("BattleShip - 1 D");
-        // titleLabel.setText("test");
-        // goGreenLabel.setFont(new Font("Arial", Font.PLAIN, 24));
-        titleLabel.setFont(new Font("Arial", Font.ITALIC, 48));
-        northPanel.setLayout(new FlowLayout());
-        northPanel.add(titleLabel);
-        logInPanel.add(northPanel, BorderLayout.NORTH);
-
-        // CENTER COMPONENT
-        logInCenterPanel = new JPanel();
-        userNamePanel = new JPanel();
-        passwordPanel = new JPanel();
-        logInButtonsPanel = new JPanel();
-        centerPassPanel = new JPanel();
-
-        userNameLabel = new JLabel("User Name : ");
-        passwordLabel = new JLabel("Password :  ");
-
-        userNameTextField = new JTextField(10);
-        passwordTextField = new JTextField(10);
-
-        logInAsPlayerButton = new JButton("Log in as a player ! ");
-        logInAsGuestButton = new JButton("Log in as a guest !");
-        createAccountButton = new JButton("Create a new account ! ");
-
-        logInCenterPanel.setLayout(new BorderLayout());
-        userNamePanel.setLayout(new FlowLayout());
-        passwordPanel.setLayout(new FlowLayout());
-        logInButtonsPanel.setLayout(new FlowLayout());
-        centerPassPanel.setLayout(new BorderLayout());
-
-        userNamePanel.add(userNameLabel);
-        userNamePanel.add(userNameTextField);
-        passwordPanel.add(passwordLabel);
-        passwordPanel.add(passwordTextField);
-        logInButtonsPanel.add(logInAsPlayerButton);
-        logInButtonsPanel.add(createAccountButton);
-
-        centerPassPanel.add(passwordPanel, BorderLayout.NORTH);
-        centerPassPanel.add(logInButtonsPanel, BorderLayout.CENTER);
-        logInCenterPanel.add(userNamePanel, BorderLayout.NORTH);
-        logInCenterPanel.add(centerPassPanel, BorderLayout.CENTER);
-        logInCenterPanel.add(logInAsGuestButton, BorderLayout.SOUTH);
-        logInPanel.add(logInCenterPanel, BorderLayout.CENTER);
+	private JPanel logInCenterPanel;
+	private JPanel userNamePanel, passwordPanel;
+	private JPanel logInButtonsPanel, centerPassPanel, logInAsGuestPanel;
+	private JLabel userNameLabel;
+	private JLabel passwordLabel;
+	private JTextField userNameTextField;
+	private JPasswordField passwordTextField;
+	private JButton logInAsPlayerButton, logInAsGuestButton,
+			createAccountButton;
 
 
-        mainFrame.setTitle("BattleShip - 1 D");
+	/**
+	 * 
+	 * @param testFrame
+	 * @author GEORGE RADUTA
+	 */
+	public void enableLogInFrame(JFrame testFrame) {
+		this.mainFrame = testFrame;
+		mainFrame.setEnabled(true);
+	}
 
-        mainFrame.add(logInPanel);
-        mainFrame.pack();
-        mainFrame.setVisible(true);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setActionListeners();
-    }
-    
-    /**
-     * @author GEORGE RADUTA
-     */
-    public void setActionListeners() {
-        createAccountButton.addActionListener(new ActionListener() {
+	/**
+	 * @author GEORGE RADUTA
+	 */
+	public void setUpUI() {
+		mainFrame = new JFrame();
+//		mainFrame.setUndecorated(true);
+		
+		logInPanel = new JPanel();
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                CreateNewAccount createAccount = new CreateNewAccount(mainFrame, userNameTextField);
-                createAccount.setUpUI();
-                mainFrame.setEnabled(false);
-            }
-        });
+		logInPanel.setLayout(new BorderLayout());
+		logInPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		
+		mainFrame.setLocation(450, 200);
+		mainFrame.setResizable(false);
 
-        logInAsGuestButton.addActionListener(new ActionListener() {
+		// NORTH COMPONENT
+		northPanel = new JPanel();
+		titleLabel = new JLabel("Battleship - 1D");
+		// titleLabel.setText("test");
+		// goGreenLabel.setFont(new Font("Arial", Font.PLAIN, 24));
+		titleLabel.setFont(new Font("Monospaced", Font.BOLD, 48));
+		titleLabel.setForeground(new Color(255, 255, 255));
+		northPanel.setLayout(new FlowLayout());
+		northPanel.add(titleLabel);
+		logInPanel.add(northPanel, BorderLayout.NORTH);
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // TODO Auto-generated method stub
-                MainMenu test = new MainMenu("GUEST");
-                test.setUpUI();
-                mainFrame.dispose();
-            }
-        });
-        
-        logInAsPlayerButton.addActionListener(new ActionListener() {
+		// CENTER COMPONENT
+		logInCenterPanel = new JPanel();
+		userNamePanel = new JPanel();
+		passwordPanel = new JPanel();
+		logInButtonsPanel = new JPanel();
+		centerPassPanel = new JPanel();
+		logInAsGuestPanel = new JPanel();
+		
+		userNameLabel = new JLabel("User Name : ");
+		passwordLabel = new JLabel("Password :  ");
+
+		userNameTextField = new JTextField(10);
+		passwordTextField = new JPasswordField(10);
+
+		logInAsPlayerButton = new JButton("Log In");
+		logInAsGuestButton = new JButton("Log in as Guest");
+		createAccountButton = new JButton("Create Account");
+		
+		logInCenterPanel.setLayout(new BorderLayout());
+		
+		userNamePanel.setLayout(new GridLayout(1, 4));
+		userNamePanel.setBorder(new EmptyBorder(0, 0, 4, 0));
+		
+		passwordPanel.setLayout(new GridLayout(1, 4));
+		passwordPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
+		
+		logInButtonsPanel.setLayout(new GridLayout(1, 4, 15, 0));
+		logInButtonsPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
+		
+		logInAsGuestPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
+		
+		logInAsGuestPanel.setLayout(new BorderLayout());
+
+		centerPassPanel.setLayout(new BorderLayout());
+
+		userNamePanel.add(new JLabel());
+		userNamePanel.add(userNameLabel);
+		userNamePanel.add(userNameTextField);
+		userNamePanel.add(new JLabel());
+		passwordPanel.add(new JLabel());
+		passwordPanel.add(passwordLabel);
+		passwordPanel.add(passwordTextField);
+		passwordPanel.add(new JLabel());
+		logInButtonsPanel.add(new JLabel());
+		logInButtonsPanel.add(logInAsPlayerButton);
+		logInButtonsPanel.add(createAccountButton);
+		logInButtonsPanel.add(new JLabel());
+
+		centerPassPanel.add(passwordPanel, BorderLayout.NORTH);
+		centerPassPanel.add(logInButtonsPanel, BorderLayout.CENTER);
+		logInAsGuestPanel.add(new JLabel("                                                 "), BorderLayout.WEST);
+		logInAsGuestPanel.add(logInAsGuestButton, BorderLayout.CENTER);
+		logInAsGuestPanel.add(new JLabel("                                                 "), BorderLayout.EAST);
+		logInCenterPanel.add(userNamePanel, BorderLayout.NORTH);
+		logInCenterPanel.add(centerPassPanel, BorderLayout.CENTER);
+		logInCenterPanel.add(logInAsGuestPanel, BorderLayout.SOUTH);
+		logInPanel.add(logInCenterPanel, BorderLayout.CENTER);
+
+		mainFrame.setTitle("Battleships - 1D");
+
+		setColourTheme();
+		
+		mainFrame.add(logInPanel);
+		mainFrame.pack();
+		mainFrame.setVisible(true);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setActionListeners();
+	}
+
+	/**
+	 * Applies the colour theme to the UI.
+	 * 
+	 * @author fareskalaboud
+	 */
+	private void setColourTheme() {
+		
+		
+		try {
+			MetalLookAndFeel metal = new MetalLookAndFeel();
+			UIManager.setLookAndFeel(metal);
 			
+		} catch (UnsupportedLookAndFeelException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		logInPanel.setBackground(new Color(50, 50, 50));
+		northPanel.setBackground(new Color(90, 90, 90));
+		logInCenterPanel.setBackground(new Color(90, 90, 90));
+		userNamePanel.setBackground(new Color(90, 90, 90));
+		passwordPanel.setBackground(new Color(90, 90, 90));
+		logInButtonsPanel.setBackground(new Color(90, 90, 90));
+		logInAsGuestPanel.setBackground(new Color(90, 90, 90));
+		centerPassPanel.setBackground(new Color(90, 90, 90));
+		
+		userNameLabel.setForeground(new Color(255, 255, 255));
+		userNameLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
+		passwordLabel.setForeground(new Color(255, 255, 255));
+		passwordLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
+		logInAsPlayerButton.setBackground(new Color(160, 160, 160));
+		logInAsGuestButton.setBackground(new Color(160, 160, 160));
+		createAccountButton.setBackground(new Color(160, 160, 160));
+		logInAsPlayerButton.setForeground(new Color(255, 255, 255));
+		logInAsGuestButton.setForeground(new Color(255, 255, 255));
+		createAccountButton.setForeground(new Color(255, 255, 255));
+		
+		logInAsPlayerButton.setFont(new Font("Garamond", Font.BOLD, 15));
+		logInAsGuestButton.setFont(new Font("Garamond", Font.BOLD, 15));
+		createAccountButton.setFont(new Font("Garamond", Font.BOLD, 15));
+	}
+	/**
+	 * @author GEORGE RADUTA
+	 */
+	public void setActionListeners() {
+		createAccountButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				CreateNewAccount createAccount = new CreateNewAccount(
+						mainFrame, userNameTextField, appManager);
+				createAccount.setUpUI();
+				mainFrame.setEnabled(false);
+			}
+		});
+
+		logInAsGuestButton.addActionListener(new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				MainMenu mainMenu = new MainMenu("GUEST", appManager);
+				mainFrame.dispose();
+			}
+		});
+
+		logInAsPlayerButton.addActionListener(new ActionListener() {
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TO DO check for user in data base;
+
+				boolean ok = true;
+				String userNameString = userNameTextField.getText().trim();
+				String passwordString = passwordTextField.getText().trim();
 				
-				boolean ok = false;
 				
 				if (ok) {
-	                MainMenu test = new MainMenu(userNameTextField.getText().trim());
-	                test.setUpUI();
-	                mainFrame.dispose();
+					MainMenu mainMenu = new MainMenu(userNameTextField.getText()
+							.trim(), appManager);
+					mainFrame.dispose();
 				} else {
-					JOptionPane.showMessageDialog(mainFrame, "UserName or Password is incorrect");
+					JOptionPane.showMessageDialog(mainFrame,
+							"UserName or Password is incorrect", "Error", 0);
 				}
 			}
 		});
 
-    }
+	}
 }
