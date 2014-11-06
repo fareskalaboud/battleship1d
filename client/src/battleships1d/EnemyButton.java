@@ -2,6 +2,9 @@ package battleships1d;
 
 import java.awt.Color;
 
+import javax.swing.JDialog;
+import javax.swing.JFrame;
+
 /**
  * 
  * @author Alexander Hanbury-Botherway
@@ -22,19 +25,24 @@ public class EnemyButton extends GameButton {
 	 * Disables the button so it can't be played again. 
 	 */
 	public void playButton(){
-		Result resultOfPlay = room.playButton(row, col);
+		Result resultOfPlay = room.getAM().playButton(row, col);
 		
 		setEnabled(false);
 		
 		if (resultOfPlay.equals(Result.MISS)){
 			state = EnemyButtonState.MISS;
 			setBackground(Color.RED);
+			room.getAM().sendMove();
 			return;
 		} if (resultOfPlay.equals(Result.SUNK)){
-			System.out.println("You sunk a ship");
 		} state = EnemyButtonState.HIT;
 			setBackground(Color.GREEN);
+			room.getAM().sendMove();
 			return;
+	}
+	
+	public EnemyButtonState getState(){
+		return state;
 	}
 
 }

@@ -1,7 +1,10 @@
 package battleships1d;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 
@@ -26,10 +30,10 @@ import javax.swing.JTextField;
 @SuppressWarnings("serial")
 public class Lobby extends JFrame {
 
-	private Vector<Room> privateRooms = new Vector<Room>();
-	private Vector<Room> publicRooms = new Vector<Room>();
-	private JList<Room> jlPublicRooms;
-	private JList<Room> jlPrivateRooms;
+	private Vector<RoomData> privateRooms = new Vector<RoomData>();
+	private Vector<RoomData> publicRooms = new Vector<RoomData>();
+	private JList<RoomData> jlPublicRooms;
+	private JList<RoomData> jlPrivateRooms;
 	private AppManager manager;
 
 	public Lobby(AppManager manager) {
@@ -46,21 +50,30 @@ public class Lobby extends JFrame {
 	/**
 	 * @author Alexander Hanbury-Botherway
 	 */
-	private JPanel jpCenter, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastNorth;
+	private JPanel jpMain, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastSouth;
 	private JScrollPane jspPublicRooms, jspPrivateRooms;
 	private final JLabel jlPassword = new JLabel("Room Password: ");
-	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
+	private final JLabel jlConfirmPassword = new JLabel("Confirm Password: ");
+	private final JLabel jlblPublicRooms = new JLabel("Public Rooms: ");
+	private final JLabel jlblPrivateRooms = new JLabel("Private Rooms: ");
+	private final JPasswordField jpfConfirmPassword = new JPasswordField(20);
 	private final JButton jbPublic = new JButton("Public");
 	private final JButton jbPrivate = new JButton("Private");
-	private JTextField jtfRoomName;
+	private final JButton jbCreateRoom = new JButton("Create Room");
+
+	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
 	public void setUpUI() {
+		// Main panel
+		jpMain = new JPanel(new BorderLayout());
+		
 		// Rooms
 		jpCenter = new JPanel(new BorderLayout());
-
+		jpCenter.setBorder(new EmptyBorder(5,5,5,5));
+		
 		// Public Rooms
 		jpCenterNorth = new JPanel(new BorderLayout());
-		jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
-		jlPublicRooms = new JList<Room>(publicRooms);
+		jpCenterNorth.add(jlblPublicRooms, BorderLayout.NORTH);
+		jlPublicRooms = new JList<RoomData>(publicRooms);
 		jspPublicRooms = new JScrollPane(jlPublicRooms);
 		
 		jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
@@ -68,27 +81,21 @@ public class Lobby extends JFrame {
 
 		// Private Rooms
 		jpCenterSouth = new JPanel(new BorderLayout());
-		jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
-		jlPrivateRooms = new JList<Room>(privateRooms);
+		jpCenterSouth.add(jlblPrivateRooms, BorderLayout.NORTH);
+		jlPrivateRooms = new JList<RoomData>(privateRooms);
 		jspPrivateRooms = new JScrollPane(jlPrivateRooms);
 		jpCenterSouth.add(jspPrivateRooms);
 		jpCenter.add(jpCenterSouth, BorderLayout.SOUTH);
 
-		add(jpCenter, BorderLayout.CENTER);
+		jpMain.add(jpCenter, BorderLayout.CENTER);
 
 		// Create room options
 		jpEast = new JPanel(new BorderLayout());
-
+		jpEast.setBorder(new EmptyBorder(5,5,5,5));
+		
 		// Room variable fields
 		jpEastCenter = new JPanel(new GridLayout(5, 1));
-		// Room name
-		jpEastCenter.add(new JLabel("Room Name:"));
-
-		jtfRoomName = new JTextField(20);
-		jpEastCenter.add(jtfRoomName);
-
 		// Room password (not visible when public is selected)
-		
 		jlPassword.setVisible(false);
 		jpEastCenter.add(jlPassword);
 
@@ -96,21 +103,35 @@ public class Lobby extends JFrame {
 		jpfRoomPassword.setVisible(false);
 		jpEastCenter.add(jpfRoomPassword);
 
-		// Create room button
-		JButton jbCreateRoom = new JButton("Create Room");
-		jpEastCenter.add(jbCreateRoom);
+		// Room confirm password (not visible when public is selected)
+		
+		jlConfirmPassword.setVisible(false);
+		jpEastCenter.add(jlConfirmPassword);
+
+		jpfConfirmPassword.setEnabled(false);
+		jpfConfirmPassword.setVisible(false);
+		jpEastCenter.add(jpfConfirmPassword);
+
+		// Create panel for create button
+		jpCreateRoom = new JPanel();
+		jpCreateRoom.setBorder(new EmptyBorder(10, 0, 10, 0));
+		jpCreateRoom.add(jbCreateRoom);
+		
+		// Add room button
+		jbCreateRoom.setPreferredSize(new Dimension(270, 40));
+		jpEastCenter.add(jpCreateRoom);
 
 		jpEast.add(jpEastCenter, BorderLayout.CENTER);
 
 		// Public/private option
-		jpEastNorth = new JPanel(new FlowLayout());
+		jpEastSouth = new JPanel(new FlowLayout());
 
 		// Public button (chosen as default)
 		jbPublic.setEnabled(false);
-		jpEastNorth.add(jbPublic);
+		jpEastSouth.add(jbPublic);
 
 		// Private button
-		jpEastNorth.add(jbPrivate);
+		jpEastSouth.add(jbPrivate);
 
 		// Action Listeners
 		// Public button action listener
@@ -122,6 +143,10 @@ public class Lobby extends JFrame {
 				jpfRoomPassword.setEnabled(false);
 				jpfRoomPassword.setVisible(false);
 				jlPassword.setVisible(false);
+				jpfConfirmPassword.setEnabled(false);
+				jpfConfirmPassword.setVisible(false);
+				jlConfirmPassword.setVisible(false);
+				setColourTheme();
 			}
 		});
 
@@ -134,29 +159,85 @@ public class Lobby extends JFrame {
 				jpfRoomPassword.setEnabled(true);
 				jpfRoomPassword.setVisible(true);
 				jlPassword.setVisible(true);
+				jpfConfirmPassword.setEnabled(true);
+				jpfConfirmPassword.setVisible(true);
+				jlConfirmPassword.setVisible(true);
+				setColourTheme();
 			}
 		});
-		jpEast.add(jpEastNorth, BorderLayout.NORTH);
+		jpEast.add(jpEastSouth, BorderLayout.SOUTH);
 
-		add(jpEast, BorderLayout.EAST);
-		setVisible(true);
+		jpMain.add(jpEast, BorderLayout.EAST);
+		
+		add(jpMain);
+		
 		pack();
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setColourTheme();
+		setSize(new Dimension(700, 400));
+		setResizable(false);
+		setVisible(true);
+	}
+
+	private void setColourTheme() {
+		jpMain.setBorder(new EmptyBorder(10, 10, 10, 10));
+		jpMain.setBackground(new Color(50, 50, 50));
+		
+		jpCenter.setBackground(new Color(90, 90, 90));
+		jpCenterNorth.setBackground(new Color(90, 90, 90));
+		jpCenterSouth.setBackground(new Color(90, 90, 90));
+		jpEast.setBackground(new Color(90, 90, 90));
+		jpEastCenter.setBackground(new Color(90, 90, 90));
+		jpEastSouth.setBackground(new Color(90, 90, 90));
+		jpCreateRoom.setBackground(new Color(90, 90, 90));
+		
+		jlPassword.setForeground(new Color(255, 255, 255));
+		jlPassword.setFont(new Font("Monospaced", Font.BOLD, 15));
+
+		jlblPrivateRooms.setForeground(new Color(255, 255, 255));
+		jlblPrivateRooms.setFont(new Font("Monospaced", Font.BOLD, 15));
+
+		jlblPublicRooms.setForeground(new Color(255, 255, 255));
+		jlblPublicRooms.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
+		jlConfirmPassword.setForeground(new Color(255, 255, 255));
+		jlConfirmPassword.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
+		if(!jbPublic.isEnabled()) {
+			jbPublic.setBackground(new Color(110, 110, 110));
+			jbPrivate.setBackground(new Color(160, 160, 160));
+			
+			jbPublic.setForeground(new Color(20, 20, 20));
+			jbPrivate.setForeground(new Color(255, 255, 255));
+		} else {
+			jbPrivate.setBackground(new Color(110, 110, 110));
+			jbPublic.setBackground(new Color(160, 160, 160));
+			
+			jbPrivate.setForeground(new Color(20, 20, 20));
+			jbPublic.setForeground(new Color(255, 255, 255));
+		}
+		
+		jbPublic.setFont(new Font("Garamond", Font.BOLD, 15));
+		jbPrivate.setFont(new Font("Garamond", Font.BOLD, 15));
+		
+		jbCreateRoom.setBackground(new Color(160, 160, 160));
+		jbCreateRoom.setForeground(new Color(255, 255, 255));
+		jbCreateRoom.setFont(new Font("Garamond", Font.BOLD, 15));
 	}
 
 	/**
 	 * @return the list of private rooms at the moment
 	 */
-	public Vector<Room> privateRooms() {
+	public Vector<RoomData> privateRooms() {
 		return privateRooms;
 	}
 
 	/**
 	 * @return the list of public rooms at the moment
 	 */
-	public Vector<Room> publicRooms() {
+	public Vector<RoomData> publicRooms() {
 		return publicRooms;
 	}
 
@@ -166,7 +247,7 @@ public class Lobby extends JFrame {
 	}
 
 	public void createRoom(String roomID, String password, boolean isPrivate) {
-		Room newRoom;
+		RoomData newRoom;
 
 		/*
 		 * CHANGE: If you give the Room constructor just a room ID, it will
@@ -176,9 +257,9 @@ public class Lobby extends JFrame {
 		 * the amount of data being passed around classes.
 		 */
 		if (isPrivate) {
-			newRoom = new Room(roomID, manager.getMainPlayer(), password, manager);
+			newRoom = new RoomData(manager.getMainPlayer(),password);
 		} else {
-			newRoom = new Room(roomID, manager.getMainPlayer(), manager);
+			newRoom = new RoomData(manager.getMainPlayer(), "");
 		}
 
 		if (isPrivate) {

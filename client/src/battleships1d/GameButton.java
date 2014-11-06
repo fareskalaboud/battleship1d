@@ -13,13 +13,19 @@ public abstract class GameButton extends JButton {
 
 	
 	public GameButton(int row, int col){
-		super(" ");
+		super("");
 		this.row = row;
 		this.col = col;
-		setToolTipText("Row: " + row + " Col: " + col);
+
+		char[] rowLetters = {'A','B','C','D','E','F','G','H','I','J'};
+		int correctedCol = col + 1;
+	
+		setToolTipText(rowLetters[row] + "" + correctedCol);
+		
 		setSize(10,10);
 	}
 	
 	
+
 
 }

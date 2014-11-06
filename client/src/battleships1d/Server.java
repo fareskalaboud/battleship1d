@@ -23,23 +23,28 @@ public class Server implements Runnable {
      * @author Alexander Hanbury-Botherway
      */
     public static boolean connectToServer() {
-        String hostName = "localhost";
-        int portNumber = 8000;
-        try {
-            socket = new Socket(hostName, portNumber);
-            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
-            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-        } catch (Exception e) {
-            System.out.println("Error connecting to server: " + e);
-            return false;
-        }
-
-        running = true;
-        thread = new Thread(new Server());
-        thread.start();
+//        String hostName = "localhost";
+//        int portNumber = 8000;
+//        try {
+//            socket = new Socket(hostName, portNumber);
+//            out = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
+//            in = new BufferedReader(new InputStreamReader(socket.getInputStream()));
+//        } catch (Exception e) {
+//            System.out.println("Error connecting to server: " + e);
+//            return false;
+//        }
+//
+//        running = true;
+//        thread = new Thread(new Server());
+//        thread.start();
         return true;
     }
 
+    /**
+     * 
+     * @param line
+     * @author Tom
+     */
     public static void writeLineToServer(String line) {
         try {
             out.write(line + "\r\n");
@@ -69,6 +74,7 @@ public class Server implements Runnable {
             if (done) break;
         }
     }
+    
 
     @Override
     public void run() {
