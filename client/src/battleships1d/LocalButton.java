@@ -23,7 +23,7 @@ public class LocalButton extends GameButton {
 		if(hasShip){
 			boolean sunk = ship.hitShip();
 			if (sunk){
-				return Result.SINK;
+				return Result.SUNK;
 			} return Result.HIT;
 		}
 		return Result.MISS;
