@@ -2,7 +2,7 @@ package battleships1d;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.Font;
 
 import javax.swing.BorderFactory;
@@ -100,6 +100,7 @@ public class Room extends JFrame{
 
  
     	setResizable(false);
+    	setMinimumSize(new Dimension(800,550));
     	setLocationRelativeTo(null);
     	setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -183,6 +184,15 @@ public class Room extends JFrame{
 		return this.roomID;
 	}
 
+	/**
+	 * Called by AppManager in order to alert user that it is now the players move
+	 */
+	public void setPlayersTurn(){
+		isLocalsMove = true;
+	}
+	
+	
+	
 	/**
 	 * Overrides the toString() method
 	 * 
