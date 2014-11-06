@@ -32,11 +32,11 @@ public class MainMenu {
 
 	private JFrame mainWindow;
 	private JPanel mainPanel;
-	private JPanel northPanel;
+	private JPanel northPanel, barPanel;
 	private JLabel titleLabel;
 	private JPanel centerPanel;
 	private JPanel firstGridPanel, secondGridPanel;
-	private JPanel userNameGridPanel;
+	private JPanel userNameGridPanel, mainMainMenuPanel;
 	private JPanel matchesGridPanel;
 	private JLabel welcomeLabel;
 	private JLabel userSelectedNameLabel;
@@ -54,6 +54,9 @@ public class MainMenu {
 
 		mainWindow = new JFrame();
 		mainPanel = new JPanel();
+		mainMainMenuPanel = new JPanel();
+		mainWindow.setUndecorated(true);
+		
 		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
 		
 		mainWindow.setTitle("BattleShip - 1 D");
@@ -61,11 +64,22 @@ public class MainMenu {
 		mainWindow.setResizable(false);
 		
 		mainPanel.setLayout(new BorderLayout());
-
+		
+		// BarPanel
+		BarPanel test = new BarPanel(mainWindow);
+		barPanel = test.getPanel();
+		DragFrame testDrag = new DragFrame(barPanel);
+		barPanel.addMouseListener(testDrag);
+		barPanel.addMouseMotionListener(testDrag);
+		//
+		mainMainMenuPanel.setLayout(new BorderLayout());
+		mainMainMenuPanel.add(mainPanel, BorderLayout.CENTER);
+		mainMainMenuPanel.add(barPanel, BorderLayout.NORTH);
+		
 		createNorthComponent();
 		createCenterComponent();
 
-		mainWindow.add(mainPanel);
+		mainWindow.add(mainMainMenuPanel);
 		// mainWindow.pack();
 		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		

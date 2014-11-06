@@ -226,7 +226,8 @@ public class LogIn {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				MainMenu mainMenu = new MainMenu("GUEST", appManager);
+				int randomNumber = 10000 + (int)(Math.random() * ((99999 - 10000) + 1));
+				MainMenu mainMenu = new MainMenu("GUEST" + randomNumber, appManager);
 				mainFrame.dispose();
 			}
 		});
