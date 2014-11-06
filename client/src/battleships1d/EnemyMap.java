@@ -3,6 +3,8 @@ package battleships1d;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -14,10 +16,17 @@ import javax.swing.JProgressBar;
  */
 public class EnemyMap extends Map {
 
+	EnemyButton[][] enemyButtons;
+	
+	
     public EnemyMap(Room room) {
         super();
         this.room = room;
+        enemyButtons = new EnemyButton[10][10];
+        
+        
         this.setUpUI();
+        
     }
 
     public void setUpHealthBar() {
@@ -52,13 +61,40 @@ public class EnemyMap extends Map {
     public void addButtons(){
     	for (int i = 0; i<10; i++){
     		for (int j = 0; j<10; j++){
-    			mapPanel.add(new EnemyButton(i,j, room));
+    			final int row = i;
+    			final int column = j;
+    			enemyButtons[i][j] = new EnemyButton(i, j, room);
+    			enemyButtons[i][j].setBackground(Color.gray);
+    			enemyButtons[i][j].addActionListener(new ActionListener(){
+
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						// TODO Auto-generated method stub
+						enemyButtons[row][column].playButton();
+						updateHealthBars();
+					}
+    				
+    			});
+    			
+    			mapPanel.add(enemyButtons[i][j]);
     		}
     	}
     }
 
     public void setActionListeners() {
 
+    }
+    
+    public void updateHealthBars(){
+    	int counter = healthBar.getMaximum();
+    	for(int i = 0; i < 10; i++){
+    		for(int j = 0; j < 10; j++){
+    			if(enemyButtons[i][j].getState() == EnemyButtonState.HIT){
+    				counter--;
+    			}
+    		}
+    	}
+    	healthBar.setValue(counter);
     }
 
 }

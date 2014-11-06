@@ -36,5 +36,9 @@ public class EnemyButton extends GameButton {
 			setBackground(Color.GREEN);
 			return;
 	}
+	
+	public EnemyButtonState getState(){
+		return state;
+	}
 
 }
