@@ -1,10 +1,20 @@
 package battleships1d;
 
-import javax.swing.*;
-
-import java.awt.*;
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EmptyStackException;
+import java.util.Stack;
+
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JProgressBar;
+import javax.swing.JTextField;
 
 /**
  * 
@@ -17,9 +27,18 @@ public class LocalMap extends Map {
 	private Ship[][] ships;
 	private Orientation orientationOfShip;
 
+	private Stack lastPlacedShipAndOrientation;
+	
+	
+	
 	// for testing purposes
-	private static int[] shipSize = { 2, 3, 3, 4, 5 };
+	private int shipSize;
 	private int shipArrayCounter = 0;
+	private static String[] shipNames = {"Aircraft Carrier", "Battleship", "Submarine", "Cruiser", "Patrol boat"};
+	
+	JTextField sizeOfShipText;
+	JTextField currentOrientationText;
+	final JComboBox listOfNames = new JComboBox(shipNames);;
 
 	public LocalMap(Room room) {
 		super();
@@ -35,15 +54,18 @@ public class LocalMap extends Map {
 		
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				final int row = i;
-				final int column = j;
 				localButtons[i][j] = new LocalButton(i, j);
+				localButtons[i][j].setBackground(Color.GRAY);
 			}
 		}
 
 		ships = new Ship[10][10];
 
 		orientationOfShip = Orientation.HORIZONTAL;
+		
+		lastPlacedShipAndOrientation = new Stack();
+		//pop order: 1st = orientation, 2nd = name
+		//3rd = size, 4th = column, 5th = row
 
 		this.setUpUI();
 
@@ -60,24 +82,39 @@ public class LocalMap extends Map {
 		// Initialise UI objects
 		mapPanel = new JPanel(new GridLayout(10, 10));
 		
+		JPanel topPanel = new JPanel();
 		
 		
 		//@Cham TODO: finish this
 		JPanel infoPanel = new JPanel();
-		JLabel sizeOfNextShip = new JLabel("Size: ");
-		JTextField sizeOfNextShipText = new JTextField();
+		JLabel sizeOfShip = new JLabel("Size: ");
+		sizeOfShipText = new JTextField();
 		
 		
 		JLabel currentOrientation = new JLabel("Current Orientation: ");
-		JTextField currentOrientationText = new JTextField();
+		currentOrientationText = new JTextField();
 		
 		infoPanel.setLayout(new FlowLayout());
-		infoPanel.add(sizeOfNextShip);
-		infoPanel.add(sizeOfNextShipText);
+		infoPanel.add(sizeOfShip);
+		infoPanel.add(sizeOfShipText);
 		infoPanel.add(currentOrientation);
 		infoPanel.add(currentOrientationText);
 		
 		
+		listOfNames.addActionListener(new ActionListener(){
+
+			@Override
+			public void actionPerformed(ActionEvent arg0) {
+				// TODO Auto-generated method stub
+				updateSize((String) listOfNames.getSelectedItem());
+				updateTexts();
+			}
+			
+		});
+		
+		
+		topPanel.add(infoPanel, BorderLayout.CENTER);
+		topPanel.add(listOfNames, BorderLayout.WEST);
 		
 		
 
@@ -93,7 +130,7 @@ public class LocalMap extends Map {
 						if(shipArrayCounter > 4){
 						
 						} else{						
-							Ship genericShip = new Ship(shipSize[shipArrayCounter],
+							Ship genericShip = new Ship(shipSize,
 									orientationOfShip);
 							int size = genericShip.getSize();
 							Orientation orientation = genericShip.getOrientation();
@@ -111,6 +148,22 @@ public class LocalMap extends Map {
 										localButtons[i][column].setBackground(Color.green);
 									}
 								}
+								
+								
+								updateTexts();
+								
+								
+								
+								lastPlacedShipAndOrientation.add(row);
+								lastPlacedShipAndOrientation.add(column);
+								lastPlacedShipAndOrientation.add(shipSize);
+								lastPlacedShipAndOrientation.add(orientation);
+								lastPlacedShipAndOrientation.add(listOfNames.getSelectedItem());
+								
+								
+								
+								
+								listOfNames.removeItem(listOfNames.getSelectedItem());								
 								shipArrayCounter++;
 								
 							}
@@ -172,6 +225,7 @@ public class LocalMap extends Map {
 		bottomPanel.add(flipOrientation);
 
 		// Add the panels to the map
+		add(topPanel, BorderLayout.NORTH);
 		add(mapPanel, BorderLayout.CENTER);
 		add(healthPanel, BorderLayout.NORTH);
 		add(bottomPanel,BorderLayout.SOUTH);
@@ -238,6 +292,62 @@ public class LocalMap extends Map {
 		}
 	}
 	
+	public void updateSize(String battleShipName){
+		if(battleShipName.equals("Aircraft Carrier")){
+			shipSize = 5;
+		} else if(battleShipName.equals("Battleship")){
+			shipSize = 4;
+		} else if(battleShipName.equals("Submarine")){
+			shipSize = 3;
+		} else if(battleShipName.equals("Cruiser")){
+			shipSize = 3;
+		} else if(battleShipName.equals("Patrol boat")){
+			shipSize = 2;
+		}
+	}
+	
+	public void updateTexts(){
+		if(orientationOfShip == Orientation.HORIZONTAL){
+			currentOrientationText.setText("Horizontal");
+		} else{
+			currentOrientationText.setText("Vertical");
+		}
+		sizeOfShipText.setText(shipSize+"");
+	}
+	
+	
+	public void undoMove(){
+		try{
+			
+			Object jComboBoxItem = lastPlacedShipAndOrientation.pop();
+			Orientation orientation = (Orientation) lastPlacedShipAndOrientation.pop();
+			int lastSize = (int) lastPlacedShipAndOrientation.pop();
+			int column = (int) lastPlacedShipAndOrientation.pop();
+			int row = (int) lastPlacedShipAndOrientation.pop();
+			
+			
+			if (orientation == Orientation.HORIZONTAL) {
+				for (int i = column; i < column + lastSize; i++) {
+					hasShip[row][i] = false;
+					ships[row][i] = null;
+					localButtons[row][i].setBackground(Color.gray);
+				}
+			} else {
+				for (int i = row; i < row + lastSize; i++) {
+					hasShip[i][column] = false;
+					ships[i][column] = null;
+					localButtons[i][column].setBackground(Color.gray);
+				}
+			}
+			
+			listOfNames.addItem(jComboBoxItem);
+			
+			
+			
+		} catch(EmptyStackException e){
+			
+		}
+	}
 	
 	
 

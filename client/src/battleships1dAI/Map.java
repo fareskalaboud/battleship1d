@@ -4,6 +4,8 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.EmptyStackException;
+import java.util.Stack;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -27,8 +29,10 @@ public class Map extends JFrame {
 	private boolean isHorizontal = true;
 	
 	//TODO: implement stack
-	private int[] lastPlacedShip;
-	private boolean lastPlacedisHorizontal;
+	
+	Stack lastPlacedShipAndOrientation;
+	//pop in order: 1st = isHorizontal, 2nd = column, 3rd = row
+
 	
 	
 
@@ -38,7 +42,7 @@ public class Map extends JFrame {
 	public Map() {
 		unitSquare = new String[10][10];
 		button = new JButton[10][10];
-		lastPlacedShip = new int[2];
+		lastPlacedShipAndOrientation = new Stack();
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
 				unitSquare[i][j] = "";
@@ -202,9 +206,10 @@ public class Map extends JFrame {
 					unitSquare[i][column] = shipName;
 				}
 			}
-			lastPlacedShip[0] = row;
-			lastPlacedShip[1] = column;
-			lastPlacedisHorizontal = isHorizontal;
+			
+			lastPlacedShipAndOrientation.add(row);
+			lastPlacedShipAndOrientation.add(column);
+			lastPlacedShipAndOrientation.add(isHorizontal);
 			
 		}
 	}
@@ -253,32 +258,39 @@ public class Map extends JFrame {
 	}
 	
 	public void undoMove(){
-		if(lastPlacedisHorizontal == true && shipNumber > 0){
-			for(int i = lastPlacedShip[1]; i < lastPlacedShip[1] + battlesize[shipNumber - 1]; i++){
-				unitSquare[lastPlacedShip[0]][i] = "";		
+		try{
+			boolean undoMoveIsHorizontal = (boolean) lastPlacedShipAndOrientation.pop();
+			int undoMoveColumn = (int) lastPlacedShipAndOrientation.pop();
+			int undoMoveRow = (int) lastPlacedShipAndOrientation.pop();
+			if(undoMoveIsHorizontal == true && shipNumber > 0){
+				for(int i = undoMoveColumn; i < undoMoveColumn + battlesize[shipNumber - 1]; i++){
+					unitSquare[undoMoveRow][i] = "";		
+					
+				}
+				shipNumber--;
+				updateButtonText();
+				if (shipNumber > 4) {
+	
+				} else {
+					size.setText("" + battlesize[shipNumber]);
+				}
 				
+				
+			} else 
+			if(undoMoveIsHorizontal == false && shipNumber > 0){
+				for(int i = undoMoveRow; i <= undoMoveRow + battlesize[shipNumber - 1]; i++){
+					unitSquare[i][undoMoveColumn] = "";				
+				}
+				shipNumber--;
+				updateButtonText();
+				if (shipNumber > 4) {
+	
+				} else {
+					size.setText("" + battlesize[shipNumber]);
+				}
 			}
-			shipNumber--;
-			updateButtonText();
-			if (shipNumber > 4) {
-
-			} else {
-				size.setText("" + battlesize[shipNumber]);
-			}
+		} catch(EmptyStackException e){
 			
-			
-		} else 
-		if(lastPlacedisHorizontal == false && shipNumber > 0){
-			for(int i = lastPlacedShip[0]; i < lastPlacedShip[0] + battlesize[shipNumber - 1]; i++){
-				unitSquare[lastPlacedShip[i]][0] = "";				
-			}
-			shipNumber--;
-			updateButtonText();
-			if (shipNumber > 4) {
-
-			} else {
-				size.setText("" + battlesize[shipNumber]);
-			}
 		}
 		
 		
