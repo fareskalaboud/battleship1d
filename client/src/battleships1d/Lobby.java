@@ -1,7 +1,10 @@
 package battleships1d;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,7 @@ import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
 
 /**
  * 
@@ -46,20 +50,29 @@ public class Lobby extends JFrame {
 	/**
 	 * @author Alexander Hanbury-Botherway
 	 */
-	private JPanel jpCenter, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastNorth;
+	private JPanel jpMain, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastNorth;
 	private JScrollPane jspPublicRooms, jspPrivateRooms;
 	private final JLabel jlPassword = new JLabel("Room Password: ");
+	private final JLabel jlblPublicRooms = new JLabel("Public Rooms: ");
+	private final JLabel jlblPrivateRooms = new JLabel("Private Rooms: ");
+	private final JLabel jlblRoomName = new JLabel("Room Name: ");
 	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
 	private final JButton jbPublic = new JButton("Public");
 	private final JButton jbPrivate = new JButton("Private");
+	private final JButton jbCreateRoom = new JButton("Create Room");
+
 	private JTextField jtfRoomName;
 	public void setUpUI() {
+		// Main panel
+		jpMain = new JPanel(new BorderLayout());
+		
 		// Rooms
 		jpCenter = new JPanel(new BorderLayout());
-
+		jpCenter.setBorder(new EmptyBorder(5,5,5,5));
+		
 		// Public Rooms
 		jpCenterNorth = new JPanel(new BorderLayout());
-		jpCenterNorth.add(new JLabel("Public Rooms: "), BorderLayout.NORTH);
+		jpCenterNorth.add(jlblPublicRooms, BorderLayout.NORTH);
 		jlPublicRooms = new JList<Room>(publicRooms);
 		jspPublicRooms = new JScrollPane(jlPublicRooms);
 		
@@ -68,21 +81,22 @@ public class Lobby extends JFrame {
 
 		// Private Rooms
 		jpCenterSouth = new JPanel(new BorderLayout());
-		jpCenterSouth.add(new JLabel("Private Rooms: "), BorderLayout.NORTH);
+		jpCenterSouth.add(jlblPrivateRooms, BorderLayout.NORTH);
 		jlPrivateRooms = new JList<Room>(privateRooms);
 		jspPrivateRooms = new JScrollPane(jlPrivateRooms);
 		jpCenterSouth.add(jspPrivateRooms);
 		jpCenter.add(jpCenterSouth, BorderLayout.SOUTH);
 
-		add(jpCenter, BorderLayout.CENTER);
+		jpMain.add(jpCenter, BorderLayout.CENTER);
 
 		// Create room options
 		jpEast = new JPanel(new BorderLayout());
-
+		jpEast.setBorder(new EmptyBorder(5,5,5,5));
+		
 		// Room variable fields
 		jpEastCenter = new JPanel(new GridLayout(5, 1));
 		// Room name
-		jpEastCenter.add(new JLabel("Room Name:"));
+		jpEastCenter.add(jlblRoomName);
 
 		jtfRoomName = new JTextField(20);
 		jpEastCenter.add(jtfRoomName);
@@ -96,9 +110,14 @@ public class Lobby extends JFrame {
 		jpfRoomPassword.setVisible(false);
 		jpEastCenter.add(jpfRoomPassword);
 
-		// Create room button
-		JButton jbCreateRoom = new JButton("Create Room");
-		jpEastCenter.add(jbCreateRoom);
+		// Create panel for create button
+		jpCreateRoom = new JPanel();
+		jpCreateRoom.setBorder(new EmptyBorder(10, 0, 10, 0));
+		jpCreateRoom.add(jbCreateRoom);
+		
+		// Add room button
+		jbCreateRoom.setPreferredSize(new Dimension(270, 40));
+		jpEastCenter.add(jpCreateRoom);
 
 		jpEast.add(jpEastCenter, BorderLayout.CENTER);
 
@@ -122,6 +141,7 @@ public class Lobby extends JFrame {
 				jpfRoomPassword.setEnabled(false);
 				jpfRoomPassword.setVisible(false);
 				jlPassword.setVisible(false);
+				setColourTheme();
 			}
 		});
 
@@ -134,16 +154,69 @@ public class Lobby extends JFrame {
 				jpfRoomPassword.setEnabled(true);
 				jpfRoomPassword.setVisible(true);
 				jlPassword.setVisible(true);
+				setColourTheme();
 			}
 		});
 		jpEast.add(jpEastNorth, BorderLayout.NORTH);
 
-		add(jpEast, BorderLayout.EAST);
-		setVisible(true);
+		jpMain.add(jpEast, BorderLayout.EAST);
+		
+		add(jpMain);
+		
 		pack();
 
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
+		setColourTheme();
+		setSize(new Dimension(700, 400));
+		setResizable(false);
+		setVisible(true);
+	}
+
+	private void setColourTheme() {
+		jpMain.setBorder(new EmptyBorder(10, 10, 10, 10));
+		jpMain.setBackground(new Color(50, 50, 50));
+		
+		jpCenter.setBackground(new Color(90, 90, 90));
+		jpCenterNorth.setBackground(new Color(90, 90, 90));
+		jpCenterSouth.setBackground(new Color(90, 90, 90));
+		jpEast.setBackground(new Color(90, 90, 90));
+		jpEastCenter.setBackground(new Color(90, 90, 90));
+		jpEastNorth.setBackground(new Color(90, 90, 90));
+		jpCreateRoom.setBackground(new Color(90, 90, 90));
+		
+		jlPassword.setForeground(new Color(255, 255, 255));
+		jlPassword.setFont(new Font("Monospaced", Font.BOLD, 15));
+
+		jlblPrivateRooms.setForeground(new Color(255, 255, 255));
+		jlblPrivateRooms.setFont(new Font("Monospaced", Font.BOLD, 15));
+
+		jlblPublicRooms.setForeground(new Color(255, 255, 255));
+		jlblPublicRooms.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
+		jlblRoomName.setForeground(new Color(255, 255, 255));
+		jlblRoomName.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
+		if(!jbPublic.isEnabled()) {
+			jbPublic.setBackground(new Color(110, 110, 110));
+			jbPrivate.setBackground(new Color(160, 160, 160));
+			
+			jbPublic.setForeground(new Color(20, 20, 20));
+			jbPrivate.setForeground(new Color(255, 255, 255));
+		} else {
+			jbPrivate.setBackground(new Color(110, 110, 110));
+			jbPublic.setBackground(new Color(160, 160, 160));
+			
+			jbPrivate.setForeground(new Color(20, 20, 20));
+			jbPublic.setForeground(new Color(255, 255, 255));
+		}
+		
+		jbPublic.setFont(new Font("Garamond", Font.BOLD, 15));
+		jbPrivate.setFont(new Font("Garamond", Font.BOLD, 15));
+		
+		jbCreateRoom.setBackground(new Color(160, 160, 160));
+		jbCreateRoom.setForeground(new Color(255, 255, 255));
+		jbCreateRoom.setFont(new Font("Garamond", Font.BOLD, 15));
 	}
 
 	/**
