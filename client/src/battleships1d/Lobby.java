@@ -173,6 +173,7 @@ public class Lobby extends JFrame {
 		
 		pack();
 
+		refreshLists();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setColourTheme();
@@ -347,7 +348,30 @@ public class Lobby extends JFrame {
 		});
 	}
 	
-	
+	/**
+	 * Refreshes the lists by contacting the server
+	 * @author Alexander Hanbury-Botherway
+	 */
+	private void refreshLists(){
+		Vector<RoomData> vAllRooms = manager.getRoomsFromServer();
+		
+		publicRooms = new Vector<RoomData>();
+		privateRooms = new Vector<RoomData>();
+		
+		for (int i=0; i<vAllRooms.size(); i++){
+			RoomData currentRoom = vAllRooms.get(i);
+			if(currentRoom.isPrivate()){
+				privateRooms.add(currentRoom);
+			} else {
+				publicRooms.add(currentRoom);
+			}
+		}
+		
+		jlPublicRooms.setListData(publicRooms);
+		jlPrivateRooms.setListData(privateRooms);
+		return;
+		
+	}
 	
 	public static void main(String args[]) {
 		new Lobby().setUpUI();

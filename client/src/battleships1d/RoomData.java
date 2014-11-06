@@ -54,6 +54,10 @@ public class RoomData {
 		}
 	}
 	
+	public boolean isPrivate(){
+		return isPrivate;
+	}
+	
 	public String toString(){
 		return roomID + " (" + host + ")";
 	}
