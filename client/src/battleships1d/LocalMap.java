@@ -19,7 +19,7 @@ import javax.swing.JTextField;
 
 /**
  * 
- * @author faresalaboud
+ * @author Chamuel Uy
  */
 public class LocalMap extends Map {
 
@@ -40,6 +40,11 @@ public class LocalMap extends Map {
 	JTextField currentOrientationText;
 	final JComboBox listOfNames = new JComboBox(shipNames);
 
+	/**
+	 * Creates a local map for the current user in the (parameter) room
+	 * 
+	 * @param room
+	 */
 	public LocalMap(Room room) {
 		super();
 		// Initialise the whole map as not having any ship
@@ -71,7 +76,11 @@ public class LocalMap extends Map {
 
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see battleships1d.Map#setUpUI()
+	 */
 	public void setUpUI() {
 		this.setLayout(new BorderLayout());
 		this.setSize(300, 300);
@@ -85,9 +94,11 @@ public class LocalMap extends Map {
 		JPanel infoPanel = new JPanel();
 		JLabel sizeOfShip = new JLabel("Size: ");
 		sizeOfShipText = new JTextField();
-
+		sizeOfShipText.setEditable(false);
+		
 		JLabel currentOrientation = new JLabel("Current Orientation: ");
 		currentOrientationText = new JTextField();
+		currentOrientationText.setEditable(false);
 
 		infoPanel.setLayout(new FlowLayout());
 		infoPanel.add(sizeOfShip);
@@ -176,9 +187,9 @@ public class LocalMap extends Map {
 				mapPanel.add(localButtons[i][j]);
 			}
 		}
-		
+
 		setUpHealthBar();
-		
+
 		topPanel.add(healthBar, BorderLayout.NORTH);
 
 		JPanel bottomPanel = new JPanel();
@@ -240,22 +251,23 @@ public class LocalMap extends Map {
 		return new LocalButton(0, 0);
 
 	}
-	
-	public void setUpHealthBar(){
 
-		healthPanel = new JPanel();
-		healthBar = new JProgressBar(0, 17);
 
-		// Set up health bar
-		healthBar.setForeground(new Color(0, 169, 43));
-		updateHealth();
-		
 
-		// Start adding everything to the panels
-		healthPanel.add(healthBar);
-		
-	}
-
+	/**
+	 * Checks whether the ship with a certain size and orientation can fit in
+	 * the following row and column
+	 * 
+	 * @param size
+	 *            - the size of the ship
+	 * @param row
+	 *            - which row are you trying to add it on
+	 * @param column
+	 *            - which column are you tryin to add it on
+	 * @param orientation
+	 *            - is it Horizontal or Vertical
+	 * @return - true if it can fit
+	 */
 	public boolean checkIfCanAddShip(int size, int row, int column,
 			Orientation orientation) {
 		boolean canAddShip = true;
@@ -286,6 +298,10 @@ public class LocalMap extends Map {
 	}
 
 	// VERY IMPORTANT - MUST DO IT AFTER SETTING EVERYTHING UP
+	/**
+	 * updates the buttons itself of all the ships that has been added.
+	 * This is the way it communicates with the server
+	 */
 	public void updateLocalButtons() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -296,6 +312,9 @@ public class LocalMap extends Map {
 		}
 	}
 
+	/**
+	 * Flips the orientation of the ship to vertical or horizontal depending on the pervious orientation
+	 */
 	public void flipOrientation() {
 		if (orientationOfShip == Orientation.HORIZONTAL) {
 			orientationOfShip = Orientation.VERTICAL;
@@ -304,6 +323,10 @@ public class LocalMap extends Map {
 		}
 	}
 
+	/**
+	 * Updates the size of the ship depending on what type of ship it is
+	 * @param battleShipName - the name of the battleship
+	 */
 	public void updateSize(String battleShipName) {
 		if (battleShipName.equals("Aircraft Carrier")) {
 			shipSize = 5;
@@ -318,6 +341,9 @@ public class LocalMap extends Map {
 		}
 	}
 
+	/**
+	 * Updates the Orientation and Name that's presented to the user
+	 */
 	public void updateTexts() {
 		if (orientationOfShip == Orientation.HORIZONTAL) {
 			currentOrientationText.setText("Horizontal");
@@ -327,6 +353,9 @@ public class LocalMap extends Map {
 		sizeOfShipText.setText(shipSize + "");
 	}
 
+	/**
+	 * Undo previous move
+	 */
 	public void undoMove() {
 		try {
 
@@ -360,25 +389,36 @@ public class LocalMap extends Map {
 
 		}
 	}
-	
 
-	public LocalButton getButton(int row, int col){
-		return localButtons[row][col];
-	}
-
-	
-	public void updateHealth(){
+	/**
+	 * Updates the health bar
+	 */
+	public void updateHealth() {
 		int counter = 0;
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
-				if(hasShip[i][j]){
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (hasShip[i][j]) {
 					counter++;
 				}
 			}
-		}		
-		healthBar.setValue(counter);	
-
+		}
+		healthBar.setValue(counter);
 	}
 
+	@Override
+	public void setUpHealthBar() {
+		// TODO Auto-generated method stub
+
+		healthPanel = new JPanel();
+		healthBar = new JProgressBar(0, 17);
+
+		// Set up health bar
+		healthBar.setForeground(new Color(0, 169, 43));
+		updateHealth();
+
+		// Start adding everything to the panels
+		healthPanel.add(healthBar);
+		
+	}
 
 }
