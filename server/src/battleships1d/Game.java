@@ -26,6 +26,9 @@ public class Game {
                 String shipName = cmd.getParameters()[2];
                 int x;
                 int y;
+                boolean vertical = false;
+                if (cmd.getParameters()[5].equals("Vertical")) vertical = true;
+
                 if (tryParseInt(cmd.getParameters()[3])) x = Integer.parseInt(cmd.getParameters()[3]);
                 else {
                     connection.writeLine("Game::Setup::Ship::Error::InvalidX");
@@ -39,11 +42,11 @@ public class Game {
 
                 if (connection.getUser().getUsername().equals(room.getHost().getUsername())) {
                     //Host
-                    setHostShip(shipName, x, y);
+                    setHostShip(shipName, x, y, vertical);
                     connection.writeLine("Game::Setup::Ship::Success");
                 } else {
                     //Guest
-                    setGuestShip(shipName, x, y);
+                    setGuestShip(shipName, x, y, vertical);
                     connection.writeLine("Game::Setup::Ship::Success");
                 }
             } else if (cmd.getParameters()[1].equals("Ready")) {
@@ -58,13 +61,14 @@ public class Game {
                         hostReady = true;
                     }
                 } else {
+                    //Guest
                     if (guestsShips.size() != 5) {
                         connection.writeLine("Game::Setup::Ready::Error::InsufficientShips");
                         return;
                     }
                     else {
                         connection.writeLine("Game::Setup::Ready::Success");
-                        hostReady = true;
+                        guestReady = true;
                     }
                 }
 
@@ -79,25 +83,107 @@ public class Game {
                 }
             }
         } else if (cmd.getParameters()[0].equals("Fire")) {
-
+            int x = Integer.parseInt(cmd.getParameters()[1]);
+            int y = Integer.parseInt(cmd.getParameters()[2]);
+            if (connection.getUser().getUsername().equals(room.getHost().getUsername())) {
+                //Host Fired
+                boolean hit = false;
+                for (Ship ship : guestsShips.values()) {
+                    hit = shipFired(ship, x, y, room.getHost().getConnection());
+                    if (hit) {
+                        if (allShipsDead(guestsShips)) {
+                            room.getHost().getConnection().writeLine("Game::Win");
+                            room.getGuest().getConnection().writeLine("Game::Lose");
+                        }
+                        break;
+                    }
+                }
+                if (!hit) {
+                    room.getHost().getConnection().writeLine("Game::Fire::Miss");
+                    room.getGuest().getConnection().writeLine("Game::Turn");
+                }
+            } else {
+                //Guest Fired
+                boolean hit = false;
+                for (Ship ship : hostsShips.values()) {
+                    hit = shipFired(ship, x, y, room.getGuest().getConnection());
+                    if (hit) {
+                        if (allShipsDead(guestsShips)) {
+                            room.getHost().getConnection().writeLine("Game::Win");
+                            room.getGuest().getConnection().writeLine("Game::Lose");
+                        }
+                        break;
+                    }
+                }
+                if (!hit) {
+                    room.getGuest().getConnection().writeLine("Game::Fire::Miss");
+                    room.getHost().getConnection().writeLine("Game::Turn");
+                }
+            }
         }
     }
 
-    public void setHostShip(String shipName, int x, int y) {
-        setShip(true, shipName, x, y);
+    private boolean shipFired(Ship ship, int x, int y, Connection connection) {
+        if (ship.isVertical()) {
+            int start = ship.getY();
+            int end = ship.getLength() + start;
+            if (y >= start && y < end && x == ship.getX()) {
+                int indexOfHealth = y - start;
+                if (ship.getHealth()[indexOfHealth] == 1) {
+                    ship.getHealth()[indexOfHealth] = 0;
+                    boolean destroyed = true;
+                    for (int i = 0; i < ship.getHealth().length; i++) {
+                        if (ship.getHealth()[i] == 1) destroyed = false;
+                    }
+                    if (destroyed) connection.writeLine("Game::Fire::Sunk::" + ship.getName());
+                    else connection.writeLine("Game::Fire::Hit");
+                    return true;
+                }
+            }
+        } else {
+            int start = ship.getX();
+            int end = ship.getLength() + start;
+            if (x >= start && x < end && y == ship.getY()) {
+                int indexOfHealth = x - start;
+                if (ship.getHealth()[indexOfHealth] == 1) {
+                    ship.getHealth()[indexOfHealth] = 0;
+                    boolean destroyed = true;
+                    for (int i = 0; i < ship.getHealth().length; i++) {
+                        if (ship.getHealth()[i] == 1) destroyed = false;
+                    }
+                    if (destroyed) connection.writeLine("Game::Fire::Sunk::" + ship.getName());
+                    else connection.writeLine("Game::Fire::Hit");
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
-    public void setGuestShip(String shipName, int x, int y) {
-        setShip(false, shipName, x, y);
+    private boolean allShipsDead(HashMap<String, Ship> ships) {
+        for (Ship ship : ships.values()) {
+            for (int i = 0; i < ship.getHealth().length; i++) {
+                if (ship.getHealth()[i] == 1) return false;
+            }
+        }
+        return true;
     }
 
-    private void setShip(Boolean host, String shipName, int x, int y) {
+    public void setHostShip(String shipName, int x, int y, boolean vertical) {
+        setShip(true, shipName, x, y, vertical);
+    }
+
+    public void setGuestShip(String shipName, int x, int y, boolean vertical) {
+        setShip(false, shipName, x, y, vertical);
+    }
+
+    private void setShip(Boolean host, String shipName, int x, int y, boolean vertical) {
         if (host) {
             if (hostsShips.containsKey(shipName)) {
                 hostsShips.get(shipName).setX(x);
                 hostsShips.get(shipName).setY(y);
             } else {
-                Ship ship = new Ship(shipName, x, y);
+                Ship ship = new Ship(shipName, x, y, vertical);
                 hostsShips.put(shipName, ship);
             }
         } else {
@@ -105,7 +191,7 @@ public class Game {
                 guestsShips.get(shipName).setX(x);
                 guestsShips.get(shipName).setY(y);
             } else {
-                Ship ship = new Ship(shipName, x, y);
+                Ship ship = new Ship(shipName, x, y, vertical);
                 guestsShips.put(shipName, ship);
             }
         }
@@ -129,11 +215,13 @@ public class Game {
         private int y;
         private int length;
         private int[] health;
+        private boolean vertical;
 
-        public Ship(String name, int x, int y) {
+        public Ship(String name, int x, int y, boolean vertical) {
             this.name = name;
             this.x = x;
             this.y = y;
+            this.vertical = vertical;
             if (name.equals("AircraftCarrier")) {
                 length = 5;
                 health = new int[] { 1, 1, 1, 1, 1 };
@@ -190,6 +278,14 @@ public class Game {
 
         public void setHealth(int[] health) {
             this.health = health;
+        }
+
+        public boolean isVertical() {
+            return vertical;
+        }
+
+        public void setVertical(boolean vertical) {
+            this.vertical = vertical;
         }
     }
 }
