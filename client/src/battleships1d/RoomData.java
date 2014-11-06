@@ -28,8 +28,11 @@ public class RoomData {
 		
 		String serverResponse = AppManager.createRoom(password);
 		
-		if (serverResponse.equals("Error")){
-			System.err.println("Error when creating room: room already in use?");
+		if (serverResponse.equals("Error: User In Room")){
+			System.err.println("Error when creating room: room already in use");
+			roomID += " (FAILED TO SYNC WITH SERVER)";
+		} else if (serverResponse.equals("Error")){
+			System.err.println("Error when creating room: Server Communication fault");
 			roomID += " (FAILED TO SYNC WITH SERVER)";
 		} else {
 			roomID = serverResponse;

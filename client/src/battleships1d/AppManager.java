@@ -253,6 +253,7 @@ public class AppManager {
 	/**
 	 * Called if server sends a players move
 	 * 
+	 * @author Alexander Hanbury-Botherway
 	 * @param rv
 	 * @return
 	 */
@@ -317,16 +318,38 @@ public class AppManager {
 	 * @return
 	 */
 	public static String createRoom(String password) {
-		Server.writeLineToServer("Room::Create:: + password");
+		
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Create::");
+		commands.add("Room::Create::Error::UserInARoom");
 
-		String response = "Test";
+		final Server.RequestVariables rv = new Server.RequestVariables();
 
-		String[] serverResponse = response.split("::");
-		if (serverResponse[2].equals("Errot")) {
-			return "Error";
-		} else {
-			return serverResponse[2];
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Room::Create::" + password);
+		waitOnThread(rv);
+
+
+		String returnedResult = rv.getCommand();
+		try {
+			returnedResult = Server.getReader().readLine();
+		} catch (IOException e) {
+			System.err.println("IOException");
+			return null;
 		}
-
+		if (returnedResult.equals("Room::Create::")) {
+			return returnedResult.substring(13); 
+		}
+		if (returnedResult.equals("Room::Create:Error:UserInARoom")) {
+			return "Error: User In Room";
+		}
+		return "Error";
 	}
 }
