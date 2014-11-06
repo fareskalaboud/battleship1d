@@ -9,17 +9,13 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
-import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.border.EmptyBorder;
-import javax.swing.plaf.metal.MetalLookAndFeel;
 
 /**
  * 
@@ -43,7 +39,7 @@ public class LogIn {
 	private JPanel northPanel;
 	private JLabel titleLabel;
 
-	private JPanel logInCenterPanel;
+	private JPanel logInCenterPanel, mainLogInPanel, barPanel;
 	private JPanel userNamePanel, passwordPanel;
 	private JPanel logInButtonsPanel, centerPassPanel, logInAsGuestPanel;
 	private JLabel userNameLabel;
@@ -69,14 +65,26 @@ public class LogIn {
 	 */
 	public void setUpUI() {
 		mainFrame = new JFrame();
-//		mainFrame.setUndecorated(true);
+		mainFrame.setUndecorated(true);
 		
+		//TOP BAR WITH EXIT AND MIN
+		mainLogInPanel = new JPanel();
 		logInPanel = new JPanel();
-
-		logInPanel.setLayout(new BorderLayout());
-		logInPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		BarPanel test = new BarPanel(mainFrame);
+		barPanel = test.getPanel();
+		DragFrame testDrag = new DragFrame(barPanel);
+		barPanel.addMouseListener(testDrag);
+		barPanel.addMouseMotionListener(testDrag);
+	//	
 		
-		mainFrame.setLocation(450, 200);
+		mainLogInPanel.setLayout(new BorderLayout());
+		mainLogInPanel.add(logInPanel, BorderLayout.CENTER);
+		mainLogInPanel.add(barPanel, BorderLayout.NORTH);
+		
+		logInPanel.setLayout(new BorderLayout());
+		logInPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
+		
+		mainFrame.setLocation(350, 200);
 		mainFrame.setResizable(false);
 
 		// NORTH COMPONENT
@@ -152,7 +160,7 @@ public class LogIn {
 
 		setColourTheme();
 		
-		mainFrame.add(logInPanel);
+		mainFrame.add(mainLogInPanel);
 		mainFrame.pack();
 		mainFrame.setVisible(true);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -177,6 +185,7 @@ public class LogIn {
 		
 		userNameLabel.setForeground(new Color(255, 255, 255));
 		userNameLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
 		passwordLabel.setForeground(new Color(255, 255, 255));
 		passwordLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
 		
@@ -237,6 +246,5 @@ public class LogIn {
 				}
 			}
 		});
-
 	}
 }

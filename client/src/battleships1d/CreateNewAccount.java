@@ -45,7 +45,7 @@ public class CreateNewAccount {
 
 	private JFrame testFrame;
 	private JFrame accountFrame;
-	private JPanel accountPanel;
+	private JPanel accountPanel, mainAccountPanel, barPanel;
 	private JPanel userNamePanel, passwordPanel, confirmPasswordPanel,
 			buttonsPanel;
 	private JLabel userNameLabel, passwordLabel, confirmPasswordLabel;
@@ -58,6 +58,7 @@ public class CreateNewAccount {
 	 */
 	public void setUpUI() {
 		accountFrame = new JFrame();
+		accountFrame.setUndecorated(true);
 		accountFrame.setMinimumSize(new Dimension(220, 80));
 		accountPanel = new JPanel(new GridLayout(4, 1));
 		userNamePanel = new JPanel();
@@ -73,12 +74,26 @@ public class CreateNewAccount {
 		okButton = new JButton("OK");
 		cancelButton = new JButton("Cancel");
 
+		// BarPanel
+		// TOP BAR WITH EXIT AND MIN
+		mainAccountPanel = new JPanel();
+		
+		BarPanel test = new BarPanel(accountFrame);
+		barPanel = test.getPanel();
+		DragFrame testDrag = new DragFrame(barPanel);
+		barPanel.addMouseListener(testDrag);
+		barPanel.addMouseMotionListener(testDrag);
+		mainAccountPanel.setLayout(new BorderLayout());
+		mainAccountPanel.add(accountPanel, BorderLayout.CENTER);
+		mainAccountPanel.add(barPanel, BorderLayout.NORTH);
+		
+		
 		// user can press enter to create the account
 		accountFrame.getRootPane().setDefaultButton(okButton);
 
-		accountFrame.setLocation(810, 200);
+		accountFrame.setLocation(410, 455);
 		accountFrame.setTitle("Create Account");
-		accountPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		accountPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 
 		userNamePanel.setLayout(new GridLayout(1, 4, 0, 5));
 		userNamePanel.setBorder(new EmptyBorder(0, 0, 4, 0));
@@ -114,7 +129,7 @@ public class CreateNewAccount {
 		accountPanel.add(confirmPasswordPanel);
 		accountPanel.add(buttonsPanel);
 
-		accountFrame.add(accountPanel);
+		accountFrame.add(mainAccountPanel);
 		accountFrame.pack();
 		accountFrame.setVisible(true);
 		accountFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -181,7 +196,9 @@ public class CreateNewAccount {
 
 					enableLogInFrame.enableLogInFrame(testFrame);
 					accountFrame.dispose();
-				} else if (userName.equals("") || verification.equals("Login::Create::Error::Username")) {
+				} else if (userName.equals("")
+						|| verification
+								.equals("Login::Create::Error::Username")) {
 					JOptionPane.showMessageDialog(accountFrame,
 							"User Name is incorrect", "Error", 0);
 				} else if (password.equals("")) {
@@ -195,8 +212,11 @@ public class CreateNewAccount {
 											+ "Please supply matching passwords entries.",
 									"Error", 0);
 				} else if (verification.equals("Login::Create::Error")) {
-					JOptionPane.showMessageDialog(accountFrame,
-							"Error while trying to create a new account.\nPlease try again", "Error", 0);
+					JOptionPane
+							.showMessageDialog(
+									accountFrame,
+									"Error while trying to create a new account.\nPlease try again",
+									"Error", 0);
 				}
 			}
 		});
