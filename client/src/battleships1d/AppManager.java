@@ -205,18 +205,38 @@ public class AppManager {
 	 * @author Alexander Hanbury-Botherway
 	 */
 	public Result playButton(int row, int col) {
+
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Game::Fire::Hit");
+		commands.add("Game::Fire::Miss");
+		commands.add("Game::Fire::Sunk::");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
 		Server.writeLineToServer("Game::Fire::" + row + "::" + col);
+		waitOnThread(rv);
+
+		
+		
 
 		isLocalMove = false;
 
-		String returnedResult;
+		String returnedResult = rv.getCommand();
 		try {
 			returnedResult = Server.getReader().readLine();
 		} catch (IOException e) {
 			System.err.println("IOException");
 			return null;
 		}
-		if (returnedResult.equals("Game::Fire")) {
+		if (returnedResult.equals("Game::Miss")) {
 			return Result.MISS;
 		}
 		if (returnedResult.equals("Game::Hit")) {
