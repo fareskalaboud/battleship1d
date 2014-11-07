@@ -36,22 +36,25 @@ public class Lobby extends JFrame {
 	private JList<RoomData> jlPublicRooms;
 	private JList<RoomData> jlPrivateRooms;
 	private AppManager manager;
+	private boolean privateRoomSelected;
 
 	public Lobby(AppManager manager) {
 		super("Battleships 1-D: Lobby");
 		this.manager = manager;
 		setUpUI();
+		privateRoomSelected = false;
 		setActionListeners();
 	}
 
 	public Lobby() {
-		
+
 	}
 
 	/**
 	 * @author Alexander Hanbury-Botherway
 	 */
-	private JPanel jpMain, jpMainMain, barPanel, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastSouth;
+	private JPanel jpMain, jpMainMain, barPanel, jpCenter, jpCreateRoom,
+			jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter, jpEastSouth;
 	private JScrollPane jspPublicRooms, jspPrivateRooms;
 	private final JLabel jlPassword = new JLabel("Room Password: ");
 	private final JLabel jlConfirmPassword = new JLabel("Confirm Password: ");
@@ -63,6 +66,7 @@ public class Lobby extends JFrame {
 	private final JButton jbCreateRoom = new JButton("Create Room");
 
 	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
+
 	public void setUpUI() {
 		// Main panel
 		jpMain = new JPanel(new BorderLayout());
@@ -77,19 +81,19 @@ public class Lobby extends JFrame {
 		barPanel.addMouseMotionListener(testDrag);
 		jpMainMain.setLayout(new BorderLayout());
 		jpMainMain.add(barPanel, BorderLayout.NORTH);
-		
+
 		jpMainMain.add(jpMain, BorderLayout.CENTER);
-		
+
 		// Rooms
 		jpCenter = new JPanel(new BorderLayout());
-		jpCenter.setBorder(new EmptyBorder(5,5,5,5));
-		
+		jpCenter.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 		// Public Rooms
 		jpCenterNorth = new JPanel(new BorderLayout());
 		jpCenterNorth.add(jlblPublicRooms, BorderLayout.NORTH);
 		jlPublicRooms = new JList<RoomData>(publicRooms);
 		jspPublicRooms = new JScrollPane(jlPublicRooms);
-		
+
 		jpCenterNorth.add(jspPublicRooms, BorderLayout.CENTER);
 		jpCenter.add(jpCenterNorth, BorderLayout.NORTH);
 
@@ -105,8 +109,8 @@ public class Lobby extends JFrame {
 
 		// Create room options
 		jpEast = new JPanel(new BorderLayout());
-		jpEast.setBorder(new EmptyBorder(5,5,5,5));
-		
+		jpEast.setBorder(new EmptyBorder(5, 5, 5, 5));
+
 		// Room variable fields
 		jpEastCenter = new JPanel(new GridLayout(5, 1));
 		// Room password (not visible when public is selected)
@@ -118,7 +122,7 @@ public class Lobby extends JFrame {
 		jpEastCenter.add(jpfRoomPassword);
 
 		// Room confirm password (not visible when public is selected)
-		
+
 		jlConfirmPassword.setVisible(false);
 		jpEastCenter.add(jlConfirmPassword);
 
@@ -130,7 +134,7 @@ public class Lobby extends JFrame {
 		jpCreateRoom = new JPanel();
 		jpCreateRoom.setBorder(new EmptyBorder(10, 0, 10, 0));
 		jpCreateRoom.add(jbCreateRoom);
-		
+
 		// Add room button
 		jbCreateRoom.setPreferredSize(new Dimension(270, 40));
 		jpEastCenter.add(jpCreateRoom);
@@ -160,6 +164,7 @@ public class Lobby extends JFrame {
 				jpfConfirmPassword.setEnabled(false);
 				jpfConfirmPassword.setVisible(false);
 				jlConfirmPassword.setVisible(false);
+				privateRoomSelected = false;
 				setColourTheme();
 			}
 		});
@@ -176,15 +181,16 @@ public class Lobby extends JFrame {
 				jpfConfirmPassword.setEnabled(true);
 				jpfConfirmPassword.setVisible(true);
 				jlConfirmPassword.setVisible(true);
+				privateRoomSelected = true;
 				setColourTheme();
 			}
 		});
 		jpEast.add(jpEastSouth, BorderLayout.SOUTH);
 
 		jpMain.add(jpEast, BorderLayout.EAST);
-		
+
 		add(jpMainMain);
-		
+
 		pack();
 
 		refreshLists();
@@ -199,7 +205,7 @@ public class Lobby extends JFrame {
 	private void setColourTheme() {
 		jpMain.setBorder(new EmptyBorder(0, 10, 10, 10));
 		jpMain.setBackground(new Color(50, 50, 50));
-		
+
 		jpCenter.setBackground(new Color(90, 90, 90));
 		jpCenterNorth.setBackground(new Color(90, 90, 90));
 		jpCenterSouth.setBackground(new Color(90, 90, 90));
@@ -207,7 +213,7 @@ public class Lobby extends JFrame {
 		jpEastCenter.setBackground(new Color(90, 90, 90));
 		jpEastSouth.setBackground(new Color(90, 90, 90));
 		jpCreateRoom.setBackground(new Color(90, 90, 90));
-		
+
 		jlPassword.setForeground(new Color(255, 255, 255));
 		jlPassword.setFont(new Font("Monospaced", Font.BOLD, 15));
 
@@ -216,27 +222,27 @@ public class Lobby extends JFrame {
 
 		jlblPublicRooms.setForeground(new Color(255, 255, 255));
 		jlblPublicRooms.setFont(new Font("Monospaced", Font.BOLD, 15));
-		
+
 		jlConfirmPassword.setForeground(new Color(255, 255, 255));
 		jlConfirmPassword.setFont(new Font("Monospaced", Font.BOLD, 15));
-		
-		if(!jbPublic.isEnabled()) {
+
+		if (!jbPublic.isEnabled()) {
 			jbPublic.setBackground(new Color(110, 110, 110));
 			jbPrivate.setBackground(new Color(160, 160, 160));
-			
+
 			jbPublic.setForeground(new Color(20, 20, 20));
 			jbPrivate.setForeground(new Color(255, 255, 255));
 		} else {
 			jbPrivate.setBackground(new Color(110, 110, 110));
 			jbPublic.setBackground(new Color(160, 160, 160));
-			
+
 			jbPrivate.setForeground(new Color(20, 20, 20));
 			jbPublic.setForeground(new Color(255, 255, 255));
 		}
-		
+
 		jbPublic.setFont(new Font("Garamond", Font.BOLD, 15));
 		jbPrivate.setFont(new Font("Garamond", Font.BOLD, 15));
-		
+
 		jbCreateRoom.setBackground(new Color(160, 160, 160));
 		jbCreateRoom.setForeground(new Color(255, 255, 255));
 		jbCreateRoom.setFont(new Font("Garamond", Font.BOLD, 15));
@@ -261,7 +267,11 @@ public class Lobby extends JFrame {
 		jlPrivateRooms.setListData(privateRooms);
 	}
 
-	public void createRoom(String password, boolean isPrivate) {
+	/**
+	 * @author Alexander Hanbury-Botherway
+	 * @param password
+	 */
+	public void createRoom(String password) {
 		RoomData newRoom;
 
 		/*
@@ -271,23 +281,21 @@ public class Lobby extends JFrame {
 		 * information. This uses less code, makes it more efficient and reduces
 		 * the amount of data being passed around classes.
 		 */
-		if (isPrivate) {
-			newRoom = new RoomData(manager.getMainPlayer(),password);
-		} else {
-			newRoom = new RoomData(manager.getMainPlayer(), "");
-		}
+
+		newRoom = new RoomData(manager.getMainPlayer(), password);
+
 		System.err.println("response from AM: " + newRoom.getRoomID());
-		if (newRoom.getRoomID().equals(":Error::UserInARoom")){
+		if (newRoom.getRoomID().equals(":Error::UserInARoom")) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"You can only create one room!", "Error", 0);
 			System.out.println("Error in room");
-	
-		} // TODO: send info to server
-		//refreshRoomLists();
+
+		}
+
 	}
 
 	public void setActionListeners() {
-		jlPrivateRooms.addMouseListener(new  MouseListener() {
+		jlPrivateRooms.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
@@ -295,8 +303,9 @@ public class Lobby extends JFrame {
 					refreshRoomLists();
 					int position = jlPublicRooms.getSelectedIndex();
 					// TODO check for room if still exists
-					
-					// if not refresh list and tell user that room does no longer exists;
+
+					// if not refresh list and tell user that room does no
+					// longer exists;
 					// if yes connect player to the room
 				}
 			}
@@ -304,28 +313,28 @@ public class Lobby extends JFrame {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		jlPublicRooms.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -333,71 +342,116 @@ public class Lobby extends JFrame {
 				if (e.getClickCount() == 2) {
 					int position = jlPublicRooms.getSelectedIndex();
 					// TODO check for room if still exists
-					
-					// if not refresh list and tell user that room does no longer exists;
+
+					// if not refresh list and tell user that room does no
+					// longer exists;
 					// if yes connect player to the room
 					refreshRoomLists();
 				}
-				
+
 			}
+
 			@Override
 			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
+
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				
+
 			}
 		});
-		
+
 		jbCreateRoom.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				//Assume public
-				createRoom("", false);
-				refreshLists();
+
+				String sPassword = "";
+
+				if (privateRoomSelected) {
+					char[] password = jpfRoomPassword.getPassword();
+					char[] confirmPassword = jpfConfirmPassword.getPassword();
+					
+
+					
+					if (passwordsMatch(password, confirmPassword)) {
+						for (char x : password) {
+							sPassword += x;
+						}
+						createRoom(sPassword);
+						sPassword = " ";
+						refreshLists();
+						return;
+					} else {
+						JOptionPane.showMessageDialog(new JFrame(),
+								"Passwords don't match", "Error", 0);
+						refreshLists();
+						return;
+					}
+				} else {
+					createRoom(" ");
+					refreshLists();
+					return;
+				}
+
 			}
 		});
+	}
+
+	private boolean passwordsMatch(char[] p1, char[] p2){
+		if (p1.length != p2.length){
+			return false;
+		}
+		
+		for (int i = 0; i<p1.length; i++){
+			if (p1[i] != p2[i]){
+				return false;
+			}
+		}
+		return true;
 	}
 	
 	/**
 	 * Refreshes the lists by contacting the server
+	 * 
 	 * @author Alexander Hanbury-Botherway
 	 */
-	private void refreshLists(){
+	private void refreshLists() {
 		Vector<RoomData> vAllRooms = manager.getRoomsFromServer();
-		
+
 		publicRooms = new Vector<RoomData>();
 		privateRooms = new Vector<RoomData>();
-		
-		for (int i=0; i<vAllRooms.size(); i++){
+
+		for (int i = 0; i < vAllRooms.size(); i++) {
 			RoomData currentRoom = vAllRooms.get(i);
-			if(currentRoom.isPrivate()){
+			if (currentRoom.isPrivate()) {
 				privateRooms.add(currentRoom);
 			} else {
 				publicRooms.add(currentRoom);
 			}
 		}
-		
+
 		jlPublicRooms.setListData(publicRooms);
 		jlPrivateRooms.setListData(privateRooms);
 		return;
-		
+
 	}
-	
+
 	public static void main(String args[]) {
 		new Lobby().setUpUI();
 	}
