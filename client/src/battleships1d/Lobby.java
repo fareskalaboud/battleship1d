@@ -50,7 +50,7 @@ public class Lobby extends JFrame {
 	/**
 	 * @author Alexander Hanbury-Botherway
 	 */
-	private JPanel jpMain, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastSouth;
+	private JPanel jpMain, jpMainMain, barPanel, jpCenter, jpCreateRoom, jpCenterNorth, jpCenterSouth, jpEast, jpEastCenter,jpEastSouth;
 	private JScrollPane jspPublicRooms, jspPrivateRooms;
 	private final JLabel jlPassword = new JLabel("Room Password: ");
 	private final JLabel jlConfirmPassword = new JLabel("Confirm Password: ");
@@ -65,6 +65,19 @@ public class Lobby extends JFrame {
 	public void setUpUI() {
 		// Main panel
 		jpMain = new JPanel(new BorderLayout());
+		jpMainMain = new JPanel(new BorderLayout());
+		barPanel = new JPanel();
+		this.setUndecorated(true);
+		// BAR PANEL
+		BarPanel test = new BarPanel(this);
+		barPanel = test.getPanel();
+		DragFrame testDrag = new DragFrame(barPanel);
+		barPanel.addMouseListener(testDrag);
+		barPanel.addMouseMotionListener(testDrag);
+		jpMainMain.setLayout(new BorderLayout());
+		jpMainMain.add(barPanel, BorderLayout.NORTH);
+		
+		jpMainMain.add(jpMain, BorderLayout.CENTER);
 		
 		// Rooms
 		jpCenter = new JPanel(new BorderLayout());
@@ -169,7 +182,7 @@ public class Lobby extends JFrame {
 
 		jpMain.add(jpEast, BorderLayout.EAST);
 		
-		add(jpMain);
+		add(jpMainMain);
 		
 		pack();
 
@@ -183,7 +196,7 @@ public class Lobby extends JFrame {
 	}
 
 	private void setColourTheme() {
-		jpMain.setBorder(new EmptyBorder(10, 10, 10, 10));
+		jpMain.setBorder(new EmptyBorder(0, 10, 10, 10));
 		jpMain.setBackground(new Color(50, 50, 50));
 		
 		jpCenter.setBackground(new Color(90, 90, 90));
