@@ -186,7 +186,7 @@ public class Lobby extends JFrame {
 		
 		pack();
 
-		//refreshLists();
+		refreshLists();
 		setLocationRelativeTo(null);
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setColourTheme();
@@ -278,8 +278,10 @@ public class Lobby extends JFrame {
 
 		if (isPrivate) {
 			privateRooms.add(newRoom);
+			jlPrivateRooms.setListData(privateRooms);
 		} else {
 			publicRooms.add(newRoom);
+			jlPublicRooms.setListData(privateRooms);
 		} // TODO: send info to server
 		//refreshRoomLists();
 	}
@@ -367,6 +369,7 @@ public class Lobby extends JFrame {
 				//Assume public
 				
 				publicRooms.add(new RoomData("My User Name", "")); //empty string indicates public room
+				refreshLists();
 			}
 		});
 	}

@@ -163,56 +163,46 @@ public class AppManager {
 	 */
 
 	public static Vector<RoomData> getRoomsFromServer() {
-		// ArrayList<String> commands = new ArrayList<String>();
-		// commands.add("Room::");
-		// commands.add("Game::Fire::Miss");
-		// commands.add("Game::Fire::Sunk::");
-		//
-		// final Server.RequestVariables rv = new Server.RequestVariables();
-		//
-		// Server.registerCommands(commands, new Server.RequestFunction() {
-		// @Override
-		// public void Response(String command) {
-		// rv.setCommand(command);
-		// rv.setContinueThread(true);
-		// }
-		// });
-		//
-		// Server.writeLineToServer("Room::List");
-		// waitOnThread(rv);
+		 ArrayList<String> commands = new ArrayList<String>();
+		 commands.add("Room::");
 
-		//
-		// String returnedResult = rv.getCommand();
-		// // TODO: Remove initialisation, obtain rooms from server
-		Vector<RoomData> allRooms = new Vector<RoomData>();
+		 final Server.RequestVariables rv = new Server.RequestVariables();
+		
+		 Server.registerCommands(commands, new Server.RequestFunction() {
+		 @Override
+		 public void Response(String command) {
+		 rv.setCommand(command);
+		 rv.setContinueThread(true);
+		 }
+		 });
+		
+		 Server.writeLineToServer("Room::List");
+		 waitOnThread(rv);
+		
+		
+		 String returnedResult = rv.getCommand();
+		
+		 System.out.println(returnedResult);
+		 
+		 Vector<RoomData> allRooms = new Vector<RoomData>();
+		
+		String[] returnedArray = returnedResult.split("::");
+		
+		System.out.println(returnedArray[0] + "0"); //Room 
+		System.out.println(returnedArray[1] + "1"); //Count
 
-		// TODO: Command.getParameters
-		String[] parameters = new String[0];
-		RoomData r;
 
-		int noOfRooms = Integer.parseInt(parameters[0]);
-		String roomID = new String();
-		String userName = new String();
-		String password = new String();
-
-		for (int i = 1; i < parameters.length; i++) {
-			if (i % 3 == 1) {
-				roomID = parameters[i];
-			} else if (i % 3 == 2) {
-				userName = parameters[i];
-			} else {
-				password = parameters[i];
-				if (password.equals("")) {
-					r = new RoomData(roomID, userName, "");
-					allRooms.add(r);
-					publicRooms.add(r);
-				} else {
-					r = new RoomData(roomID, userName, password);
-					allRooms.add(r);
-					privateRooms.add(r);
-				}
-			}
+		
+		int roomCount = Integer.parseInt(returnedArray[1]);
+		
+		for (int i = 0; i<roomCount; i++){
+			String roomID = returnedArray[2+(i*3)];
+			String host = returnedArray[3+(i*3)];
+			String password = returnedArray[4+(i*3)];
+			System.out.println(roomID + host + password);
+			allRooms.add(new RoomData(roomID, host, password));
 		}
+		
 		return allRooms;
 	}
 
@@ -436,6 +426,7 @@ public class AppManager {
 
 		System.err.println(returnedResult + " createroom method");
 		if (returnedResult.equals("Room::Create:Error:UserInARoom")) {
+			new JDialog(new JFrame(), "You can only create one room");
 			return "Error: User In Room";
 		}
 		if (returnedResult.substring(0, 12).equals("Room::Create")) {

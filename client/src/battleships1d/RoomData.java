@@ -19,8 +19,9 @@ public class RoomData {
 	 */
 	public RoomData(String host, String password){
 		this.host = host;
-		if (password.equals("")){
+		if (password.equals("") || password.equals(" ")){
 			isPrivate = false;
+			password = " "; //to aid in communication with server
 		} else {
 			isPrivate = true;
 		}
@@ -47,7 +48,7 @@ public class RoomData {
 		this.host = host;
 		this.password = password;
 		
-		if (password.equals("")){
+		if (password.equals(" ")){
 			isPrivate = false;
 		} else {
 			isPrivate = true;
