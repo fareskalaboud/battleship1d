@@ -21,8 +21,11 @@ public class Game {
     }
 
     public void handleCommand(Command cmd, Connection connection) {
+        if (cmd.getParameters().length <= 1) return;
         if (cmd.getParameters()[0].equals("Setup")) {
+            if (cmd.getParameters().length <= 1) return;
             if (cmd.getParameters()[1].equals("Ship")) {
+                if (cmd.getParameters().length != 6) return;
                 String shipName = cmd.getParameters()[2];
                 int x;
                 int y;
@@ -83,13 +86,14 @@ public class Game {
                 }
             }
         } else if (cmd.getParameters()[0].equals("Fire")) {
+            if (cmd.getParameters().length != 3) return;
             int x = Integer.parseInt(cmd.getParameters()[1]);
             int y = Integer.parseInt(cmd.getParameters()[2]);
             if (connection.getUser().getUsername().equals(room.getHost().getUsername())) {
                 //Host Fired
                 boolean hit = false;
                 for (Ship ship : guestsShips.values()) {
-                    hit = shipFired(ship, x, y, room.getHost().getConnection());
+                    hit = shipFired(ship, x, y, room.getHost().getConnection(), room.getGuest().getConnection());
                     if (hit) {
                         if (allShipsDead(guestsShips)) {
                             room.getHost().getConnection().writeLine("Game::Win");
@@ -100,13 +104,14 @@ public class Game {
                 }
                 if (!hit) {
                     room.getHost().getConnection().writeLine("Game::Fire::Miss");
+                    room.getGuest().getConnection().writeLine("Game::Fired::" + x + "::" + y);
                     room.getGuest().getConnection().writeLine("Game::Turn");
                 }
             } else {
                 //Guest Fired
                 boolean hit = false;
                 for (Ship ship : hostsShips.values()) {
-                    hit = shipFired(ship, x, y, room.getGuest().getConnection());
+                    hit = shipFired(ship, x, y, room.getGuest().getConnection(), room.getHost().getConnection());
                     if (hit) {
                         if (allShipsDead(guestsShips)) {
                             room.getHost().getConnection().writeLine("Game::Win");
@@ -117,13 +122,14 @@ public class Game {
                 }
                 if (!hit) {
                     room.getGuest().getConnection().writeLine("Game::Fire::Miss");
+                    room.getHost().getConnection().writeLine("Game::Fired::" + x + "::" + y);
                     room.getHost().getConnection().writeLine("Game::Turn");
                 }
             }
         }
     }
 
-    private boolean shipFired(Ship ship, int x, int y, Connection connection) {
+    private boolean shipFired(Ship ship, int x, int y, Connection connection, Connection otherConnection) {
         if (ship.isVertical()) {
             int start = ship.getY();
             int end = ship.getLength() + start;
@@ -137,6 +143,7 @@ public class Game {
                     }
                     if (destroyed) connection.writeLine("Game::Fire::Sunk::" + ship.getName());
                     else connection.writeLine("Game::Fire::Hit");
+                    otherConnection.writeLine("Game::Fired::" + x + "::" + y);
                     return true;
                 }
             }
@@ -153,6 +160,7 @@ public class Game {
                     }
                     if (destroyed) connection.writeLine("Game::Fire::Sunk::" + ship.getName());
                     else connection.writeLine("Game::Fire::Hit");
+                    otherConnection.writeLine("Game::Fired::" + x + "::" + y);
                     return true;
                 }
             }

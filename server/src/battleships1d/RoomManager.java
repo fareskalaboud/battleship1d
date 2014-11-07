@@ -32,6 +32,7 @@ public class RoomManager {
     }
 
     public static void handleCommand(Command cmd, Connection connection) {
+        if (cmd.getParameters().length == 0) return;
         if (cmd.getParameters()[0].equals("List")) {
             String returnString = "Room::" + rooms.size();
             for(Room r : rooms.values()) {
@@ -48,6 +49,7 @@ public class RoomManager {
             else newRoom = hostRoom(connection.getUser(), cmd.getParameters()[1]);
             connection.writeLine("Room::Create::" + newRoom.getRoomID());
         } else if (cmd.getParameters()[0].equals("Close")) {
+            if (cmd.getParameters().length != 2) return;
             if (connection.getUser().getUsername().equals(rooms.get(cmd.getParameters()[1]).getHost())) {
                 connection.writeLine("Room::Close::Error::UserNotHost");
                 return;
@@ -59,6 +61,7 @@ public class RoomManager {
             rooms.remove(cmd.getParameters()[1]);
             connection.writeLine("Room::Close::Success");
         } else if (cmd.getParameters()[0].equals("Join")) {
+            if (cmd.getParameters().length != 2) return;
             String roomID = cmd.getParameters()[1];
             if (!roomExists(roomID)) return;
             Room room = rooms.get(roomID);
@@ -71,6 +74,7 @@ public class RoomManager {
             connection.writeLine("Room::Join::Success");
             connection.writeLine("Room::PlayedJoined::" + room.getHost().getUsername());
         } else if (cmd.getParameters()[0].equals("Leave")) {
+            if (cmd.getParameters().length != 2) return;
             String roomID = cmd.getParameters()[1];
             if (!roomExists(roomID)) return;
             Room room = rooms.get(roomID);
