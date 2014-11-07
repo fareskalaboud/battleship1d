@@ -2,14 +2,16 @@ package battleships1d;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.border.Border;
 
 /**
  *
@@ -19,6 +21,9 @@ public class EnemyMap extends Map {
 
 	EnemyButton[][] enemyButtons;
 	boolean[][] hasBeenClicked;
+	JPanel topPanel;
+	JPanel bottomPanel;
+	JButton ready;
 	
 	
     public EnemyMap(Room room) {
@@ -50,10 +55,11 @@ public class EnemyMap extends Map {
         // Initialise UI objects
         mapPanel = new JPanel(new GridLayout(10, 10));
         
-      
+        
         addButtons();
         
-        JButton ready = new JButton("Ready");
+        bottomPanel = new JPanel();
+        ready = new JButton("Ready");
         ready.addActionListener(new ActionListener(){
         	
         	@Override
@@ -64,6 +70,15 @@ public class EnemyMap extends Map {
         	
         });
         
+        bottomPanel.add(ready);
+        
+        
+        Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
+        
+        
+        
+        topPanel = new JPanel();
+        topPanel.setBorder(borderPanel);
         
         healthPanel = new JPanel();
         healthBar = new JProgressBar(0, 17);
@@ -75,11 +90,18 @@ public class EnemyMap extends Map {
 
         // Start adding everything to the panels
         healthPanel.add(healthBar);
+        
+        topPanel.add(healthPanel);
 
         // Add the panels to the map
         this.add(mapPanel, BorderLayout.CENTER);
-        add(healthPanel, BorderLayout.NORTH);
-        add(ready, BorderLayout.SOUTH);
+        add(topPanel, BorderLayout.NORTH);
+        add(bottomPanel, BorderLayout.SOUTH);
+        
+        
+        
+        
+        
         
         setColourTheme();
 
@@ -87,8 +109,17 @@ public class EnemyMap extends Map {
     
     
     private void setColourTheme() {
+    	topPanel.setBackground(new Color(90, 90, 90));
 		mapPanel.setBackground(new Color(90, 90, 90));
 		healthPanel.setBackground(new Color(90, 90, 90));
+		bottomPanel.setBackground(new Color(90, 90, 90));
+		
+		ready.setBackground(new Color(160, 160, 160));
+		
+		ready.setForeground(new Color(255, 255, 255));
+		
+		ready.setFont(new Font("Garamond", Font.BOLD, 15));
+		
 		
 	}
 

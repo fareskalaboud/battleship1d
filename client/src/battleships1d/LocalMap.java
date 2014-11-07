@@ -45,6 +45,9 @@ public class LocalMap extends Map {
 
 	JTextField sizeOfShipText;
 	JTextField currentOrientationText;
+
+	JButton finished;
+	
 	final JComboBox listOfNames = new JComboBox(shipNames);
 
 	/**
@@ -205,7 +208,7 @@ public class LocalMap extends Map {
 		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new FlowLayout());
 
-		JButton finished = new JButton("Finished");
+		finished = new JButton("Finished");
 		finished.addActionListener(new ActionListener() {
 
 			@Override
@@ -258,20 +261,31 @@ public class LocalMap extends Map {
 		topPanel.setBackground(new Color(90, 90, 90));
 		mapPanel.setBackground(new Color(90, 90, 90));
 		bottomPanel.setBackground(new Color(90, 90, 90));
+		infoPanel.setBackground(new Color(90, 90, 90));
 		
 		sizeOfShip.setForeground(new Color(255, 255, 255));
 		currentOrientation.setForeground(new Color(255, 255, 255));
+		sizeOfShipText.setForeground(new Color(255, 255, 255));
+		currentOrientationText.setForeground(new Color(255, 255, 255));
 		
 		sizeOfShip.setFont(new Font("Monospaced", Font.BOLD, 15));
 		currentOrientation.setFont(new Font("Monospaced", Font.BOLD, 15));
+		sizeOfShipText.setFont(new Font("Monospaced", Font.BOLD, 15));
+		currentOrientationText.setFont(new Font("Monospaced", Font.BOLD, 15));
 		
 		undoMove.setBackground(new Color(160, 160, 160));
+		finished.setBackground(new Color(160, 160, 160));
 		flipOrientation.setBackground(new Color(160, 160, 160));
 		
+		sizeOfShipText.setForeground(new Color(0, 0, 0));
+		currentOrientationText.setForeground(new Color(0, 0 ,0));
+		
 		undoMove.setForeground(new Color(255, 255, 255));
+		finished.setForeground(new Color(255, 255, 255));
 		flipOrientation.setForeground(new Color(255, 255, 255));
 		
 		undoMove.setFont(new Font("Garamond", Font.BOLD, 15));
+		finished.setFont(new Font("Garamond", Font.BOLD, 15));
 		flipOrientation.setFont(new Font("Garamond", Font.BOLD, 15));
 	}
 
