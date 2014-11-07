@@ -81,12 +81,17 @@ public class EnemyMap extends Map {
         add(healthPanel, BorderLayout.NORTH);
         add(ready, BorderLayout.SOUTH);
         
-        
+        setUpColourTheme();
 
     }
     
     
-    //only add buttons when room is established, "ready" 
+    private void setUpColourTheme() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	//only add buttons when room is established, "ready" 
     //could also be in the Room class
     public void addButtons(){
     	for (int i = 0; i<10; i++){
