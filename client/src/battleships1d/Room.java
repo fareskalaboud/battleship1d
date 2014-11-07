@@ -1,14 +1,16 @@
 package battleships1d;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.border.Border;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.TitledBorder;
 
 /**
@@ -16,120 +18,131 @@ import javax.swing.border.TitledBorder;
  * @author GEORGE RADUTA
  * 
  */
-public class Room extends JFrame{
-    // CHANGE: variable names to make it more consistent with the Lobby class
-//	private Player localPlayer;
-    private String enemyPlayer;
+public class Room extends JFrame {
+	// CHANGE: variable names to make it more consistent with the Lobby class
+	// private Player localPlayer;
+	private JPanel mainPanel, borderPanel;
+	private String enemyPlayer;
 	private LocalMap localMap;
-    private EnemyMap enemyMap;
+	private EnemyMap enemyMap;
 	private String roomID;
-    private String userName;
+	private String userName;
 
 	private boolean isPrivate;
-    private String password;
-    
-    private boolean isLocalsMove;
-    
-    private AppManager am;
+	private String password;
 
-    
-    private JLabel jlHeaderText;
+	private boolean isLocalsMove;
 
+	private AppManager am;
 
-    /**
-     * A constructor that takes only the room ID.
-     * This automatically creates a public room.
-     *
-     * @param roomID the room name/id
-     * @author faresalaboud
-     */
+	private JLabel jlHeaderText;
+
+	/**
+	 * A constructor that takes only the room ID. This automatically creates a
+	 * public room.
+	 * 
+	 * @param roomID
+	 *            the room name/id
+	 * @author faresalaboud
+	 */
 	public Room(String roomID, String userName, AppManager am) {
-		super("Battleships (Room ID: " + roomID +")");
-        this.roomID = roomID;
-        this.isPrivate = false;
-        this.password = "";
-        this.userName = userName;
-        localMap = new LocalMap(this);
-        enemyMap = new EnemyMap(this);
-        this.am = am;
-        setUpUI();
-    }
+		super("Battleships (Room ID: " + roomID + ")");
+		this.roomID = roomID;
+		this.isPrivate = false;
+		this.password = "";
+		this.userName = userName;
+		localMap = new LocalMap(this);
+		enemyMap = new EnemyMap(this);
+		this.am = am;
+		setUpUI();
+	}
 
-    /**
-     * An overloaded constructor that takes both
-     * the room ID and password.
-     * This automatically creates a private room.
-     *
-     * @param roomID the room name/id
-     * @param password the password to the private room
-     * @author faresalaboud
-     */
-    public Room(String roomID, String password, String userName, AppManager am) {
-        this.roomID = roomID;
-        this.isPrivate = true;
-        this.password = password;
-        this.userName = userName;
-        localMap = new LocalMap(this);
-        enemyMap = new EnemyMap(this);
-        this.am = am;
-        setUpUI();
-    }
-    
-    
-    /**
-     * Sets up room perspective for user
-     * @author Alexander Hanbury-Botherway
-     */
-    public void setUpUI(){
-    	
-    	jlHeaderText = new JLabel("Header Text");
+	/**
+	 * An overloaded constructor that takes both the room ID and password. This
+	 * automatically creates a private room.
+	 * 
+	 * @param roomID
+	 *            the room name/id
+	 * @param password
+	 *            the password to the private room
+	 * @author faresalaboud
+	 */
+	public Room(String roomID, String password, String userName, AppManager am) {
+		this.roomID = roomID;
+		this.isPrivate = true;
+		this.password = password;
+		this.userName = userName;
+		localMap = new LocalMap(this);
+		enemyMap = new EnemyMap(this);
+		this.am = am;
+		setUpUI();
+	}
 
-    	setLayout(new BorderLayout());
-    	Border emptyBoarder = BorderFactory.createEmptyBorder(20, 20, 20, 20);
-    	int textJustivaction = TitledBorder.LEFT;
-    	int textPosistion = TitledBorder.TOP;
-    	Font font = new Font("monospaced", Font.BOLD, 24);
- 
-    	localMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder, "Local Map", textJustivaction, textPosistion, font, Color.BLACK));
-    	add(localMap, BorderLayout.WEST);
+	/**
+	 * Sets up room perspective for user
+	 * 
+	 * @author Alexander Hanbury-Botherway
+	 */
+	public void setUpUI() {
+		borderPanel = new JPanel(new GridLayout(1, 1));
+		mainPanel = new JPanel(new GridLayout(1, 2));
+		jlHeaderText = new JLabel("Header Text");
 
-    	enemyMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder, "Enemy Map", textJustivaction, textPosistion, font, Color.BLACK));
-		add(enemyMap, BorderLayout.EAST);
+		Border emptyBoarder = BorderFactory.createEmptyBorder(20, 20, 20, 20);
 
+		localMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder,
+				"Local Map", TitledBorder.LEFT, TitledBorder.TOP, new Font(
+						"monospaced", Font.BOLD, 24), Color.WHITE));
+		mainPanel.add(localMap);
 
-    	add(localMap, BorderLayout.WEST);
-    	add(enemyMap, BorderLayout.EAST);
-    	add(jlHeaderText, BorderLayout.NORTH);
+		enemyMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder,
+				"Enemy Map", TitledBorder.LEFT, TitledBorder.TOP, new Font(
+						"monospaced", Font.BOLD, 24), Color.WHITE));
+		mainPanel.add(enemyMap);
 
- 
-    	setResizable(false);
-    	setMinimumSize(new Dimension(800,550));
-    	setLocationRelativeTo(null);
-    	setVisible(true);
+		borderPanel.add(mainPanel);
+		this.add(borderPanel);
+
+		// add(localMap);
+		// add(enemyMap);
+		// add(jlHeaderText, BorderLayout.NORTH);
+
+		// setResizable(false);
+		setMinimumSize(new Dimension(800, 550));
+		setLocationRelativeTo(null);
+		setUpColourTheme();
+		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		pack();
-    }
+	}
 
+	private void setUpColourTheme() {
+		borderPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		borderPanel.setBackground(new Color(50, 50, 50));
+		
+		mainPanel.setBackground(new Color(90, 90, 90));
+		localMap.setBackground(new Color(90, 90, 90));
+		enemyMap.setBackground(new Color(90, 90, 90));
+	}
 
+	// /**
+	// * setLocalPlayer()
+	// *
+	// * @param localPlayer
+	// * of the Room of type Player;
+	// */
+	// public void setLocalPlayer(Player localPlayer) {
+	// this.localPlayer = localPlayer;
+	// }
 
-//	/**
-//	 * setLocalPlayer()
-//	 *
-//	 * @param localPlayer
-//	 *            of the Room of type Player;
-//	 */
-//	public void setLocalPlayer(Player localPlayer) {
-//		this.localPlayer = localPlayer;
-//	}
-
-//	/**
-//	 * getLocalPlayer()
-//	 *
-//	 * @return the localPlayer of the Room of type Player;
-//	 */
-//	public Player getLocalPlayer() {
-//		return this.localPlayer;
-//	}
+	// /**
+	// * getLocalPlayer()
+	// *
+	// * @return the localPlayer of the Room of type Player;
+	// */
+	// public Player getLocalPlayer() {
+	// return this.localPlayer;
+	// }
 
 	/**
 	 * setEnemyPlayer()
@@ -188,29 +201,31 @@ public class Room extends JFrame{
 	}
 
 	/**
-	 * Called by AppManager in order to alert user that it is now the players move
+	 * Called by AppManager in order to alert user that it is now the players
+	 * move
 	 */
-	public void setPlayersTurn(){
+	public void setPlayersTurn() {
 		isLocalsMove = true;
 	}
-	
+
 	/**
 	 * Called from app manager to access maps
+	 * 
 	 * @author Alexander Hanbury-Botherway
 	 */
-	public LocalMap getLocalMap(){
+	public LocalMap getLocalMap() {
 		return localMap;
 	}
-	
+
 	/**
 	 * 
 	 * @return AppManager
 	 * @author Alexander Hanbury-Botherway
 	 */
-	public AppManager getAM(){
+	public AppManager getAM() {
 		return am;
 	}
-	
+
 	/**
 	 * Overrides the toString() method
 	 * 
@@ -221,9 +236,9 @@ public class Room extends JFrame{
 	public String toString() {
 		return this.roomID;
 	}
-	
-	public static void main(String args[]){
+
+	public static void main(String args[]) {
 		new Room("Room name", "User name", new AppManager());
 	}
-	
+
 }

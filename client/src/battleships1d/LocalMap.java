@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -24,6 +25,10 @@ import javax.swing.JTextField;
 public class LocalMap extends Map {
 	
 	private Room room;
+	
+	private JPanel topPanel, infoPanel, bottomPanel; 
+	private JLabel sizeOfShip, currentOrientation;
+	private JButton undoMove, flipOrientation; 
 
 	private boolean[][] hasShip;
 	private LocalButton[][] localButtons;
@@ -93,15 +98,15 @@ public class LocalMap extends Map {
 		// Initialise UI objects
 		mapPanel = new JPanel(new GridLayout(10, 10));
 
-		JPanel topPanel = new JPanel();
+		topPanel = new JPanel();
 
 		// @Cham TODO: finish this
-		JPanel infoPanel = new JPanel();
-		JLabel sizeOfShip = new JLabel("Size: ");
+		infoPanel = new JPanel();
+		sizeOfShip = new JLabel("Size: ");
 		sizeOfShipText = new JTextField();
 		sizeOfShipText.setEditable(false);
 		
-		JLabel currentOrientation = new JLabel("Current Orientation: ");
+		currentOrientation = new JLabel("Current Orientation: ");
 		currentOrientationText = new JTextField();
 		currentOrientationText.setEditable(false);
 
@@ -197,7 +202,7 @@ public class LocalMap extends Map {
 
 		topPanel.add(healthBar, BorderLayout.NORTH);
 
-		JPanel bottomPanel = new JPanel();
+		bottomPanel = new JPanel();
 		bottomPanel.setLayout(new FlowLayout());
 
 		JButton finished = new JButton("Finished");
@@ -212,7 +217,7 @@ public class LocalMap extends Map {
 		});
 		bottomPanel.add(finished);
 
-		JButton flipOrientation = new JButton("Flip Orientation");
+		flipOrientation = new JButton("Flip Orientation");
 		flipOrientation.addActionListener(new ActionListener() {
 
 			@Override
@@ -224,7 +229,7 @@ public class LocalMap extends Map {
 
 		});
 
-		JButton undoMove = new JButton("Undo Move");
+		undoMove = new JButton("Undo Move");
 		undoMove.addActionListener(new ActionListener() {
 
 			@Override
@@ -244,7 +249,30 @@ public class LocalMap extends Map {
 		add(mapPanel, BorderLayout.CENTER);
 		// add(healthPanel, BorderLayout.NORTH);
 		add(bottomPanel, BorderLayout.SOUTH);
+		
+		setColourTheme();
 
+	}
+
+	private void setColourTheme() {
+		topPanel.setBackground(new Color(90, 90, 90));
+		mapPanel.setBackground(new Color(90, 90, 90));
+		bottomPanel.setBackground(new Color(90, 90, 90));
+		
+		sizeOfShip.setForeground(new Color(255, 255, 255));
+		currentOrientation.setForeground(new Color(255, 255, 255));
+		
+		sizeOfShip.setFont(new Font("Monospaced", Font.BOLD, 15));
+		currentOrientation.setFont(new Font("Monospaced", Font.BOLD, 15));
+		
+		undoMove.setBackground(new Color(160, 160, 160));
+		flipOrientation.setBackground(new Color(160, 160, 160));
+		
+		undoMove.setForeground(new Color(255, 255, 255));
+		flipOrientation.setForeground(new Color(255, 255, 255));
+		
+		undoMove.setFont(new Font("Garamond", Font.BOLD, 15));
+		flipOrientation.setFont(new Font("Garamond", Font.BOLD, 15));
 	}
 
 	public void setActionListeners() {
