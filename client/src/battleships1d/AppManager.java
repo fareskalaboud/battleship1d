@@ -426,7 +426,7 @@ public class AppManager {
 
 		System.err.println(returnedResult + " createroom method");
 		if (returnedResult.equals("Room::Create:Error:UserInARoom")) {
-			new JDialog(new JFrame(), "You can only create one room");
+			
 			return "Error: User In Room";
 		}
 		if (returnedResult.substring(0, 12).equals("Room::Create")) {

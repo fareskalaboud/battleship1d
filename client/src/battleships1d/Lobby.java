@@ -16,6 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -260,7 +261,7 @@ public class Lobby extends JFrame {
 		jlPrivateRooms.setListData(privateRooms);
 	}
 
-	public void createRoom(String roomID, String password, boolean isPrivate) {
+	public void createRoom(String password, boolean isPrivate) {
 		RoomData newRoom;
 
 		/*
@@ -275,13 +276,12 @@ public class Lobby extends JFrame {
 		} else {
 			newRoom = new RoomData(manager.getMainPlayer(), "");
 		}
-
-		if (isPrivate) {
-			privateRooms.add(newRoom);
-			jlPrivateRooms.setListData(privateRooms);
-		} else {
-			publicRooms.add(newRoom);
-			jlPublicRooms.setListData(privateRooms);
+		System.err.println("response from AM: " + newRoom.getRoomID());
+		if (newRoom.getRoomID().equals(":Error::UserInARoom")){
+			JOptionPane.showMessageDialog(new JFrame(),
+					"You can only create one room!", "Error", 0);
+			System.out.println("Error in room");
+	
 		} // TODO: send info to server
 		//refreshRoomLists();
 	}
@@ -367,8 +367,7 @@ public class Lobby extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				//Assume public
-				
-				publicRooms.add(new RoomData("My User Name", "")); //empty string indicates public room
+				createRoom("", false);
 				refreshLists();
 			}
 		});
