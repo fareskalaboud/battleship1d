@@ -81,13 +81,14 @@ public class EnemyMap extends Map {
         add(healthPanel, BorderLayout.NORTH);
         add(ready, BorderLayout.SOUTH);
         
-        setUpColourTheme();
+        setColourTheme();
 
     }
     
     
-    private void setUpColourTheme() {
-		// TODO Auto-generated method stub
+    private void setColourTheme() {
+		mapPanel.setBackground(new Color(90, 90, 90));
+		healthPanel.setBackground(new Color(90, 90, 90));
 		
 	}
 
