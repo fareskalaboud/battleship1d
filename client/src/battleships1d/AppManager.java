@@ -341,6 +341,41 @@ public class AppManager {
 			return;
 		}
 	}
+	
+	//@Cham TODO: test this method after they established creation of rooms
+	public void setShips(Ship[][] ships){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Game::Setup::Ship::Success");
+		commands.add("Game::SetUp::Ship::Error::InvalidY");
+		commands.add("Game::SetUp::Ship::Error::InvalidX");
+		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		
+		
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				if(ships[i][j] != null){
+					Server.writeLineToServer("Game::Setup::Ship::"+ships[i][j].getName()+"::"+i+"::"+j);
+				}
+		
+			}
+		}
+		
+		waitOnThread(rv);
+
+
+	}
+	
+	
 
 	private static Boolean waitOnThread(Server.RequestVariables rv) {
 		while (!rv.getContinueThread()) {

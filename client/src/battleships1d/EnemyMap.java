@@ -50,15 +50,8 @@ public class EnemyMap extends Map {
         // Initialise UI objects
         mapPanel = new JPanel(new GridLayout(10, 10));
         
-        for(int i = 0; i < 10; i++){
-        	for(int j = 0; j < 10; j++){
-        		enemyButtons[i][j] = new EnemyButton(i, j, room);
-        		enemyButtons[i][j].setBackground(Color.black);
-        		mapPanel.add(enemyButtons[i][j]);
-        		
-        	}
-        }
-        
+      
+        addButtons();
         
         JButton ready = new JButton("Ready");
         ready.addActionListener(new ActionListener(){
@@ -66,7 +59,7 @@ public class EnemyMap extends Map {
         	@Override
         	public void actionPerformed(ActionEvent arg0) {
         		// TODO Auto-generated method stub
-        		addButtons();
+        		
         	}
         	
         });
@@ -100,6 +93,7 @@ public class EnemyMap extends Map {
     		for (int j = 0; j<10; j++){
     			final int row = i;
     			final int column = j;
+    			enemyButtons[i][j] = new EnemyButton(i, j, room);
     			enemyButtons[i][j].setBackground(Color.gray);
     			enemyButtons[i][j].addActionListener(new ActionListener(){
 
@@ -114,6 +108,7 @@ public class EnemyMap extends Map {
 					}
     				
     			});
+    			mapPanel.add(enemyButtons[i][j]);
     			
     			
     		}
