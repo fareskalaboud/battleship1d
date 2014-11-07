@@ -23,14 +23,16 @@ import javax.swing.border.EmptyBorder;
  * 
  */
 public class LogIn {
-	
+
 	private AppManager appManager;
+
 	public LogIn(AppManager appManager) {
 		this.appManager = appManager;
 		setUpUI();
 	}
+
 	public LogIn() {
-		
+
 	}
 
 	private JFrame mainFrame;
@@ -49,7 +51,6 @@ public class LogIn {
 	private JButton logInAsPlayerButton, logInAsGuestButton,
 			createAccountButton;
 
-
 	/**
 	 * 
 	 * @param testFrame
@@ -66,8 +67,8 @@ public class LogIn {
 	public void setUpUI() {
 		mainFrame = new JFrame();
 		mainFrame.setUndecorated(true);
-		
-		//TOP BAR WITH EXIT AND MIN
+
+		// TOP BAR WITH EXIT AND MIN
 		mainLogInPanel = new JPanel();
 		logInPanel = new JPanel();
 		BarPanel test = new BarPanel(mainFrame);
@@ -75,15 +76,15 @@ public class LogIn {
 		DragFrame testDrag = new DragFrame(barPanel);
 		barPanel.addMouseListener(testDrag);
 		barPanel.addMouseMotionListener(testDrag);
-	//	
-		
+		//
+
 		mainLogInPanel.setLayout(new BorderLayout());
 		mainLogInPanel.add(logInPanel, BorderLayout.CENTER);
 		mainLogInPanel.add(barPanel, BorderLayout.NORTH);
-		
+
 		logInPanel.setLayout(new BorderLayout());
 		logInPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
-		
+
 		mainFrame.setLocation(350, 200);
 		mainFrame.setResizable(false);
 
@@ -105,7 +106,7 @@ public class LogIn {
 		logInButtonsPanel = new JPanel();
 		centerPassPanel = new JPanel();
 		logInAsGuestPanel = new JPanel();
-		
+
 		userNameLabel = new JLabel("User Name : ");
 		passwordLabel = new JLabel("Password :  ");
 
@@ -115,20 +116,20 @@ public class LogIn {
 		logInAsPlayerButton = new JButton("Log In");
 		logInAsGuestButton = new JButton("Log in as Guest");
 		createAccountButton = new JButton("Create Account");
-		
+
 		logInCenterPanel.setLayout(new BorderLayout());
-		
+
 		userNamePanel.setLayout(new GridLayout(1, 4));
 		userNamePanel.setBorder(new EmptyBorder(0, 0, 4, 0));
-		
+
 		passwordPanel.setLayout(new GridLayout(1, 4));
 		passwordPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
-		
+
 		logInButtonsPanel.setLayout(new GridLayout(1, 4, 15, 0));
 		logInButtonsPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
-		
+
 		logInAsGuestPanel.setBorder(new EmptyBorder(0, 0, 15, 0));
-		
+
 		logInAsGuestPanel.setLayout(new BorderLayout());
 
 		centerPassPanel.setLayout(new BorderLayout());
@@ -148,9 +149,13 @@ public class LogIn {
 
 		centerPassPanel.add(passwordPanel, BorderLayout.NORTH);
 		centerPassPanel.add(logInButtonsPanel, BorderLayout.CENTER);
-		logInAsGuestPanel.add(new JLabel("                                                 "), BorderLayout.WEST);
+		logInAsGuestPanel.add(new JLabel(
+				"                                                 "),
+				BorderLayout.WEST);
 		logInAsGuestPanel.add(logInAsGuestButton, BorderLayout.CENTER);
-		logInAsGuestPanel.add(new JLabel("                                                 "), BorderLayout.EAST);
+		logInAsGuestPanel.add(new JLabel(
+				"                                                 "),
+				BorderLayout.EAST);
 		logInCenterPanel.add(userNamePanel, BorderLayout.NORTH);
 		logInCenterPanel.add(centerPassPanel, BorderLayout.CENTER);
 		logInCenterPanel.add(logInAsGuestPanel, BorderLayout.SOUTH);
@@ -159,7 +164,7 @@ public class LogIn {
 		mainFrame.setTitle("Battleships - 1D");
 
 		setColourTheme();
-		
+
 		mainFrame.add(mainLogInPanel);
 		mainFrame.pack();
 		mainFrame.setVisible(true);
@@ -173,7 +178,7 @@ public class LogIn {
 	 * @author fareskalaboud
 	 */
 	private void setColourTheme() {
-		
+
 		logInPanel.setBackground(new Color(50, 50, 50));
 		northPanel.setBackground(new Color(90, 90, 90));
 		logInCenterPanel.setBackground(new Color(90, 90, 90));
@@ -182,24 +187,25 @@ public class LogIn {
 		logInButtonsPanel.setBackground(new Color(90, 90, 90));
 		logInAsGuestPanel.setBackground(new Color(90, 90, 90));
 		centerPassPanel.setBackground(new Color(90, 90, 90));
-		
+
 		userNameLabel.setForeground(new Color(255, 255, 255));
 		userNameLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
-		
+
 		passwordLabel.setForeground(new Color(255, 255, 255));
 		passwordLabel.setFont(new Font("Monospaced", Font.BOLD, 15));
-		
+
 		logInAsPlayerButton.setBackground(new Color(160, 160, 160));
 		logInAsGuestButton.setBackground(new Color(160, 160, 160));
 		createAccountButton.setBackground(new Color(160, 160, 160));
 		logInAsPlayerButton.setForeground(new Color(255, 255, 255));
 		logInAsGuestButton.setForeground(new Color(255, 255, 255));
 		createAccountButton.setForeground(new Color(255, 255, 255));
-		
+
 		logInAsPlayerButton.setFont(new Font("Garamond", Font.BOLD, 15));
 		logInAsGuestButton.setFont(new Font("Garamond", Font.BOLD, 15));
 		createAccountButton.setFont(new Font("Garamond", Font.BOLD, 15));
 	}
+
 	/**
 	 * @author GEORGE RADUTA
 	 */
@@ -212,7 +218,7 @@ public class LogIn {
 						mainFrame, userNameTextField, appManager);
 				createAccount.setUpUI();
 				mainFrame.setEnabled(false);
-			} 	
+			}
 		});
 
 		logInAsGuestButton.addActionListener(new ActionListener() {
@@ -220,7 +226,8 @@ public class LogIn {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				MainMenu mainMenu = new MainMenu("GUEST", appManager);
+				int randomNumber = 10000 + (int)(Math.random() * ((99999 - 10000) + 1));
+				MainMenu mainMenu = new MainMenu("GUEST" + randomNumber, appManager);
 				mainFrame.dispose();
 			}
 		});
@@ -234,11 +241,12 @@ public class LogIn {
 				boolean ok = true;
 				String userNameString = userNameTextField.getText().trim();
 				String passwordString = passwordTextField.getText().trim();
-				
-				
-				if (ok) {
-					MainMenu mainMenu = new MainMenu(userNameTextField.getText()
-							.trim(), appManager);
+				String verification = appManager.checkPlayerLoginDetails(userNameString,
+						passwordString);
+				System.out.println(verification);
+				if (verification.equals("Login::User::Successful::" + userNameString)) {
+					MainMenu mainMenu = new MainMenu(userNameTextField
+							.getText().trim(), appManager);
 					mainFrame.dispose();
 				} else {
 					JOptionPane.showMessageDialog(mainFrame,

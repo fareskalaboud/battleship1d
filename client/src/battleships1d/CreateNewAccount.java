@@ -189,7 +189,7 @@ public class CreateNewAccount {
 						&& password.equals(confirmPass)
 						&& !password.equals("")
 						&& verification
-								.equals("Login::Create::Successful::Username")) {
+								.equals("Successful")) {
 					userNameFromLogIn.setText(userName);
 
 					// Check with the server is is ok
@@ -198,9 +198,9 @@ public class CreateNewAccount {
 					accountFrame.dispose();
 				} else if (userName.equals("")
 						|| verification
-								.equals("Login::Create::Error::Username")) {
+								.equals("Error")) {
 					JOptionPane.showMessageDialog(accountFrame,
-							"User Name is incorrect", "Error", 0);
+							"User Name is incorrect", "ErrorU", 0);
 				} else if (password.equals("")) {
 					JOptionPane.showMessageDialog(accountFrame,
 							"Password field is empty", "Error", 0);
@@ -211,7 +211,7 @@ public class CreateNewAccount {
 									"Password entries do not match.\n"
 											+ "Please supply matching passwords entries.",
 									"Error", 0);
-				} else if (verification.equals("Login::Create::Error")) {
+				} else if (verification.equals("Error")) {
 					JOptionPane
 							.showMessageDialog(
 									accountFrame,

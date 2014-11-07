@@ -24,6 +24,9 @@ public class BarPanel {
 		this.mainFrame = mainFrame;
 	}
 	
+	public JLabel getEscapeButton() { 
+		return escapeLabel;
+	}
 	public JPanel getPanel() {
 		
 		barPanel = new JPanel();
