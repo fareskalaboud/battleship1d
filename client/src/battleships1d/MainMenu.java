@@ -57,7 +57,7 @@ public class MainMenu {
 		mainMainMenuPanel = new JPanel();
 		mainWindow.setUndecorated(true);
 		
-		mainPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		mainPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 		
 		mainWindow.setTitle("BattleShip - 1 D");
 		mainWindow.setBounds(400, 100, 550, 520);
