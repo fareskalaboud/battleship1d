@@ -22,6 +22,8 @@ import javax.swing.JTextField;
  * @author Chamuel Uy
  */
 public class LocalMap extends Map {
+	
+	private Room room;
 
 	private boolean[][] hasShip;
 	private LocalButton[][] localButtons;
@@ -47,6 +49,9 @@ public class LocalMap extends Map {
 	 */
 	public LocalMap(Room room) {
 		super();
+		
+		this.room = room;
+		
 		// Initialise the whole map as not having any ship
 		hasShip = new boolean[10][10];
 		for (int i = 0; i < 10; i++) {
@@ -310,6 +315,10 @@ public class LocalMap extends Map {
 				}
 			}
 		}
+		
+		room.getAM().setShips(ships);;
+		
+		
 	}
 
 	/**
@@ -420,5 +429,11 @@ public class LocalMap extends Map {
 		healthPanel.add(healthBar);
 		
 	}
+	
+	public Ship[][] getShips(){
+		return ships;
+	}
+	
+	
 
 }

@@ -82,6 +82,7 @@ public class Connection implements Runnable {
 
     public void handleCommand(Command cmd) {
         if (cmd.getCommand().equals("Login")) {
+            if (cmd.getParameters().length == 1) return;
             if (cmd.getParameters()[0].equals("Guest")) {
                 String guestUsername = UserManager.generateGuestUsername();
                 user.setUsername(guestUsername);
@@ -89,6 +90,7 @@ public class Connection implements Runnable {
                 user.setLoggedIn(true);
                 writeLine("Login::Guest::" + guestUsername);
             } else if (cmd.getParameters()[0].equals("User")) {
+                if (cmd.getParameters().length != 3) return;
                 String userName = cmd.getParameters()[1];
                 String password = cmd.getParameters()[2];
 
@@ -107,6 +109,7 @@ public class Connection implements Runnable {
                     return;
                 }
             } else if (cmd.getParameters()[0].equals("Create")) {
+                if (cmd.getParameters().length != 3) return;
                 String userName = cmd.getParameters()[1];
                 String password = cmd.getParameters()[2];
 
