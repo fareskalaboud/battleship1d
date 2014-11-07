@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridLayout;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -84,25 +85,25 @@ public class Room extends JFrame{
     	
     	jlHeaderText = new JLabel("Header Text");
 
-    	setLayout(new BorderLayout());
+    	setLayout(new GridLayout(1, 2));
     	Border emptyBoarder = BorderFactory.createEmptyBorder(20, 20, 20, 20);
     	int textJustivaction = TitledBorder.LEFT;
     	int textPosistion = TitledBorder.TOP;
     	Font font = new Font("monospaced", Font.BOLD, 24);
  
     	localMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder, "Local Map", textJustivaction, textPosistion, font, Color.BLACK));
-    	add(localMap, BorderLayout.WEST);
+    	add(localMap);
 
     	enemyMap.setBorder(BorderFactory.createTitledBorder(emptyBoarder, "Enemy Map", textJustivaction, textPosistion, font, Color.BLACK));
-		add(enemyMap, BorderLayout.EAST);
+		add(enemyMap);
 
 
-    	add(localMap, BorderLayout.WEST);
-    	add(enemyMap, BorderLayout.EAST);
-    	add(jlHeaderText, BorderLayout.NORTH);
+//    	add(localMap);
+//    	add(enemyMap);
+//    	add(jlHeaderText, BorderLayout.NORTH);
 
  
-    	setResizable(false);
+    	//setResizable(false);
     	setMinimumSize(new Dimension(800,550));
     	setLocationRelativeTo(null);
     	setVisible(true);
