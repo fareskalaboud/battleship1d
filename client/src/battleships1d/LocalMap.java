@@ -81,7 +81,7 @@ public class LocalMap extends Map {
 		ships = new Ship[10][10];
 		clickedShips = new Ship[10][10];
 
-		orientationOfShip = Orientation.HORIZONTAL;
+		orientationOfShip = Orientation.Horizontal;
 
 		lastPlacedShipAndOrientation = new Stack();
 		// pop order: 1st = orientation, 2nd = name
@@ -162,7 +162,7 @@ public class LocalMap extends Map {
 									.getOrientation();
 							if (checkIfCanAddShip(size, row, column,
 									orientation)) {
-								if (orientation == Orientation.HORIZONTAL) {
+								if (orientation == Orientation.Horizontal) {
 									for (int i = column; i < column + size; i++) {
 										hasShip[row][i] = true;
 										ships[row][i] = genericShip;
@@ -325,7 +325,7 @@ public class LocalMap extends Map {
 			Orientation orientation) {
 		boolean canAddShip = true;
 		try {
-			if (orientation == Orientation.HORIZONTAL) {
+			if (orientation == Orientation.Horizontal) {
 				for (int i = column; i < column + size; i++) {
 					if (hasShip[row][i] == false) {
 
@@ -376,10 +376,10 @@ public class LocalMap extends Map {
 	 * Flips the orientation of the ship to vertical or horizontal depending on the pervious orientation
 	 */
 	public void flipOrientation() {
-		if (orientationOfShip == Orientation.HORIZONTAL) {
-			orientationOfShip = Orientation.VERTICAL;
+		if (orientationOfShip == Orientation.Horizontal) {
+			orientationOfShip = Orientation.Vertical;
 		} else {
-			orientationOfShip = Orientation.HORIZONTAL;
+			orientationOfShip = Orientation.Horizontal;
 		}
 	}
 
@@ -405,7 +405,7 @@ public class LocalMap extends Map {
 	 * Updates the Orientation and Name that's presented to the user
 	 */
 	public void updateTexts() {
-		if (orientationOfShip == Orientation.HORIZONTAL) {
+		if (orientationOfShip == Orientation.Horizontal) {
 			currentOrientationText.setText("Horizontal");
 		} else {
 			currentOrientationText.setText("Vertical");
@@ -422,11 +422,11 @@ public class LocalMap extends Map {
 			Object jComboBoxItem = lastPlacedShipAndOrientation.pop();
 			Orientation orientation = (Orientation) lastPlacedShipAndOrientation
 					.pop();
-			int lastSize = (int) lastPlacedShipAndOrientation.pop();
-			int column = (int) lastPlacedShipAndOrientation.pop();
-			int row = (int) lastPlacedShipAndOrientation.pop();
+			int lastSize = 0;//(int) lastPlacedShipAndOrientation.pop();
+			int column = 0;//(int) lastPlacedShipAndOrientation.pop();
+			int row = 0;//(int) lastPlacedShipAndOrientation.pop();
 
-			if (orientation == Orientation.HORIZONTAL) {
+			if (orientation == Orientation.Horizontal) {
 				for (int i = column; i < column + lastSize; i++) {
 					hasShip[row][i] = false;
 					ships[row][i] = null;
