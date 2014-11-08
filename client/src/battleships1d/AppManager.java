@@ -463,7 +463,7 @@ public class AppManager {
 			setMainPlayer();
 			// getRoomsFromServer();
 			// frame.setVisible(true);
-			new LogIn(new AppManager()).setUpUI();
+			new LogIn(new AppManager());
 
 		} else {
 

@@ -34,6 +34,7 @@ public class LocalMap extends Map {
 	private LocalButton[][] localButtons;
 	private Ship[][] ships;
 	private Orientation orientationOfShip;
+	private Ship[][] clickedShips;
 
 	private Stack lastPlacedShipAndOrientation;
 
@@ -78,6 +79,7 @@ public class LocalMap extends Map {
 		}
 
 		ships = new Ship[10][10];
+		clickedShips = new Ship[10][10];
 
 		orientationOfShip = Orientation.HORIZONTAL;
 
@@ -166,14 +168,18 @@ public class LocalMap extends Map {
 										ships[row][i] = genericShip;
 										localButtons[row][i]
 												.setBackground(Color.green);
+										
 									}
+									clickedShips[row][column] = genericShip;
 								} else {
 									for (int i = row; i < row + size; i++) {
 										hasShip[i][column] = true;
 										ships[i][column] = genericShip;
 										localButtons[i][column]
 												.setBackground(Color.green);
+										
 									}
+									clickedShips[row][column] = genericShip;
 								}
 
 								updateTexts();
@@ -360,7 +366,7 @@ public class LocalMap extends Map {
 			}
 		}
 		
-		room.getAM().setShips(ships);
+		room.getAM().setShips(clickedShips);
 		room.getAM().playerReady();
 		
 		
@@ -433,6 +439,8 @@ public class LocalMap extends Map {
 					localButtons[i][column].setBackground(Color.gray);
 				}
 			}
+			
+			clickedShips[row][column] = null;
 
 			listOfNames.addItem(jComboBoxItem);
 			listOfNames.setSelectedItem(jComboBoxItem);
