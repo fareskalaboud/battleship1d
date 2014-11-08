@@ -26,7 +26,6 @@ public class Room extends JFrame {
 	private LocalMap localMap;
 	private EnemyMap enemyMap;
 	private String roomID;
-	private String userName;
 
 	private boolean isPrivate;
 	private String password;
@@ -45,38 +44,18 @@ public class Room extends JFrame {
 	 *            the room name/id
 	 * @author faresalaboud
 	 */
-	public Room(String roomID, String userName, AppManager am) {
+	public Room(String roomID, AppManager am) {
 		super("Battleships (Room ID: " + roomID + ")");
 		this.roomID = roomID;
 		this.isPrivate = false;
 		this.password = "";
-		this.userName = userName;
 		localMap = new LocalMap(this);
 		enemyMap = new EnemyMap(this);
 		this.am = am;
 		setUpUI();
 	}
 
-	/**
-	 * An overloaded constructor that takes both the room ID and password. This
-	 * automatically creates a private room.
-	 * 
-	 * @param roomID
-	 *            the room name/id
-	 * @param password
-	 *            the password to the private room
-	 * @author faresalaboud
-	 */
-	public Room(String roomID, String password, String userName, AppManager am) {
-		this.roomID = roomID;
-		this.isPrivate = true;
-		this.password = password;
-		this.userName = userName;
-		localMap = new LocalMap(this);
-		enemyMap = new EnemyMap(this);
-		this.am = am;
-		setUpUI();
-	}
+
 
 	/**
 	 * Sets up room perspective for user
@@ -238,7 +217,7 @@ public class Room extends JFrame {
 	}
 
 	public static void main(String args[]) {
-		new Room("Room name", "User name", new AppManager());
+		new Room("Room name", new AppManager());
 	}
 
 }

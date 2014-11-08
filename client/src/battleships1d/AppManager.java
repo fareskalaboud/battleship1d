@@ -419,7 +419,7 @@ public class AppManager {
 		});
 
 		Server.writeLineToServer("Room::Create::" + password);
-		System.err.println("about to wait on thread");
+
 		waitOnThread(rv);
 
 		String returnedResult = rv.getCommand();
@@ -435,6 +435,79 @@ public class AppManager {
 			return returnedResult.substring(13);
 		}
 		return "Error";
+	}
+	
+	private static String joinRoom(String roomID){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Join::Success");
+		commands.add("Room::Join::Error::Full");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Room::Join::" + roomID);
+
+		waitOnThread(rv);
+		
+		String returnedResult = rv.getCommand();
+		
+		return returnedResult;
+	}
+	
+	private static String closeRoom(String roomID){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Close::Success");
+		commands.add("Room::Close::Error::UserNotHost");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Room::Close::" + roomID);
+
+		waitOnThread(rv);
+		
+		String returnedResult = rv.getCommand();
+		
+		return returnedResult;
+	}
+	
+	private static String leaveRoom(String roomID){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Leave::Success");
+		commands.add("Room::Leave::UserIsHost");
+		commands.add("Room::Leave::UserIsNotGuest");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Room::Join::" + roomID);
+
+		waitOnThread(rv);
+		
+		String returnedResult = rv.getCommand();
+		
+		return returnedResult;
 	}
 
 }

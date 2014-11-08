@@ -271,7 +271,7 @@ public class Lobby extends JFrame {
 	 * @author Alexander Hanbury-Botherway
 	 * @param password
 	 */
-	public void createRoom(String password) {
+	public RoomData createRoom(String password) {
 		RoomData newRoom;
 
 		/*
@@ -289,8 +289,10 @@ public class Lobby extends JFrame {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"You can only create one room!", "Error", 0);
 			System.out.println("Error in room");
+			return null;
 
 		}
+		return newRoom;
 
 	}
 
@@ -393,9 +395,10 @@ public class Lobby extends JFrame {
 						for (char x : password) {
 							sPassword += x;
 						}
-						createRoom(sPassword);
+						RoomData newRoom = createRoom(sPassword);
 						sPassword = " ";
 						refreshLists();
+						new Room(newRoom.getRoomID(), manager);
 						return;
 					} else {
 						JOptionPane.showMessageDialog(new JFrame(),
