@@ -23,15 +23,15 @@ public class Ship {
 	public Ship(int size, Orientation orientation){
 		this(size, orientation,"");
 		switch (size) {
-		case 2: name = "Patrol boat";
+		case 2: name = "PatrolBoat";
 		break;
 		case 3: name = "Destroyer";
 		break;
 		case 4: name = "Battleship";
 		break;
-		case 5: name = "Aircraft Carrier";
+		case 5: name = "AircraftCarrier";
 		break;
-		default: name = "Nuclear Submarine";
+		default: name = "Submarine";
 		}
 	}
 

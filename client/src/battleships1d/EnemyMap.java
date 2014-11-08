@@ -138,8 +138,11 @@ public class EnemyMap extends Map {
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
 						if(!hasBeenClicked[row][column]){
-							enemyButtons[row][column].playButton();
 							hasBeenClicked[row][column] = true;
+							Result gg = room.getAM().playButton(column, row);
+							if(gg == Result.MISS){
+								enemyButtons[row][column].setBackground(Color.green);
+							}
 							updateHealthBars();
 						}
 					}

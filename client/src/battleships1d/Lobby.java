@@ -306,7 +306,8 @@ public class Lobby extends JFrame {
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 				if (arg0.getClickCount() == 2) {
-					int index = jlPrivateRooms.getSelectedIndex();
+					//commented out by chamuel 8/11
+/*					int index = jlPrivateRooms.getSelectedIndex();
 					String roomID = jlPrivateRooms.getSelectedValue()
 							.getRoomID();
 
@@ -337,7 +338,7 @@ public class Lobby extends JFrame {
 							new JDialog(new JFrame(), "Password is incorrect");
 						}
 
-					}
+					}*/
 
 					refreshRoomLists();
 				}
@@ -372,7 +373,9 @@ public class Lobby extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					int index = jlPublicRooms.getSelectedIndex();
+					//commented out by chamuel 8/11
+					
+/*					int index = jlPublicRooms.getSelectedIndex();
 					String roomID = jlPublicRooms.getSelectedValue()
 							.getRoomID();
 
@@ -383,6 +386,18 @@ public class Lobby extends JFrame {
 					} else {
 						new JDialog(new JFrame(), "Room is already full");
 					}
+					refreshRoomLists();*/
+					
+					
+					
+					int position = jlPublicRooms.getSelectedIndex();
+					// TODO check for room if still exists
+
+					// if not refresh list and tell user that room does no
+					// longer exists;
+					// if yes connect player to the room
+					manager.joinRoom(publicRooms.get(position));
+					new Room(publicRooms.get(position).getRoomID(), manager);
 					refreshRoomLists();
 				}
 
@@ -419,8 +434,9 @@ public class Lobby extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 
+				//Commented out by Chamuel 8/11
+				/*
 				String sPassword = "";
-
 				if (privateRoomSelected) {
 					char[] password = jpfRoomPassword.getPassword();
 					char[] confirmPassword = jpfConfirmPassword.getPassword();
@@ -440,6 +456,7 @@ public class Lobby extends JFrame {
 																	// join room
 						new JDialog(new JFrame(), "Success! " + guestName
 								+ " has joined your room");
+
 						new Room(newRoom.getRoomID(), manager);
 						return;
 					} else {
@@ -459,7 +476,37 @@ public class Lobby extends JFrame {
 																// room
 					new JDialog(new JFrame(), "Success! " + guestName
 							+ " has joined your room");
+
 					new Room(newRoom.getRoomID(), manager);
+					return;
+				}*/
+				
+				String sPassword = "";
+
+				if (privateRoomSelected) {
+					char[] password = jpfRoomPassword.getPassword();
+					char[] confirmPassword = jpfConfirmPassword.getPassword();
+					
+
+					
+					if (passwordsMatch(password, confirmPassword)) {
+						for (char x : password) {
+							sPassword += x;
+						}
+						createRoom(sPassword);
+						sPassword = " ";
+						refreshLists();
+						return;
+					} else {
+						JOptionPane.showMessageDialog(new JFrame(),
+								"Passwords don't match", "Error", 0);
+						refreshLists();
+						return;
+					}
+				} else {
+					createRoom(" ");
+					refreshLists();
+					new Room(publicRooms.get(0).getRoomID(), manager);
 					return;
 				}
 

@@ -26,6 +26,7 @@ public class Room extends JFrame {
 	private LocalMap localMap;
 	private EnemyMap enemyMap;
 	private String roomID;
+	private String userName;
 
 	private boolean isPrivate;
 	private String password;
@@ -44,7 +45,7 @@ public class Room extends JFrame {
 	 *            the room name/id
 	 * @author faresalaboud
 	 */
-	public Room(String roomID, AppManager am) {
+	public Room(String roomID,  AppManager am) {
 		super("Battleships (Room ID: " + roomID + ")");
 		this.roomID = roomID;
 		this.isPrivate = false;

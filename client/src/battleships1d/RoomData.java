@@ -52,9 +52,6 @@ public class RoomData {
 		return isPrivate;
 	}
 
-	public String getPassword(){
-		return password;
-	}
 	public String toString() {
 		return roomID + " (" + host + ")";
 	}

@@ -256,21 +256,38 @@ public class AppManager {
 
 		String returnedResult = rv.getCommand();
 
-		if (returnedResult.equals("Game::Miss")) {
+		if (returnedResult.equals("Game::Fire::Miss")) {
 			isLocalMove = false;
+			System.out.println("You missed");
 			return Result.MISS;
 		}
-		if (returnedResult.equals("Game::Hit")) {
+		if (returnedResult.equals("Game::Fire::Hit")) {
 			isLocalMove = false;
 			new JDialog(new JFrame(), "You hit an enemy ship");
+			System.out.println("You actually hit something");
 			return Result.HIT;
 		}
-		if (returnedResult.equals("Game::Sunk")) {
+		if (returnedResult.equals("Game::Fire::Sunk")) {
 			isLocalMove = false;
 			String shipName = returnedResult.substring(19);
 			new JDialog(new JFrame(), "You sunk the enemie's " + shipName + "!");
+			System.out.println(shipName);
 			return Result.SUNK;
 		}
+		if (returnedResult.equals("Game::Win")){
+			isLocalMove = false;
+			new JDialog(new JFrame(), "You win mate");
+			System.out.println("u win");
+		}
+		
+		if(returnedResult.equals("Game::Loss")){
+			isLocalMove = false;
+			new JDialog(new JFrame(), "lel u lost");
+			System.out.println("u lost");
+		}
+		
+		
+		
 		System.err.println("Result from button: " + row + " " + col
 				+ " is not valid");
 		return null;
@@ -361,12 +378,13 @@ public class AppManager {
 		
 		return guestUserName;
 	}
+
 	//@Cham TODO: test this method after they established creation of rooms
 	public void setShips(Ship[][] ships){
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Setup::Ship::Success");
-		commands.add("Game::SetUp::Ship::Error::InvalidY");
-		commands.add("Game::SetUp::Ship::Error::InvalidX");
+		commands.add("Game::Setup::Ship::Error::InvalidY");
+		commands.add("Game::Setup::Ship::Error::InvalidX");
 		
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
@@ -378,22 +396,54 @@ public class AppManager {
 			}
 		});
 
-		
-		
 		for(int i = 0; i < 10; i++){
 			for(int j = 0; j < 10; j++){
 				if(ships[i][j] != null){
-					Server.writeLineToServer("Game::Setup::Ship::"+ships[i][j].getName()+"::"+i+"::"+j);
+					Server.writeLineToServer("Game::Setup::Ship::"+ships[i][j].getName()+"::"+j+"::"+i+"::"+ships[i][j].getOrientation());				
 				}
-		
+				
 			}
 		}
 		
 		waitOnThread(rv);
+		
+		
+		String returnedResults = rv.getCommand();
+		System.out.println(returnedResults);
+		
+		
+		
+		
 
 
 	}
 	
+	public void playerReady(){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Game::Setup::Ready::Success");
+		commands.add("Game::Setup::Ready::Error::InsufficientShips");
+		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+		
+		Server.writeLineToServer("Game::Setup::Ready");
+		waitOnThread(rv);
+		
+		String returnedResult = rv.getCommand();
+		System.out.println(returnedResult);
+		
+		
+		
+		
+		
+	}
 	
 
 	private static Boolean waitOnThread(Server.RequestVariables rv) {
@@ -413,7 +463,7 @@ public class AppManager {
 			setMainPlayer();
 			// getRoomsFromServer();
 			// frame.setVisible(true);
-			new LogIn().setUpUI();
+			new LogIn(new AppManager()).setUpUI();
 
 		} else {
 
@@ -542,6 +592,33 @@ public class AppManager {
 		}
 		
 		return false;
+	}
+	//Chamuel's joinRoom method
+	public void joinRoom(RoomData roomID){
+		
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Join::Success");
+		commands.add("Room::Join::Error::Full");
+
+		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+		
+		Server.writeLineToServer("Room::Join::"+roomID.getRoomID());
+		
+		String returnedResult = rv.getCommand();
+		
+		System.out.println(returnedResult);
+		
+		waitOnThread(rv);
+		
 	}
 
 }

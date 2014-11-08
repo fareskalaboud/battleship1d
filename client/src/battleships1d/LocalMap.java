@@ -40,8 +40,8 @@ public class LocalMap extends Map {
 	// for testing purposes
 	private int shipSize;
 	private int shipArrayCounter = 0;
-	private static String[] shipNames = { "Aircraft Carrier", "Battleship",
-			"Submarine", "Cruiser", "Patrol boat" };
+	private static String[] shipNames = { "AircraftCarrier", "Battleship",
+			"Submarine", "Destroyer", "PatrolBoat" };
 
 	JTextField sizeOfShipText;
 	JTextField currentOrientationText;
@@ -154,7 +154,7 @@ public class LocalMap extends Map {
 
 						} else {
 							Ship genericShip = new Ship(shipSize,
-									orientationOfShip);
+									orientationOfShip, (String) listOfNames.getSelectedItem());
 							int size = genericShip.getSize();
 							Orientation orientation = genericShip
 									.getOrientation();
@@ -354,11 +354,14 @@ public class LocalMap extends Map {
 			for (int j = 0; j < 10; j++) {
 				if (hasShip[i][j]) {
 					localButtons[i][j].addShip(ships[i][j]);
+					System.out.println(ships[i][j].getName()+" "+i+" "+j);
+					localButtons[i][j].setEnabled(false);
 				}
 			}
 		}
 		
-		room.getAM().setShips(ships);;
+		room.getAM().setShips(ships);
+		room.getAM().playerReady();
 		
 		
 	}
@@ -379,15 +382,15 @@ public class LocalMap extends Map {
 	 * @param battleShipName - the name of the battleship
 	 */
 	public void updateSize(String battleShipName) {
-		if (battleShipName.equals("Aircraft Carrier")) {
+		if (battleShipName.equals("AircraftCarrier")) {
 			shipSize = 5;
 		} else if (battleShipName.equals("Battleship")) {
 			shipSize = 4;
 		} else if (battleShipName.equals("Submarine")) {
 			shipSize = 3;
-		} else if (battleShipName.equals("Cruiser")) {
+		} else if (battleShipName.equals("Destroyer")) {
 			shipSize = 3;
-		} else if (battleShipName.equals("Patrol boat")) {
+		} else if (battleShipName.equals("PatrolBoat")) {
 			shipSize = 2;
 		}
 	}
