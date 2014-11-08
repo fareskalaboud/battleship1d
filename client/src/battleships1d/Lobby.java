@@ -10,9 +10,11 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
+import java.util.List;
 import java.util.Vector;
 
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -20,7 +22,6 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
-import javax.swing.JTextField;
 import javax.swing.border.EmptyBorder;
 
 /**
@@ -299,16 +300,46 @@ public class Lobby extends JFrame {
 	public void setActionListeners() {
 		jlPrivateRooms.addMouseListener(new MouseListener() {
 			@Override
+			/**
+			 * @author Alexander Hanbury-Botherway
+			 */
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
 				if (arg0.getClickCount() == 2) {
-					refreshRoomLists();
-					int position = jlPublicRooms.getSelectedIndex();
-					// TODO check for room if still exists
+					int index = jlPrivateRooms.getSelectedIndex();
+					String roomID = jlPrivateRooms.getSelectedValue()
+							.getRoomID();
 
-					// if not refresh list and tell user that room does no
-					// longer exists;
-					// if yes connect player to the room
+					JPanel panel = new JPanel();
+					JPasswordField jpfRoomPasswordCheck = new JPasswordField(10);
+					panel.add(new JLabel("Enter room password:"));
+					panel.add(jpfRoomPasswordCheck);
+					String[] options = new String[] { "OK", "Cancel" };
+					int option = JOptionPane.showOptionDialog(null, panel,
+							"Password", JOptionPane.NO_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options,
+							options[1]);
+					if (option == 0) // pressing OK button
+					{
+						char[] password = jpfRoomPasswordCheck.getPassword();
+
+						if (jlPrivateRooms.getSelectedValue().getPassword()
+								.equals(new String(password))) {
+							boolean success = manager.joinRoom(roomID);
+							if (success) {
+								new JDialog(new JFrame(), "Now in " + roomID);
+								new Room(roomID, manager);
+							} else {
+								new JDialog(new JFrame(),
+										"Room is already full");
+							}
+						} else {
+							new JDialog(new JFrame(), "Password is incorrect");
+						}
+
+					}
+
+					refreshRoomLists();
 				}
 			}
 
@@ -340,16 +371,21 @@ public class Lobby extends JFrame {
 		jlPublicRooms.addMouseListener(new MouseListener() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if (e.getClickCount() == 2) {
-					int position = jlPublicRooms.getSelectedIndex();
-					// TODO check for room if still exists
+					int index = jlPublicRooms.getSelectedIndex();
+					String roomID = jlPublicRooms.getSelectedValue()
+							.getRoomID();
 
-					// if not refresh list and tell user that room does no
-					// longer exists;
-					// if yes connect player to the room
+					boolean success = manager.joinRoom(roomID);
+					if (success) {
+						new JDialog(new JFrame(), "Now in " + roomID);
+						new Room(roomID, manager);
+					} else {
+						new JDialog(new JFrame(), "Room is already full");
+					}
 					refreshRoomLists();
 				}
+
 
 			}
 
@@ -388,9 +424,7 @@ public class Lobby extends JFrame {
 				if (privateRoomSelected) {
 					char[] password = jpfRoomPassword.getPassword();
 					char[] confirmPassword = jpfConfirmPassword.getPassword();
-					
 
-					
 					if (passwordsMatch(password, confirmPassword)) {
 						for (char x : password) {
 							sPassword += x;
@@ -398,6 +432,14 @@ public class Lobby extends JFrame {
 						RoomData newRoom = createRoom(sPassword);
 						sPassword = " ";
 						refreshLists();
+						new JDialog(new JFrame(),
+								"Waiting for guest to join room: "
+										+ newRoom.getRoomID());
+						String guestName = manager.waitForGuest(); // Waits for
+																	// guest to
+																	// join room
+						new JDialog(new JFrame(), "Success! " + guestName
+								+ " has joined your room");
 						new Room(newRoom.getRoomID(), manager);
 						return;
 					} else {
@@ -407,8 +449,17 @@ public class Lobby extends JFrame {
 						return;
 					}
 				} else {
-					createRoom(" ");
+					RoomData newRoom = createRoom(" ");
 					refreshLists();
+					new JDialog(new JFrame(),
+							"Waiting for guest to join room: "
+									+ newRoom.getRoomID());
+					String guestName = manager.waitForGuest(); // Waits for
+																// guest to join
+																// room
+					new JDialog(new JFrame(), "Success! " + guestName
+							+ " has joined your room");
+					new Room(newRoom.getRoomID(), manager);
 					return;
 				}
 
@@ -416,19 +467,19 @@ public class Lobby extends JFrame {
 		});
 	}
 
-	private boolean passwordsMatch(char[] p1, char[] p2){
-		if (p1.length != p2.length){
+	private boolean passwordsMatch(char[] p1, char[] p2) {
+		if (p1.length != p2.length) {
 			return false;
 		}
-		
-		for (int i = 0; i<p1.length; i++){
-			if (p1[i] != p2[i]){
+
+		for (int i = 0; i < p1.length; i++) {
+			if (p1[i] != p2[i]) {
 				return false;
 			}
 		}
 		return true;
 	}
-	
+
 	/**
 	 * Refreshes the lists by contacting the server
 	 * 

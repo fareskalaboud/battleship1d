@@ -331,7 +331,36 @@ public class AppManager {
 			return;
 		}
 	}
-	
+
+	/**
+	 * Called when a host creates a room, waits for guest to join the room
+	 * @author Alexander Hanbury-Botherway
+	 * @return
+	 */
+	public String waitForGuest() {
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Player::Joined");
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		waitOnThread(rv);
+
+		String returnedResult = rv.getCommand();
+		
+		returnedResult += "::";
+		
+		String guestUserName = returnedResult.split(":")[3];
+		
+		return guestUserName;
+	}
 	//@Cham TODO: test this method after they established creation of rooms
 	public void setShips(Ship[][] ships){
 		ArrayList<String> commands = new ArrayList<String>();
@@ -437,30 +466,6 @@ public class AppManager {
 		return "Error";
 	}
 	
-	private static String joinRoom(String roomID){
-		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("Room::Join::Success");
-		commands.add("Room::Join::Error::Full");
-
-		final Server.RequestVariables rv = new Server.RequestVariables();
-
-		Server.registerCommands(commands, new Server.RequestFunction() {
-			@Override
-			public void Response(String command) {
-				rv.setCommand(command);
-				rv.setContinueThread(true);
-			}
-		});
-
-		Server.writeLineToServer("Room::Join::" + roomID);
-
-		waitOnThread(rv);
-		
-		String returnedResult = rv.getCommand();
-		
-		return returnedResult;
-	}
-	
 	private static String closeRoom(String roomID){
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Close::Success");
@@ -501,13 +506,42 @@ public class AppManager {
 			}
 		});
 
-		Server.writeLineToServer("Room::Join::" + roomID);
+		Server.writeLineToServer("Room::Leave::" + roomID);
 
 		waitOnThread(rv);
 		
 		String returnedResult = rv.getCommand();
 		
 		return returnedResult;
+	}
+
+	public boolean joinRoom(String roomID) {
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::Join::Success");
+		commands.add("Room::Join::Error::Full");
+		
+
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Room::Join::"+roomID);
+
+		waitOnThread(rv);
+		
+		String returnedResult = rv.getCommand();
+		
+		if (returnedResult.equals("Room::Join::Success")){
+			return true;
+		}
+		
+		return false;
 	}
 
 }
