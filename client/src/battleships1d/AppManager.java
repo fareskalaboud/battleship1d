@@ -255,6 +255,7 @@ public class AppManager {
 		isLocalMove = false;
 
 		String returnedResult = rv.getCommand();
+		String shipHasBeenSunked = returnedResult.substring(0, 15);
 
 		if (returnedResult.equals("Game::Fire::Miss")) {
 			isLocalMove = false;
@@ -267,9 +268,9 @@ public class AppManager {
 			System.out.println("You actually hit something");
 			return Result.HIT;
 		}
-		if (returnedResult.equals("Game::Fire::Sunk")) {
+		if (shipHasBeenSunked.equals("Game::Fire::Sun")) {
 			isLocalMove = false;
-			String shipName = returnedResult.substring(19);
+			String shipName = returnedResult.substring(18, returnedResult.length());
 			new JDialog(new JFrame(), "You sunk the enemie's " + shipName + "!");
 			System.out.println(shipName);
 			return Result.SUNK;

@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.border.Border;
@@ -25,6 +27,10 @@ public class EnemyMap extends Map {
 	JPanel bottomPanel;
 	JButton ready;
 	
+	int playedRow;
+	int playedColumn;
+	boolean hasChosen;
+	
 	
     public EnemyMap(Room room) {
         super();
@@ -36,6 +42,7 @@ public class EnemyMap extends Map {
         		hasBeenClicked[i][j] = false;
         	}
         }
+        
         
         
         this.setUpUI();
@@ -59,13 +66,33 @@ public class EnemyMap extends Map {
         addButtons();
         
         bottomPanel = new JPanel();
-        ready = new JButton("Ready");
+        ready = new JButton("Fire");
         ready.addActionListener(new ActionListener(){
         	
         	@Override
         	public void actionPerformed(ActionEvent arg0) {
         		// TODO Auto-generated method stub
-        		
+				if(!hasBeenClicked[playedRow][playedColumn]){
+					hasBeenClicked[playedRow][playedColumn] = true;
+					Result gg = room.getAM().playButton(playedColumn, playedRow);//Server uses x and y scheme
+					if(gg == Result.MISS){
+						enemyButtons[playedRow][playedColumn].setBackground(Color.blue);
+						enemyButtons[playedRow][playedColumn].setState(EnemyButtonState.MISS);
+					}
+					if(gg == Result.HIT){
+						enemyButtons[playedRow][playedColumn].setState(EnemyButtonState.HIT);
+						enemyButtons[playedRow][playedColumn].setBackground(Color.red);
+					}
+					if(gg == Result.SUNK){
+						enemyButtons[playedRow][playedColumn].setState(EnemyButtonState.HIT);
+						enemyButtons[playedRow][playedColumn].setBackground(Color.red);
+					}
+					enemyButtons[playedRow][playedColumn].setEnabled(false);
+					hasChosen = false;
+					updateHealthBars();
+				} else{
+					JOptionPane.showMessageDialog(new JFrame(), "Invalid Move");
+				}
         	}
         	
         });
@@ -137,14 +164,20 @@ public class EnemyMap extends Map {
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
 						// TODO Auto-generated method stub
-						if(!hasBeenClicked[row][column]){
-							hasBeenClicked[row][column] = true;
-							Result gg = room.getAM().playButton(column, row);
-							if(gg == Result.MISS){
-								enemyButtons[row][column].setBackground(Color.green);
-							}
-							updateHealthBars();
+						if(!hasChosen){
+							enemyButtons[row][column].setBackground(Color.black);
+							playedRow = row;
+							playedColumn = column;
+							hasChosen = true;
+						} else{
+							enemyButtons[playedRow][playedColumn].setBackground(Color.gray);
+							enemyButtons[row][column].setBackground(Color.black);
+							playedRow = row;
+							playedColumn = column;
+							hasChosen = true;
+							
 						}
+						
 					}
     				
     			});

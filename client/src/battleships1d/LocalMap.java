@@ -13,7 +13,9 @@ import java.util.Stack;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
@@ -356,19 +358,22 @@ public class LocalMap extends Map {
 	 * This is the way it communicates with the server
 	 */
 	public void updateLocalButtons() {
-		for (int i = 0; i < 10; i++) {
-			for (int j = 0; j < 10; j++) {
-				if (hasShip[i][j]) {
-					localButtons[i][j].addShip(ships[i][j]);
-					System.out.println(ships[i][j].getName()+" "+i+" "+j);
-					localButtons[i][j].setEnabled(false);
+		if(numberOfShips() == 17){
+			for (int i = 0; i < 10; i++) {
+				for (int j = 0; j < 10; j++) {
+					if (hasShip[i][j]) {
+						localButtons[i][j].addShip(ships[i][j]);
+						System.out.println(ships[i][j].getName()+" "+i+" "+j);
+						localButtons[i][j].setEnabled(false);
+					}
 				}
 			}
+			
+			room.getAM().setShips(clickedShips);
+			room.getAM().playerReady();
+		} else{
+			JOptionPane.showMessageDialog(new JFrame(), "Not Enough Ships");
 		}
-		
-		room.getAM().setShips(clickedShips);
-		room.getAM().playerReady();
-		
 		
 	}
 
@@ -456,6 +461,11 @@ public class LocalMap extends Map {
 	 * Updates the health bar
 	 */
 	public void updateHealth() {
+		int counter = numberOfShips();
+		healthBar.setValue(counter);
+	}
+	
+	public int numberOfShips(){
 		int counter = 0;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -464,7 +474,7 @@ public class LocalMap extends Map {
 				}
 			}
 		}
-		healthBar.setValue(counter);
+		return counter;
 	}
 
 	@Override
