@@ -47,5 +47,9 @@ public class EnemyButton extends GameButton {
 	public EnemyButtonState getState(){
 		return state;
 	}
+	
+	public void setState(EnemyButtonState state){
+		this.state = state;
+	}
 
 }
