@@ -47,9 +47,7 @@ public class Lobby extends JFrame {
 		setActionListeners();
 	}
 
-	public Lobby() {
-
-	}
+	public Lobby() { }
 
 	/**
 	 * @author Alexander Hanbury-Botherway
@@ -486,9 +484,7 @@ public class Lobby extends JFrame {
 				if (privateRoomSelected) {
 					char[] password = jpfRoomPassword.getPassword();
 					char[] confirmPassword = jpfConfirmPassword.getPassword();
-					
 
-					
 					if (passwordsMatch(password, confirmPassword)) {
 						for (char x : password) {
 							sPassword += x;
@@ -498,8 +494,7 @@ public class Lobby extends JFrame {
 						refreshLists();
 						return;
 					} else {
-						JOptionPane.showMessageDialog(new JFrame(),
-								"Passwords don't match", "Error", 0);
+						JOptionPane.showMessageDialog(new JFrame(), "Passwords don't match", "Error", 0);
 						refreshLists();
 						return;
 					}
@@ -509,7 +504,6 @@ public class Lobby extends JFrame {
 					new Room(publicRooms.get(0).getRoomID(), manager);
 					return;
 				}
-
 			}
 		});
 	}

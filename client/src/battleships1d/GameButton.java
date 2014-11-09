@@ -11,7 +11,6 @@ public abstract class GameButton extends JButton {
 	protected int row;
 	protected int col;
 
-	
 	public GameButton(int row, int col){
 		super("");
 		this.row = row;
@@ -24,8 +23,4 @@ public abstract class GameButton extends JButton {
 		
 		setSize(10,10);
 	}
-	
-	
-
-
 }

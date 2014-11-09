@@ -26,18 +26,19 @@ import javax.swing.border.EmptyBorder;
  * 
  */
 public class CreateNewAccount {
-	/**
-	 * Constructor which will get the frame from LogIn and the userName
-	 * TextField in order to fill it after the account is created;
-	 * 
-	 * @param mainFrame
-	 * @param userNameField
-	 * @author GEORGE RADUTA
-	 */
+
 	private AppManager appManager;
 
-	public CreateNewAccount(JFrame mainFrame, JTextField userNameField,
-			AppManager appManager) {
+    /**
+     * Constructor which will get the frame from LogIn and the userName
+     * TextField in order to fill it after the account is created;
+     *
+     * @param mainFrame
+     * @param userNameField
+     * @param appManager
+     * @author GEORGE RADUTA
+     */
+	public CreateNewAccount(JFrame mainFrame, JTextField userNameField, AppManager appManager) {
 		this.testFrame = mainFrame;
 		this.userNameFromLogIn = userNameField;
 		this.appManager = appManager;
@@ -46,8 +47,7 @@ public class CreateNewAccount {
 	private JFrame testFrame;
 	private JFrame accountFrame;
 	private JPanel accountPanel, mainAccountPanel, barPanel;
-	private JPanel userNamePanel, passwordPanel, confirmPasswordPanel,
-			buttonsPanel;
+	private JPanel userNamePanel, passwordPanel, confirmPasswordPanel, buttonsPanel;
 	private JLabel userNameLabel, passwordLabel, confirmPasswordLabel;
 	private JTextField userNameField, userNameFromLogIn;
 	private JPasswordField passwordField, confirmPasswordField;
@@ -137,7 +137,6 @@ public class CreateNewAccount {
 		accountFrame.setDefaultCloseOperation(JFrame.DO_NOTHING_ON_CLOSE);
 
 		setUpColourTheme();
-
 		setActionListeners();
 	}
 
@@ -178,43 +177,33 @@ public class CreateNewAccount {
 				// TODO Auto-generated method stub
 
 				String userName = userNameField.getText().trim();
-				String password = passwordField.getText().trim();
-				String confirmPass = confirmPasswordField.getText().trim();
+                String password = new String(passwordField.getPassword()).trim();
+				String confirmPass = new String(confirmPasswordField.getPassword()).trim();
 
 				// Check for userName to be OK in DataBase;
-				String verification = appManager.createAccount(userName,
-						password);
+				String verification = appManager.createAccount(userName, password);
 
 				if (!userName.equals("")
 						&& password.equals(confirmPass)
 						&& !password.equals("")
-						&& verification
-								.equals("Successful")) {
+						&& verification.equals("Successful")) {
 					userNameFromLogIn.setText(userName);
 
 					// Check with the server is is ok
 
 					enableLogInFrame.enableLogInFrame(testFrame);
 					accountFrame.dispose();
-				} else if (userName.equals("")
-						|| verification
-								.equals("Error")) {
-					JOptionPane.showMessageDialog(accountFrame,
-							"User Name is incorrect", "ErrorU", 0);
+				} else if (userName.equals("") || verification.equals("Error")) {
+					JOptionPane.showMessageDialog(accountFrame, "User Name is incorrect", "ErrorU", 0);
 				} else if (password.equals("")) {
-					JOptionPane.showMessageDialog(accountFrame,
-							"Password field is empty", "Error", 0);
+					JOptionPane.showMessageDialog(accountFrame, "Password field is empty", "Error", 0);
 				} else if (!password.equals(confirmPass)) {
-					JOptionPane
-							.showMessageDialog(
-									accountFrame,
-									"Password entries do not match.\n"
-											+ "Please supply matching passwords entries.",
+					JOptionPane.showMessageDialog(accountFrame,
+									"Password entries do not match.\n" +
+									"Please supply matching passwords entries.",
 									"Error", 0);
 				} else if (verification.equals("Error")) {
-					JOptionPane
-							.showMessageDialog(
-									accountFrame,
+					JOptionPane.showMessageDialog(accountFrame,
 									"Error while trying to create a new account.\nPlease try again",
 									"Error", 0);
 				}
@@ -228,7 +217,6 @@ public class CreateNewAccount {
 			public void actionPerformed(ActionEvent arg0) {
 				enableLogInFrame.enableLogInFrame(testFrame);
 				accountFrame.dispose();
-
 			}
 		});
 	}

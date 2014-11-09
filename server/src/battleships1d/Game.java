@@ -12,7 +12,6 @@ public class Game {
     private HashMap<String, Ship> hostsShips = new HashMap<String, Ship>();
     private HashMap<String, Ship> guestsShips = new HashMap<String, Ship>();
 
-    private Boolean inGame = false;
     private Boolean hostReady = false;
     private Boolean guestReady = false;
 

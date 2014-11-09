@@ -35,10 +35,13 @@ public class EnemyButton extends GameButton {
 			room.getAM().sendMove();
 			return;
 		} if (resultOfPlay.equals(Result.SUNK)){
-		} state = EnemyButtonState.HIT;
-			setBackground(Color.GREEN);
-			room.getAM().sendMove();
-			return;
+            //TODO Is there something to go into here? - Tom
+            return;
+		}
+        state = EnemyButtonState.HIT;
+		setBackground(Color.GREEN);
+		room.getAM().sendMove();
+		return;
 	}
 	
 	public EnemyButtonState getState(){

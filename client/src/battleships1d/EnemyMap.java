@@ -36,10 +36,8 @@ public class EnemyMap extends Map {
         		hasBeenClicked[i][j] = false;
         	}
         }
-        
-        
+
         this.setUpUI();
-        
     }
 
     public void setUpHealthBar() {
@@ -49,13 +47,10 @@ public class EnemyMap extends Map {
     public void setUpUI() {
         this.setLayout(new BorderLayout());
         this.setSize(300, 300);
-        
-        
 
         // Initialise UI objects
         mapPanel = new JPanel(new GridLayout(10, 10));
-        
-        
+
         addButtons();
         
         bottomPanel = new JPanel();
@@ -71,12 +66,9 @@ public class EnemyMap extends Map {
         });
         
         bottomPanel.add(ready);
-        
-        
+
         Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
-        
-        
-        
+
         topPanel = new JPanel();
         topPanel.setBorder(borderPanel);
         
@@ -97,14 +89,8 @@ public class EnemyMap extends Map {
         this.add(mapPanel, BorderLayout.CENTER);
         add(topPanel, BorderLayout.NORTH);
         add(bottomPanel, BorderLayout.SOUTH);
-        
-        
-        
-        
-        
-        
-        setColourTheme();
 
+        setColourTheme();
     }
     
     
@@ -119,8 +105,6 @@ public class EnemyMap extends Map {
 		ready.setForeground(new Color(255, 255, 255));
 		
 		ready.setFont(new Font("Garamond", Font.BOLD, 15));
-		
-		
 	}
 
 	//only add buttons when room is established, "ready" 
@@ -146,7 +130,6 @@ public class EnemyMap extends Map {
 							updateHealthBars();
 						}
 					}
-    				
     			});
     			mapPanel.add(enemyButtons[i][j]);
     			
