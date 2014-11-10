@@ -230,7 +230,7 @@ public class MainMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Desktop.getDesktop().browse(new URI("https://www.youtube.com/watch?v=_IXeya6mzAE"));
+					Desktop.getDesktop().browse(new URI("https://dl.dropboxusercontent.com/u/106321121/SEG%201%20Tutorial.pdf"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
