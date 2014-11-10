@@ -37,9 +37,9 @@ public class BoomGif {
 				gifFrame.setLayout(new BorderLayout());
 				createGifPanel();
 				
+				gifFrame.pack();
 				gifFrame.setLocationRelativeTo(null);
 				gifFrame.setVisible(true);
-				gifFrame.pack();
 
 			}
 		});
@@ -77,7 +77,7 @@ public class BoomGif {
 	}
 
 	public static void main(String[] args) {
-		new SplashGif();
+		new BoomGif();
 	}
 
 }

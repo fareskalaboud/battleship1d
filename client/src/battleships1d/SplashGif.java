@@ -37,9 +37,10 @@ public class SplashGif {
 				gifFrame.setLayout(new BorderLayout());
 				createGifPanel();
 				
+				gifFrame.pack();
 				gifFrame.setLocationRelativeTo(null);
 				gifFrame.setVisible(true);
-				gifFrame.pack();
+	
 
 			}
 		});

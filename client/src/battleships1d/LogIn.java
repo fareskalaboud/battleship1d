@@ -221,6 +221,7 @@ public class LogIn {
 				CreateNewAccount createAccount = new CreateNewAccount(
 						mainFrame, userNameTextField, appManager);
 				createAccount.setUpUI();
+				new BoomGif();
 				mainFrame.setEnabled(false);
 			}
 		});
