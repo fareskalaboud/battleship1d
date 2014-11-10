@@ -232,10 +232,10 @@ public class LogIn {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				
+
 				System.out.println("Start verification");
 				String verification = appManager.checkGuest();
-				
+
 				System.out.println(verification);
 				System.out.println("Verification ends now");
 				MainMenu mainMenu = new MainMenu(verification.split("::")[2],
@@ -263,6 +263,11 @@ public class LogIn {
 						MainMenu mainMenu = new MainMenu(userNameTextField
 								.getText().trim(), appManager);
 						mainFrame.dispose();
+					} else {
+						JOptionPane
+								.showMessageDialog(mainFrame,
+										"UserName or Password is incorrect",
+										"Error", 0);
 					}
 				} else {
 					JOptionPane.showMessageDialog(mainFrame,
