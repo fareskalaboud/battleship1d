@@ -28,6 +28,11 @@ import javax.swing.border.EtchedBorder;
 public class MainMenu {
 	private String userName;
 	private AppManager appManager;
+	/**
+	 * Constructor of the MainMenu JFrame
+	 * @param userName
+	 * @param appManager
+	 */
 	public MainMenu(String userName, AppManager appManager) {
 		this.userName = userName;
 		this.appManager = appManager;
@@ -94,6 +99,9 @@ public class MainMenu {
 
 	}
 
+	/**
+	 * Applies the colour theme to the UI.
+	 */
 	private void setColourTheme() {
 		mainPanel.setBackground(new Color(50, 50, 50));
 		northPanel.setBackground(new Color(90, 90, 90));
@@ -212,6 +220,7 @@ public class MainMenu {
 	
 	private Lobby lobby;
 	/**
+	 * Adding functionality to JButtons
 	 * @author GEORGE RADUTA
 	 */
 	private void setActionListeners() {

@@ -212,6 +212,8 @@ public class LogIn {
 	}
 
 	/**
+	 * Adding functionality to the buttons
+	 * 
 	 * @author GEORGE RADUTA
 	 */
 	public void setActionListeners() {

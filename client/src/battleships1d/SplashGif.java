@@ -16,14 +16,19 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
+ * The class that will create a JFrame with a "Sink.gif" when the user hits a
+ * ship
  * 
  * @author GEORGE RADUTA
- *
+ * 
  */
 public class SplashGif {
 
 	private JFrame gifFrame;
 
+	/**
+	 * Constructor which will run and stop the JFrame with the gif;
+	 */
 	public SplashGif() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -55,6 +60,10 @@ public class SplashGif {
 	private Timer gifTimer;
 	private JPanel gifPanel;
 
+	/**
+	 * Creating the Panel with the gif image; Also adding functionality to the
+	 * frame;
+	 */
 	public void createGifPanel() {
 		gifPanel = new JPanel();
 
@@ -78,9 +87,4 @@ public class SplashGif {
 		gifPanel.add(gifLabel);
 		gifFrame.add(gifPanel);
 	}
-
-	public static void main(String[] args) {
-		new SplashGif();
-	}
-
 }

@@ -16,14 +16,19 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
+ * The class that will create a JFrame with a "Sink.gif" when the user hits a
+ * ship
  * 
  * @author GEORGE RADUTA
- *
+ * 
  */
 public class SinkGif {
 
 	private JFrame gifFrame;
 
+	/**
+	 * Constructor which will run and stop the JFrame with the gif;
+	 */
 	public SinkGif() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -41,7 +46,7 @@ public class SinkGif {
 
 				gifFrame.setLayout(new BorderLayout());
 				createGifPanel();
-				
+
 				gifFrame.pack();
 				gifFrame.setLocationRelativeTo(null);
 				gifFrame.setVisible(true);
@@ -55,10 +60,14 @@ public class SinkGif {
 	private Timer gifTimer;
 	private JPanel gifPanel;
 
+	/**
+	 * Creating the Panel with the gif image; Also adding functionality to the
+	 * frame;
+	 */
 	public void createGifPanel() {
 		gifPanel = new JPanel();
-//		gifPanel.setBorder(BorderFactory
-//				.createLineBorder(Color.BLACK, 10, true));
+		// gifPanel.setBorder(BorderFactory
+		// .createLineBorder(Color.BLACK, 10, true));
 
 		sinkGif = new ImageIcon("sink.gif");
 
@@ -80,9 +89,4 @@ public class SinkGif {
 		gifPanel.add(gifLabel);
 		gifFrame.add(gifPanel);
 	}
-
-	public static void main(String[] args) {
-		new SinkGif();
-	}
-
 }
