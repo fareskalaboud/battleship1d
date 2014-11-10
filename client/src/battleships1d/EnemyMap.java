@@ -91,8 +91,7 @@ public class EnemyMap extends Map {
 		});
 		disableFireButton();
 		bottomPanel.add(fireButton);
-		bottomPanel.add(timer);
-
+		
 		Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
 
 		topPanel = new JPanel();
