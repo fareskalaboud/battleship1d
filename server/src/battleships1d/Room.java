@@ -4,71 +4,142 @@ package battleships1d;
  * Created by Thomas on 24/10/2014.
  */
 public class Room {
-    private String roomID;
-    private boolean privateRoom;
-    private String password;
-    private User host;
-    private User guest;
-    private Game game;
+	private String roomID;
+	private boolean privateRoom;
+	private String password;
+	private User host;
+	private User guest;
+	private Game game;
 
-    public Room(User host) {
-        this("", host);
-    }
+	/**
+	 * The constructor of the Room;
+	 * 
+	 * @param host
+	 */
+	public Room(User host) {
+		this("", host);
+	}
 
-    public Room(String password, User host) {
-        if (password.equals("")) this.privateRoom = false;
-        else this.privateRoom = true;
-        this.password = password;
-        this.roomID = RoomManager.generateRoomName();
-        this.host = host;
-        this.game = new Game(this);
-    }
+	/**
+	 * Another constructor with different parameters;
+	 * 
+	 * @param password
+	 * @param host
+	 */
+	public Room(String password, User host) {
+		if (password.equals(""))
+			this.privateRoom = false;
+		else
+			this.privateRoom = true;
+		this.password = password;
+		this.roomID = RoomManager.generateRoomName();
+		this.host = host;
+		this.game = new Game(this);
+	}
 
-    public String getRoomID() {
-        return roomID;
-    }
+	/**
+	 * 
+	 * @return the ID of the room;
+	 */
+	public String getRoomID() {
+		return roomID;
+	}
 
-    public void setRoomID(String roomID) {
-        this.roomID = roomID;
-    }
+	/**
+	 * Set the ID of the room;
+	 * 
+	 * @param roomID
+	 */
+	public void setRoomID(String roomID) {
+		this.roomID = roomID;
+	}
 
-    public boolean isPrivateRoom() {
-        return privateRoom;
-    }
+	/**
+	 * Check if the room is private or not;
+	 * 
+	 * @return - boolean;
+	 */
+	public boolean isPrivateRoom() {
+		return privateRoom;
+	}
 
-    public void setPrivateRoom(boolean privateRoom) {
-        this.privateRoom = privateRoom;
-    }
+	/**
+	 * Set the room to be private/public;
+	 * 
+	 * @param privateRoom
+	 */
+	public void setPrivateRoom(boolean privateRoom) {
+		this.privateRoom = privateRoom;
+	}
 
-    public User getHost() {
-        return host;
-    }
+	/**
+	 * Return the host of the game;
+	 * 
+	 * @return
+	 */
+	public User getHost() {
+		return host;
+	}
 
-    public void setHost(User host) {
-        this.host = host;
-    }
+	/**
+	 * Set the host of the game;
+	 * 
+	 * @param host
+	 *            - type USER;
+	 */
+	public void setHost(User host) {
+		this.host = host;
+	}
 
-    public User getGuest() {
-        return guest;
-    }
+	/**
+	 * Return the guest of the game;
+	 * 
+	 * @return
+	 */
+	public User getGuest() {
+		return guest;
+	}
 
-    public void setGuest(User guest) {
-        this.guest = guest;
-    }
+	/**
+	 * Setting the guest of the game;
+	 * 
+	 * @param guest
+	 */
+	public void setGuest(User guest) {
+		this.guest = guest;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	/**
+	 * 
+	 * @return - string : the password of the room;
+	 */
+	public String getPassword() {
+		return password;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	/**
+	 * Setting the password of the room;
+	 * 
+	 * @param password
+	 */
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public Game getGame() {
-        return game;
-    }
+	/**
+	 * 
+	 * @return the game;
+	 */
+	public Game getGame() {
+		return game;
+	}
 
-    public void setGame(Game game) {
-        this.game = game;
-    }
+	/**
+	 * Set the game;
+	 * 
+	 * @param game
+	 */
+	public void setGame(Game game) {
+		this.game = game;
+	}
 }

@@ -9,44 +9,59 @@ import java.net.Socket;
  */
 public class ServerManager implements Runnable {
 
-    private static boolean running = false;
-    private static int port = 8000;
-    private static Thread thread;
-    private static ServerSocket serverSocket;
+	private static boolean running = false;
+	private static int port = 8000;
+	private static Thread thread;
+	private static ServerSocket serverSocket;
 
-    public static boolean isRunning() {
-        return running;
-    }
+	/**
+	 * If the Server is running;
+	 * 
+	 * @return
+	 */
+	public static boolean isRunning() {
+		return running;
+	}
 
-    public static void start() {
-        running = true;
-        thread = new Thread(new ServerManager());
-        thread.start();
-    }
+	/**
+	 * Start the Server;
+	 */
+	public static void start() {
+		running = true;
+		thread = new Thread(new ServerManager());
+		thread.start();
+	}
 
-    public static void stop() {
-        running = false;
-        thread.interrupt();
-    }
+	/**
+	 * Stop the server;
+	 */
+	public static void stop() {
+		running = false;
+		thread.interrupt();
+	}
 
-    @Override
-    public void run() {
-        System.out.println("Starting server...");
-        try {
-            serverSocket = new ServerSocket(port);
-            System.out.println("Server running on port " + port);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+	/**
+	 * Run
+	 */
+	@Override
+	public void run() {
+		System.out.println("Starting server...");
+		try {
+			serverSocket = new ServerSocket(port);
+			System.out.println("Server running on port " + port);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 
-        while (running) {
-            try {
-                Socket client = serverSocket.accept();
-                System.out.println("Client connected on port " + client.getPort());
-                new Thread(new Connection(client)).start();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
+		while (running) {
+			try {
+				Socket client = serverSocket.accept();
+				System.out.println("Client connected on port "
+						+ client.getPort());
+				new Thread(new Connection(client)).start();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+	}
 }
