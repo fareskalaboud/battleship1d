@@ -13,6 +13,7 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.List;
 import java.util.Vector;
 
 import javax.imageio.ImageIO;
@@ -266,7 +267,7 @@ public class Lobby extends JFrame {
 		newRoom = new RoomData(manager.getMainPlayer(), password);
 
 		System.err.println("response from AM: " + newRoom.getRoomID());
-		if (newRoom.getRoomID().equals(":Error::UserInARoom")) {
+		if (newRoom.getRoomID().equals("Error: User In Room")) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"You can only create one room!", "Error", 0);
 			System.out.println("Error in room");
@@ -292,9 +293,16 @@ public class Lobby extends JFrame {
 				if (arg0.getClickCount() == 2) {
 
 
-					int index = jlPrivateRooms.getSelectedIndex();
-					String roomID = jlPrivateRooms.getSelectedValue()
-							.getRoomID();
+					int position = jlPrivateRooms.getSelectedIndex();
+					if (position == -1){
+						System.err.println("No Room Selected");
+						return;
+					}
+					
+					RoomData selectedRoom = jlPrivateRooms.getSelectedValue();
+
+					
+					String roomID = selectedRoom.getRoomID();
 
 					JPanel panel = new JPanel();
 					JPasswordField jpfRoomPasswordCheck = new JPasswordField(10);
@@ -313,6 +321,7 @@ public class Lobby extends JFrame {
 							if (success) {
 								JOptionPane.showMessageDialog(new JFrame(), "Now in " + roomID);
 								new Room(roomID, manager);
+								dispose();
 							} else {
 								JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
 							}
@@ -398,7 +407,7 @@ public class Lobby extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					setVisible(false);
+					
 					// commented out by chamuel 8/11
 
 					/*
@@ -412,16 +421,25 @@ public class Lobby extends JFrame {
 					 */
 
 					int position = jlPublicRooms.getSelectedIndex();
+					if (position == -1){
+						System.err.println("No Room Selected");
+						return;
+					}
 					// TODO check for room if still exists
 
 					// if not refresh list and tell user that room does no
 					// longer exists;
 					// if yes connect player to the room
-
+					String roomID = jlPublicRooms.getSelectedValue().getRoomID();
 					if (jlPublicRooms.getSelectedIndex() >= 0) {
-						manager.joinRoom(publicRooms.get(position).getRoomID());
-						setVisible(false);
-						new Room(publicRooms.get(position).getRoomID(), manager);
+						boolean success = manager.joinRoom(roomID);
+						if (success){
+							new Room(publicRooms.get(position).getRoomID(), manager);
+							//setVisible(false); //@alex, I think using dispose might be more efficient? but if you want to keep it open and invisible thats fine! =)
+							dispose();
+						} else {
+							JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
+						}
 					}
 
 					//refreshRoomLists();
