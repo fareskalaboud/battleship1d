@@ -186,6 +186,9 @@ public class EnemyMap extends Map {
 		if(counter <= 0){
 			JOptionPane.showMessageDialog(new JFrame(), "You win!");
 			disableAllButtons();
+			AppManager am = room.getAppManager();
+			room.dispose();
+			new Lobby(am);
 		}
 	}
 

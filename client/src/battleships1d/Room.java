@@ -275,6 +275,10 @@ public class Room extends JFrame {
 		return enemyMap;
 	}
 	
+	public AppManager getAppManager() {
+		return this.am;
+	}
+	
 	
 	public static void main(String args[]) {
 		new Room("Room name", new AppManager());

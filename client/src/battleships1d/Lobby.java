@@ -405,6 +405,7 @@ public class Lobby extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
+					dispose();
 					// commented out by chamuel 8/11
 
 					/*
@@ -430,7 +431,7 @@ public class Lobby extends JFrame {
 						new Room(publicRooms.get(position).getRoomID(), manager);
 					}
 
-					refreshRoomLists();
+					//refreshRoomLists();
 				}
 
 			}
@@ -515,6 +516,7 @@ public class Lobby extends JFrame {
 					}
 				} else {
 					createRoom(" ");
+					dispose();
 					return;
 				}
 			}

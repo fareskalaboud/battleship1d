@@ -504,15 +504,15 @@ public class LocalMap extends Map {
 		if(hasShip[j][i]){
 			hasShip[j][i] = false;
 			localButtons[j][i].setBackground(Color.red);
-			room.getEnemyMap().disableAllButtons();
-			room.getEnemyMap().disableReady();
 		} else{
 			localButtons[j][i].setBackground(Color.blue);
-			room.getEnemyMap().enableAllButtons();
-			room.getEnemyMap().enableReady();
 		}
 		if(numberOfShips() <= 0){
 			JOptionPane.showMessageDialog(new JFrame(), "You lose!");
+			AppManager am = room.getAppManager();
+			room.dispose();
+			new Lobby(am);
+			
 		}
 		updateHealth();
 		disableAllButtons();
