@@ -9,6 +9,11 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
 
+/**
+ * 
+ * @author GEORGE RADUTA
+ * 
+ */
 public class DragFrame implements MouseListener, MouseMotionListener {
 	JComponent toMove;
 	Point pointToStart;
@@ -17,43 +22,56 @@ public class DragFrame implements MouseListener, MouseMotionListener {
 	public DragFrame(JComponent target) {
 		this.toMove = target;
 	}
-	
 
-	public static JFrame getFrame(Container target) {
-		if (target instanceof JFrame) return (JFrame) target;
-		return getFrame(target.getParent());
+	public static JFrame getFrame(Container toMove) {
+		if (toMove instanceof JFrame)
+			return (JFrame) toMove;
+		return getFrame(toMove.getParent());
 	}
 
 	Point getScreenLocation(MouseEvent e) {
 		Point cursor = e.getPoint();
 		Point target_location = this.toMove.getLocationOnScreen();
-		return new Point((int) (target_location.getX() + cursor.getX()), (int) (target_location.getY() + cursor.getY()));
+		return new Point((int) (target_location.getX() + cursor.getX()),
+				(int) (target_location.getY() + cursor.getY()));
 	}
-
-	public void mouseClicked(MouseEvent e) { }
-
-	public void mouseEntered(MouseEvent e) { }
-
-	public void mouseExited(MouseEvent e) { }
 
 	public void mousePressed(MouseEvent e) {
 		this.pointToStart = this.getScreenLocation(e);
 		this.locToStart = this.getFrame(this.toMove).getLocation();
 	}
 
-	public void mouseReleased(MouseEvent e) { }
-
 	public void mouseDragged(MouseEvent e) {
 		Point current = this.getScreenLocation(e);
-		Point offset = new Point(
-				(int) current.getX() - (int) pointToStart.getX(),
-				(int) current.getY() - (int) pointToStart.getY());
-		JFrame frame = this.getFrame(toMove);
+		Point offset = new Point((int) current.getX()
+				- (int) pointToStart.getX(), (int) current.getY()
+				- (int) pointToStart.getY());
+
+		JFrame myFrame = this.getFrame(toMove);
+
 		Point new_location = new Point(
 				(int) (this.locToStart.getX() + offset.getX()),
 				(int) (this.locToStart.getY() + offset.getY()));
-		frame.setLocation(new_location);
+		myFrame.setLocation(new_location);
 	}
 
-	public void mouseMoved(MouseEvent e) { }
+	public void mouseMoved(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	public void mouseReleased(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	public void mouseClicked(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	public void mouseEntered(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
+
+	public void mouseExited(MouseEvent e) {
+		// TODO Auto-generated method stub
+	}
 }
