@@ -82,7 +82,6 @@ public class Connection implements Runnable {
 
     public void handleCommand(Command cmd) {
         if (cmd.getCommand().equals("Login")) {
-            if (cmd.getParameters().length == 1) return;
             if (cmd.getParameters()[0].equals("Guest")) {
                 String guestUsername = UserManager.generateGuestUsername();
                 user.setUsername(guestUsername);
