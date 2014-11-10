@@ -498,9 +498,8 @@ public class LocalMap extends Map {
 		
 	}
 	
-	public void setShipsHit(String[] array){
-		int i = Integer.parseInt(array[0]);
-		int j = Integer.parseInt(array[1]);
+	public void setShipsHit(int i, int j){
+
 		if(hasShip[j][i]){
 			localButtons[j][i].setBackground(Color.red);
 		} else{
@@ -525,6 +524,15 @@ public class LocalMap extends Map {
 			}
 		}
 	}
+	
+	public boolean hasAShip(int column, int row){
+		if(hasShip[column][row]){
+			return true;
+		} else{
+			return false;
+		}
+	}
+	
 	
 	public Ship[][] getShips(){
 		return ships;

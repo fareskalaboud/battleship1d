@@ -90,6 +90,7 @@ public class EnemyMap extends Map {
 						new SplashGif();
 						enemyButtons[playedRow][playedColumn]
 								.setState(EnemyButtonState.MISS);
+						disableAllButtons();
 					}
 					if (gg == Result.HIT) {						
 						BufferedImage buttonIcon = null;
@@ -105,6 +106,7 @@ public class EnemyMap extends Map {
 								.setBackground(Color.red);
 						enemyButtons[playedRow][playedColumn]
 								.setIcon(new ImageIcon(buttonIcon));
+						enableAllButtons();
 						new BoomGif();
 					}
 					if (gg == Result.SUNK) {
@@ -113,13 +115,14 @@ public class EnemyMap extends Map {
 						enemyButtons[playedRow][playedColumn]
 								.setBackground(Color.red);
 						new SinkGif();
+						enableAllButtons();
 					}
 					enemyButtons[playedRow][playedColumn].setEnabled(false);
 					hasChosen = false;
 					room.checkIfYourTurn();
 					room.updateFiredShip();
 					updateHealthBars();
-					disableAllButtons();
+					
 
 				} else {
 					JOptionPane.showMessageDialog(new JFrame(), "Invalid Move");

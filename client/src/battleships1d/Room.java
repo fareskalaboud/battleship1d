@@ -263,8 +263,14 @@ public class Room extends JFrame {
 				System.out.println("I'M WAITING");
 				String[] gg = am.enemyFiredAt();
 				if (gg != null) {
-					localMap.setShipsHit(gg);
-					enemyMap.enableAllButtons();
+					int i = Integer.parseInt(gg[0]);
+					int j = Integer.parseInt(gg[1]);
+					localMap.setShipsHit(i, j);
+					if(localMap.hasAShip(i, j)){
+						enemyMap.disableAllButtons();
+					} else{
+						enemyMap.enableAllButtons();
+					}
 				}
 			}
 		}, 1000, 1000);
