@@ -51,14 +51,13 @@ public class AppManager {
 		return mainPlayer;
 	}
 
-	
 	/**
-	 * Checks for Guest
+	 * Getting a random number for the guest from the server
 	 */
 	public static String checkGuest() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Login::Guest::");
-		
+
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
 		Server.registerCommands(commands, new Server.RequestFunction() {
@@ -73,7 +72,7 @@ public class AppManager {
 		waitOnThread(rv);
 		return rv.getCommand();
 	}
-	
+
 	/**
 	 * Checks the server if the player's login details are correct or not.
 	 * 
@@ -106,23 +105,14 @@ public class AppManager {
 		waitOnThread(rv);
 
 		return rv.getCommand();
-
-		// TODO: Send to server, and fix line below
-		// String response = "hello";
-		//
-		// String[] serverResponse = response.split("::");
-		// if(serverResponse[2].equals("Successful")) {
-		// return "Successful";
-		// } else if (serverResponse[2].equals("Error")){
-		// if (serverResponse.length == 3) {
-		// return "Error";
-		// } else {
-		// return "Error::" + username;
-		// }
-		// }
-		// return "Error";
 	}
 
+	/**
+	 * Creating a new Account
+	 * @param username - String;
+	 * @param password - String;
+	 * @return - String from the server with the answer ( Error/Valid);
+	 */
 	public static String createAccount(String username, String password) {
 
 		ArrayList<String> commands = new ArrayList<String>();
