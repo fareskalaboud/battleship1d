@@ -85,8 +85,10 @@ public class EnemyMap extends Map {
 
 		});
 		disableReady();
+		timer = new JLabel("g");
 		bottomPanel.add(ready);
 		bottomPanel.add(timer);
+		setTimer();
 
 		Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
 
@@ -181,6 +183,10 @@ public class EnemyMap extends Map {
 			}
 		}
 		healthBar.setValue(counter);
+		if(counter <= 0){
+			JOptionPane.showMessageDialog(new JFrame(), "You win!");
+			disableAllButtons();
+		}
 	}
 
 	public void disableAllButtons() {
@@ -195,7 +201,9 @@ public class EnemyMap extends Map {
 	public void enableAllButtons() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
-				enemyButtons[i][j].setEnabled(true);
+				if(!hasBeenClicked[i][j]){
+					enemyButtons[i][j].setEnabled(true);
+				}
 			}
 		}
 	}

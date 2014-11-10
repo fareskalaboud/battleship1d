@@ -468,6 +468,7 @@ public class LocalMap extends Map {
 	public void updateHealth() {
 		int counter = numberOfShips();
 		healthBar.setValue(counter);
+		
 	}
 	
 	public int numberOfShips(){
@@ -501,11 +502,16 @@ public class LocalMap extends Map {
 	public void setShipsHit(int i, int j){
 
 		if(hasShip[j][i]){
+			hasShip[j][i] = false;
 			localButtons[j][i].setBackground(Color.red);
 		} else{
 			localButtons[j][i].setBackground(Color.blue);
 		}
-		enableAllButtons();
+		if(numberOfShips() <= 0){
+			JOptionPane.showMessageDialog(new JFrame(), "You lose!");
+		}
+		updateHealth();
+		disableAllButtons();
 	}
 	
 	public void disableAllButtons(){
