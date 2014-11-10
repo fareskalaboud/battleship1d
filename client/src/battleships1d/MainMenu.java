@@ -201,7 +201,7 @@ public class MainMenu {
 		quickMatchButtonPanel.setLayout(new GridLayout(1, 3));
 		quickMatchButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		quickMatchButtonPanel.add(new JLabel());
-		quickMatchButtonPanel.add(quickMatchButton);
+		//quickMatchButtonPanel.add(quickMatchButton);
 		quickMatchButtonPanel.add(new JLabel());
 
 		matchesGridPanel.add(enterLobbyButtonPanel);
