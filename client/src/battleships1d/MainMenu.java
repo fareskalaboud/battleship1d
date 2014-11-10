@@ -49,6 +49,7 @@ public class MainMenu {
 	/**
 	 * Creating the MainWindow (More like MainPanel as Fares wanted it so that
 	 * we could just switch the panels)
+	 * @author GEORGE RADUTA
 	 */
 	public void setUpUI() {
 
@@ -122,7 +123,7 @@ public class MainMenu {
 
 	/**
 	 * createNorthComponent() - creates the North Component of the mainPanel;
-	 * 
+	 * @author GEORGE RADUTA
 	 * @value It contains the title of the Project : "BattleShip - 1 D"
 	 */
 	public void createNorthComponent() {
@@ -136,10 +137,9 @@ public class MainMenu {
 		mainPanel.add(northPanel, BorderLayout.NORTH);
 	}
 
-	//TO DO :  QuickMatch button
 	/**
 	 * createCenterComponent() - creates the Center Component of the mainPanel;
-	 * 
+	 * @author GEORGE RADUTA
 	 * @value It contains the UserNameLabel, SetUserNameButton, EnterLobbyButton
 	 *        and QuickMathcButton;
 	 */
@@ -207,7 +207,9 @@ public class MainMenu {
 	}
 	
 	private Lobby lobby;
-	
+	/**
+	 * @author GEORGE RADUTA
+	 */
 	private void setActionListeners() {
 		
 		enterLobbyButton.addActionListener(new ActionListener() {

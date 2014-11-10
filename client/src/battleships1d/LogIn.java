@@ -26,6 +26,10 @@ public class LogIn {
 
 	private AppManager appManager;
 
+	/**
+	 * Constructor
+	 * @param appManager
+	 */
 	public LogIn(AppManager appManager) {
 		this.appManager = appManager;
 		setUpUI();
