@@ -36,11 +36,10 @@ public class SplashGif {
 
 				gifFrame.setLayout(new BorderLayout());
 				createGifPanel();
-				
+
 				gifFrame.pack();
 				gifFrame.setLocationRelativeTo(null);
 				gifFrame.setVisible(true);
-	
 
 			}
 		});
@@ -53,8 +52,6 @@ public class SplashGif {
 
 	public void createGifPanel() {
 		gifPanel = new JPanel();
-		gifPanel.setBorder(BorderFactory
-				.createLineBorder(Color.BLACK, 10, true));
 
 		splashGif = new ImageIcon("splash.gif");
 
