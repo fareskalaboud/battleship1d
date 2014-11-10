@@ -242,8 +242,10 @@ public class Room extends JFrame {
 			public void run() {
 				System.out.println("PLEASE");
 				boolean isYourTurn = am.isYourTurn();
+				enemyMap.enableReady();
 				System.out.println("PLS");
 				enemyMap.enableAllButtons();
+				enemyMap.setTimer();
 				if (isYourTurn) {
 					System.out.println("COME ON");
 					enemyMap.enableAllButtons();
@@ -270,8 +272,13 @@ public class Room extends JFrame {
 					localMap.setShipsHit(i, j);
 					if(localMap.hasAShip(i, j)){
 						enemyMap.disableAllButtons();
+						enemyMap.disableReady();
+						
 					} else{
 						enemyMap.enableAllButtons();
+						enemyMap.enableReady();
+						enemyMap.setTimer();
+						
 					}
 				}
 			}

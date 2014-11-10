@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.Random;
 
 import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
@@ -71,76 +72,19 @@ public class EnemyMap extends Map {
 
 		bottomPanel = new JPanel(new FlowLayout());
 		ready = new JButton("Ready");
-		timer = new JLabel("30");
+		
 		
 		ready.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				// TODO Auto-generated method stub
-				if (!hasBeenClicked[playedRow][playedColumn]) {
-					hasBeenClicked[playedRow][playedColumn] = true;
-					Result gg = room.getAM()
-							.playButton(playedColumn, playedRow);// Server uses
-																	// x and y
-																	// scheme
-					if (gg == Result.MISS) {
-						enemyButtons[playedRow][playedColumn]
-								.setBackground(Color.blue);
-						new SplashGif();
-						enemyButtons[playedRow][playedColumn]
-								.setState(EnemyButtonState.MISS);
-						disableAllButtons();
-					}
-					if (gg == Result.HIT) {						
-						BufferedImage buttonIcon = null;
-						try {
-							buttonIcon = ImageIO.read(new File("bomb.png"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						enemyButtons[playedRow][playedColumn]
-								.setState(EnemyButtonState.HIT);
-						enemyButtons[playedRow][playedColumn]
-								.setBackground(Color.red);
-						enemyButtons[playedRow][playedColumn]
-								.setIcon(new ImageIcon(buttonIcon));
-						enableAllButtons();
-						new BoomGif();
-					}
-					if (gg == Result.SUNK) {
-						BufferedImage buttonIcon = null;
-						try {
-							buttonIcon = ImageIO.read(new File("bomb.png"));
-						} catch (IOException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-						enemyButtons[playedRow][playedColumn]
-								.setState(EnemyButtonState.HIT);
-						enemyButtons[playedRow][playedColumn]
-								.setBackground(Color.red);
-						enemyButtons[playedRow][playedColumn]
-								.setIcon(new ImageIcon(buttonIcon));
-						new SinkGif();
-						enableAllButtons();
-					}
-					enemyButtons[playedRow][playedColumn].setEnabled(false);
-					hasChosen = false;
-					room.checkIfYourTurn();
-					room.updateFiredShip();
-					updateHealthBars();
-					
-
-				} else {
-					JOptionPane.showMessageDialog(new JFrame(), "Invalid Move");
-				}
+				clickButtons();
 
 			}
 
 		});
-
+		disableReady();
 		bottomPanel.add(ready);
 		bottomPanel.add(timer);
 
@@ -255,13 +199,165 @@ public class EnemyMap extends Map {
 			}
 		}
 	}
+	
+	public void clickButtons(){
+		if (!hasBeenClicked[playedRow][playedColumn]) {
+			hasBeenClicked[playedRow][playedColumn] = true;
+			Result gg = room.getAM()
+					.playButton(playedColumn, playedRow);// Server uses
+															// x and y
+															// scheme
+			if (gg == Result.MISS) {
+				enemyButtons[playedRow][playedColumn]
+						.setBackground(Color.blue);
+				new SplashGif();
+				enemyButtons[playedRow][playedColumn]
+						.setState(EnemyButtonState.MISS);
+				disableAllButtons();
+			}
+			if (gg == Result.HIT) {						
+				BufferedImage buttonIcon = null;
+				try {
+					buttonIcon = ImageIO.read(new File("bomb.png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				enemyButtons[playedRow][playedColumn]
+						.setState(EnemyButtonState.HIT);
+				enemyButtons[playedRow][playedColumn]
+						.setBackground(Color.red);
+				enemyButtons[playedRow][playedColumn]
+						.setIcon(new ImageIcon(buttonIcon));
+				enableAllButtons();
+				new BoomGif();
+			}
+		if (gg == Result.SUNK) {
+						BufferedImage buttonIcon = null;
+						try {
+							buttonIcon = ImageIO.read(new File("bomb.png"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						enemyButtons[playedRow][playedColumn]
+								.setState(EnemyButtonState.HIT);
+						enemyButtons[playedRow][playedColumn]
+								.setBackground(Color.red);
+						enemyButtons[playedRow][playedColumn]
+								.setIcon(new ImageIcon(buttonIcon));
+						new SinkGif();
+						enableAllButtons();
+					}
+			enemyButtons[playedRow][playedColumn].setEnabled(false);
+			hasChosen = false;
+			room.checkIfYourTurn();
+			room.updateFiredShip();
+			updateHealthBars();
+			
+
+		} else {
+			JOptionPane.showMessageDialog(new JFrame(), "Invalid Move");
+		}
+	}
+	
+	public void setTimer(){
+		timer = new TestTimer().getLabel();
+		//bottomPanel.add(timer);
+	}
+	
+	public void clickRandomButton(){
+		System.out.println("yo");
+		Random rng = new Random();
+		int randomRow = rng.nextInt(10);
+		System.out.println(randomRow);
+		int randomColumn = rng.nextInt(10);
+		System.out.println(randomColumn);
+		while(hasBeenClicked[randomRow][randomColumn] == true){
+			randomRow = rng.nextInt(10);
+			randomColumn = rng.nextInt(10);
+			System.out.println(randomRow);
+			System.out.println(randomColumn);
+		
+		if (!hasBeenClicked[randomRow][randomColumn]) {
+			hasBeenClicked[randomRow][randomColumn] = true;
+			Result gg = room.getAM()
+					.playButton(randomColumn, randomRow);// Server uses
+															// x and y
+															// scheme
+			if (gg == Result.MISS) {
+				enemyButtons[randomRow][randomColumn]
+						.setBackground(Color.blue);
+				new SplashGif();
+				enemyButtons[randomRow][randomColumn]
+						.setState(EnemyButtonState.MISS);
+				disableAllButtons();
+			}
+			if (gg == Result.HIT) {						
+				BufferedImage buttonIcon = null;
+				try {
+					buttonIcon = ImageIO.read(new File("bomb.png"));
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				enemyButtons[randomRow][randomColumn]
+						.setState(EnemyButtonState.HIT);
+				enemyButtons[randomRow][randomColumn]
+						.setBackground(Color.red);
+				enemyButtons[randomRow][randomColumn]
+						.setIcon(new ImageIcon(buttonIcon));
+				enableAllButtons();
+				new BoomGif();
+			}
+			if (gg == Result.SUNK) {
+				if (gg == Result.SUNK) {
+						BufferedImage buttonIcon = null;
+						try {
+							buttonIcon = ImageIO.read(new File("bomb.png"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+						enemyButtons[randomRow][randomColumn]
+								.setState(EnemyButtonState.HIT);
+						enemyButtons[randomRow][randomColumn]
+								.setBackground(Color.red);
+						enemyButtons[randomRow][randomColumn]
+								.setIcon(new ImageIcon(buttonIcon));
+						new SinkGif();
+						enableAllButtons();
+					}
+			}
+			enemyButtons[randomRow][randomColumn].setEnabled(false);
+			hasChosen = false;
+			room.checkIfYourTurn();
+			room.updateFiredShip();
+			updateHealthBars();
+			
+
+		} 
+		System.out.println("CLICK");
+		}
+	}
+	
+	public void disableReady(){
+		ready.setEnabled(false);
+	}
+	public void enableReady(){
+		ready.setEnabled(true);
+	}
+
+	
+	
+	
 	/**
 	 * JLabel with the Timer for the user
 	 * 
 	 * @author GEORGE RADUTA
 	 * 
 	 */
-	public class TestTimer extends JLabel {
+	class TestTimer extends JLabel {
 
 		private Timer secondsTimer;
 		private final JLabel secondsRemainingLabel;
@@ -272,7 +368,7 @@ public class EnemyMap extends Map {
 		 */
 		public TestTimer() {
 
-			timeRemaining = 30;
+			timeRemaining = 5;
 			secondsRemainingLabel = new JLabel(String.valueOf(timeRemaining),
 					JLabel.CENTER);
 
@@ -285,6 +381,8 @@ public class EnemyMap extends Map {
 					if (timeRemaining > 0) {
 						secondsRemainingLabel.setText(String.valueOf(timeRemaining));
 					} else {
+						enableAllButtons();
+						clickRandomButton();
 						secondsTimer.stop();
 					}
 					
