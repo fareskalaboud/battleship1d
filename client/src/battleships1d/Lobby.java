@@ -321,7 +321,7 @@ public class Lobby extends JFrame {
 							if (success) {
 								JOptionPane.showMessageDialog(new JFrame(), "Now in " + roomID);
 								new Room(roomID, manager);
-								dispose();
+								setVisible(false);
 							} else {
 								JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
 							}
@@ -435,8 +435,7 @@ public class Lobby extends JFrame {
 						boolean success = manager.joinRoom(roomID);
 						if (success){
 							new Room(publicRooms.get(position).getRoomID(), manager);
-							//setVisible(false); //@alex, I think using dispose might be more efficient? but if you want to keep it open and invisible thats fine! =)
-							dispose();
+							setVisible(false);
 						} else {
 							JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
 						}
