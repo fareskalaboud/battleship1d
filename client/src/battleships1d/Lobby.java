@@ -280,6 +280,10 @@ public class Lobby extends JFrame {
 			return null;
 
 		}
+		else {
+			refreshLists();
+			new Room(publicRooms.get(0).getRoomID(), manager);
+		}
 		return newRoom;
 
 	}
@@ -505,8 +509,7 @@ public class Lobby extends JFrame {
 					}
 				} else {
 					createRoom(" ");
-					refreshLists();
-					new Room(publicRooms.get(0).getRoomID(), manager);
+					
 					return;
 				}
 			}
