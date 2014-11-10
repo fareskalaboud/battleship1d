@@ -149,7 +149,7 @@ public class Lobby extends JFrame {
 		BufferedImage buttonIcon = null;
 
 		try {
-			buttonIcon = ImageIO.read(new File("bin/img/refresh.png"));
+			buttonIcon = ImageIO.read(new File("refresh.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
