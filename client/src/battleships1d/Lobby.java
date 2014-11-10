@@ -19,6 +19,7 @@ import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
@@ -279,8 +280,7 @@ public class Lobby extends JFrame {
 			System.out.println("Error in room");
 			return null;
 
-		}
-		else {
+		} else {
 			refreshLists();
 			new Room(publicRooms.get(0).getRoomID(), manager);
 		}
@@ -298,31 +298,36 @@ public class Lobby extends JFrame {
 				// TODO Auto-generated method stub
 				if (arg0.getClickCount() == 2) {
 					// commented out by chamuel 8/11
-					/*
-					 * int index = jlPrivateRooms.getSelectedIndex(); String
-					 * roomID = jlPrivateRooms.getSelectedValue() .getRoomID();
-					 * 
-					 * JPanel panel = new JPanel(); JPasswordField
-					 * jpfRoomPasswordCheck = new JPasswordField(10);
-					 * panel.add(new JLabel("Enter room password:"));
-					 * panel.add(jpfRoomPasswordCheck); String[] options = new
-					 * String[] { "OK", "Cancel" }; int option =
-					 * JOptionPane.showOptionDialog(null, panel, "Password",
-					 * JOptionPane.NO_OPTION, JOptionPane.PLAIN_MESSAGE, null,
-					 * options, options[1]); if (option == 0) // pressing OK
-					 * button { char[] password =
-					 * jpfRoomPasswordCheck.getPassword();
-					 * 
-					 * if (jlPrivateRooms.getSelectedValue().getPassword()
-					 * .equals(new String(password))) { boolean success =
-					 * manager.joinRoom(roomID); if (success) { new JDialog(new
-					 * JFrame(), "Now in " + roomID); new Room(roomID, manager);
-					 * } else { new JDialog(new JFrame(),
-					 * "Room is already full"); } } else { new JDialog(new
-					 * JFrame(), "Password is incorrect"); }
-					 * 
-					 * }
-					 */
+
+					int index = jlPrivateRooms.getSelectedIndex();
+					String roomID = jlPrivateRooms.getSelectedValue()
+							.getRoomID();
+
+					JPanel panel = new JPanel();
+					JPasswordField jpfRoomPasswordCheck = new JPasswordField(10);
+					panel.add(new JLabel("Enter room password:"));
+					panel.add(jpfRoomPasswordCheck);
+					String[] options = new String[] { "OK", "Cancel" };
+					int option = JOptionPane.showOptionDialog(null, panel,
+							"Password", JOptionPane.NO_OPTION,
+							JOptionPane.PLAIN_MESSAGE, null, options,
+							options[1]);
+					if (option == 0) { // pressing OK button
+						char[] password = jpfRoomPasswordCheck.getPassword();
+						if (jlPrivateRooms.getSelectedValue().getPassword()
+								.equals(new String(password))) {
+							boolean success = manager.joinRoom(roomID);
+							if (success) {
+								JOptionPane.showMessageDialog(new JFrame(), "Now in " + roomID);
+								new Room(roomID, manager);
+							} else {
+								JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
+							}
+						} else {
+							JOptionPane.showMessageDialog(new JFrame(), "Password is incorrect");
+						}
+
+					}
 
 					refreshRoomLists();
 				}
@@ -418,12 +423,12 @@ public class Lobby extends JFrame {
 					// if not refresh list and tell user that room does no
 					// longer exists;
 					// if yes connect player to the room
-					
-					if(jlPublicRooms.getSelectedIndex() >= 0) {
-						manager.joinRoom(publicRooms.get(position));
+
+					if (jlPublicRooms.getSelectedIndex() >= 0) {
+						manager.joinRoom(publicRooms.get(position).getRoomID());
 						new Room(publicRooms.get(position).getRoomID(), manager);
 					}
-	
+
 					refreshRoomLists();
 				}
 
@@ -500,6 +505,7 @@ public class Lobby extends JFrame {
 						createRoom(sPassword);
 						sPassword = " ";
 						refreshLists();
+						dispose();
 						return;
 					} else {
 						JOptionPane.showMessageDialog(new JFrame(),
@@ -509,7 +515,7 @@ public class Lobby extends JFrame {
 					}
 				} else {
 					createRoom(" ");
-					
+					dispose();
 					return;
 				}
 			}
@@ -553,9 +559,5 @@ public class Lobby extends JFrame {
 		jlPrivateRooms.setListData(privateRooms);
 		return;
 
-	}
-
-	public static void main(String args[]) {
-		new Lobby().setUpUI();
 	}
 }

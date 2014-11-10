@@ -150,23 +150,6 @@ public class AppManager {
 		return "Error";
 	}
 
-	/**
-	 * Sets the main player according to mainPlayer's current value (if it's
-	 * null, assign it a Guest value; else assign it the logged in user.)
-	 * 
-	 * @author faresalaboud
-	 */
-	public static void setMainPlayer() {
-		if (mainPlayer == null) {
-			// If mainPlayer is null, then the game has only just booted up.
-			// TODO: Obtain guest player object from server and assign it to
-			// mainPlayer
-		} else {
-			// If mainPlayer isn't null, it is most likely a Guest user.
-			// TODO: Assign logged-in player to mainPlayer
-		}
-	}
-
 	// Server Management
 
 	/**
@@ -469,9 +452,6 @@ public class AppManager {
 	public static void main(String args[]) {
 		if (Server.connectToServer()) {
 			setUpUI();
-			setMainPlayer();
-			// getRoomsFromServer();
-			// frame.setVisible(true);
 			new LogIn(new AppManager());
 
 		} else {
@@ -525,6 +505,12 @@ public class AppManager {
 		return "Error";
 	}
 
+	/**
+	 * Closes a room in the server so it doesn't appear in a user's list
+	 * 
+	 * @param roomID
+	 * @return
+	 */
 	public static String closeRoom(String roomID) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Close::Success");
@@ -602,32 +588,32 @@ public class AppManager {
 		return false;
 	}
 
-	// Chamuel's joinRoom method
-	public void joinRoom(RoomData roomID) {
-
-		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("Room::Join::Success");
-		commands.add("Room::Join::Error::Full");
-
-		final Server.RequestVariables rv = new Server.RequestVariables();
-
-		Server.registerCommands(commands, new Server.RequestFunction() {
-			@Override
-			public void Response(String command) {
-				rv.setCommand(command);
-				rv.setContinueThread(true);
-			}
-		});
-
-		Server.writeLineToServer("Room::Join::" + roomID.getRoomID());
-
-		String returnedResult = rv.getCommand();
-
-		System.out.println(returnedResult);
-
-		waitOnThread(rv);
-
-	}
+//	// Chamuel's joinRoom method
+//	public void joinRoom(RoomData roomID) {
+//
+//		ArrayList<String> commands = new ArrayList<String>();
+//		commands.add("Room::Join::Success");
+//		commands.add("Room::Join::Error::Full");
+//
+//		final Server.RequestVariables rv = new Server.RequestVariables();
+//
+//		Server.registerCommands(commands, new Server.RequestFunction() {
+//			@Override
+//			public void Response(String command) {
+//				rv.setCommand(command);
+//				rv.setContinueThread(true);
+//			}
+//		});
+//
+//		Server.writeLineToServer("Room::Join::" + roomID.getRoomID());
+//
+//		String returnedResult = rv.getCommand();
+//
+//		System.out.println(returnedResult);
+//
+//		waitOnThread(rv);
+//
+//	}
 
 	public boolean isYourTurn() {
 		ArrayList<String> commands = new ArrayList<String>();
