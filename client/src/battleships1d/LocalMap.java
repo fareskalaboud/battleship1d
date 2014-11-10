@@ -512,6 +512,8 @@ public class LocalMap extends Map {
 			AppManager am = room.getAppManager();
 			room.dispose();
 			Lobby lobby = new Lobby(am);
+			am.closeRoom(room.getRoomID());
+			
 			lobby.refreshRoomLists();
 			
 		}
