@@ -2,15 +2,16 @@ package battleships1d;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.Date;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
@@ -52,6 +53,7 @@ public class EnemyMap extends Map {
 
 	}
 
+	private JLabel timer;
 	public void setUpUI() {
 		this.setLayout(new BorderLayout());
 		this.setSize(300, 300);
@@ -61,8 +63,10 @@ public class EnemyMap extends Map {
 
 		addButtons();
 
-		bottomPanel = new JPanel();
+		bottomPanel = new JPanel(new FlowLayout());
 		ready = new JButton("Ready");
+		timer = new JLabel("30");
+		
 		ready.addActionListener(new ActionListener() {
 
 			@Override
@@ -77,6 +81,7 @@ public class EnemyMap extends Map {
 					if (gg == Result.MISS) {
 						enemyButtons[playedRow][playedColumn]
 								.setBackground(Color.blue);
+						new SplashGif();
 						enemyButtons[playedRow][playedColumn]
 								.setState(EnemyButtonState.MISS);
 					}
@@ -85,12 +90,14 @@ public class EnemyMap extends Map {
 								.setState(EnemyButtonState.HIT);
 						enemyButtons[playedRow][playedColumn]
 								.setBackground(Color.red);
+						new BoomGif();
 					}
 					if (gg == Result.SUNK) {
 						enemyButtons[playedRow][playedColumn]
 								.setState(EnemyButtonState.HIT);
 						enemyButtons[playedRow][playedColumn]
 								.setBackground(Color.red);
+						new SinkGif();
 					}
 					enemyButtons[playedRow][playedColumn].setEnabled(false);
 					hasChosen = false;
@@ -108,6 +115,7 @@ public class EnemyMap extends Map {
 		});
 
 		bottomPanel.add(ready);
+		bottomPanel.add(timer);
 
 		Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
 
