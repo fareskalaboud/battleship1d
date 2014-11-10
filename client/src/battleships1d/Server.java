@@ -58,6 +58,12 @@ public class Server implements Runnable {
 
 	private static HashMap<ArrayList<String>, RequestFunction> commandRegisters = new HashMap<ArrayList<String>, RequestFunction>();
 
+	/**
+	 * 
+	 * @param commands ArrayList of possible commands sent to the server.
+	 * @param rf The request function sent to the server.
+	 * @return Whether the request was successful.
+	 */
 	public static Boolean registerCommands(ArrayList<String> commands,
 			RequestFunction rf) {
 		if (commandRegisters.containsKey(commands))
@@ -66,6 +72,11 @@ public class Server implements Runnable {
 		return true;
 	}
 
+	/**
+	 * This is the client side's command handler. 
+	 *
+	 * @param command A command being sent to the server.
+	 */
 	private static void handleCommand(String command) {
 		Boolean done = false;
 		for (ArrayList<String> list : commandRegisters.keySet()) {
