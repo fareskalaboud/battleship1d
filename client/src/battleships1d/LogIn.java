@@ -28,6 +28,7 @@ public class LogIn {
 
 	/**
 	 * Constructor
+	 * 
 	 * @param appManager
 	 */
 	public LogIn(AppManager appManager) {
@@ -231,14 +232,15 @@ public class LogIn {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
-				int randomNumber = 10000 + (int)(Math.random() * ((99999 - 10000) + 1));
-				
+				int randomNumber = 10000 + (int) (Math.random() * ((99999 - 10000) + 1));
+
 				System.out.println("Start verification");
 				String verification = appManager.checkGuest();
-				
+
 				System.out.println(verification);
 				System.out.println("Verification ends now");
-				MainMenu mainMenu = new MainMenu("GUEST" + randomNumber, appManager);
+				MainMenu mainMenu = new MainMenu("GUEST" + randomNumber,
+						appManager);
 				mainFrame.dispose();
 			}
 		});
@@ -252,13 +254,17 @@ public class LogIn {
 				boolean ok = true;
 				String userNameString = userNameTextField.getText().trim();
 				String passwordString = passwordTextField.getText().trim();
-				String verification = appManager.checkPlayerLoginDetails(userNameString,
-						passwordString);
-				System.out.println(verification);
-				if (verification.equals("Login::User::Successful::" + userNameString)) {
-					MainMenu mainMenu = new MainMenu(userNameTextField
-							.getText().trim(), appManager);
-					mainFrame.dispose();
+				if (!userNameString.trim().equals("")
+						&& !passwordString.trim().equals("")) {
+					String verification = appManager.checkPlayerLoginDetails(
+							userNameString, passwordString);
+					System.out.println(verification);
+					if (verification.equals("Login::User::Successful::"
+							+ userNameString)) {
+						MainMenu mainMenu = new MainMenu(userNameTextField
+								.getText().trim(), appManager);
+						mainFrame.dispose();
+					}
 				} else {
 					JOptionPane.showMessageDialog(mainFrame,
 							"UserName or Password is incorrect", "Error", 0);

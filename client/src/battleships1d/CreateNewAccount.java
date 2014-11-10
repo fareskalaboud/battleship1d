@@ -180,33 +180,40 @@ public class CreateNewAccount {
                 String password = new String(passwordField.getPassword()).trim();
 				String confirmPass = new String(confirmPasswordField.getPassword()).trim();
 
+				if (!userName.equals("")
+						&& password.equals(confirmPass)
+						&& !password.equals("")) {
+			
 				// Check for userName to be OK in DataBase;
 				String verification = appManager.createAccount(userName, password);
 
-				if (!userName.equals("")
-						&& password.equals(confirmPass)
-						&& !password.equals("")
-						&& verification.equals("Successful")) {
+				if (verification.equals("Successful")) {
 					userNameFromLogIn.setText(userName);
 
 					// Check with the server is is ok
 
 					enableLogInFrame.enableLogInFrame(testFrame);
 					accountFrame.dispose();
-				} else if (userName.equals("") || verification.equals("Error")) {
-					JOptionPane.showMessageDialog(accountFrame, "User Name is incorrect", "ErrorU", 0);
-				} else if (password.equals("")) {
+				} else if (verification.equals("Error")) {
+					JOptionPane.showMessageDialog(accountFrame, "User Name already exists", "ErrorU", 0);
+				} 
+				else if (verification.equals("Error")) {
+					JOptionPane.showMessageDialog(accountFrame,
+									"Error while trying to create a new account.\nPlease try again",
+									"Error", 0);
+				}
+				} else if (userName.equals("")) {
+					JOptionPane.showMessageDialog(accountFrame, "User Name field is empty", "ErrorU", 0);
+
+				}
+					else if (password.equals("")) {
 					JOptionPane.showMessageDialog(accountFrame, "Password field is empty", "Error", 0);
 				} else if (!password.equals(confirmPass)) {
 					JOptionPane.showMessageDialog(accountFrame,
 									"Password entries do not match.\n" +
 									"Please supply matching passwords entries.",
 									"Error", 0);
-				} else if (verification.equals("Error")) {
-					JOptionPane.showMessageDialog(accountFrame,
-									"Error while trying to create a new account.\nPlease try again",
-									"Error", 0);
-				}
+				} 
 			}
 		});
 
