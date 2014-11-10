@@ -525,7 +525,7 @@ public class AppManager {
 		return "Error";
 	}
 
-	private static String closeRoom(String roomID) {
+	public static String closeRoom(String roomID) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Close::Success");
 		commands.add("Room::Close::Error::UserNotHost");
