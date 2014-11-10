@@ -49,9 +49,9 @@ public class MainMenu {
 	private JPanel matchesGridPanel;
 	private JLabel welcomeLabel;
 	private JLabel userSelectedNameLabel;
-	private JButton watchTutorialButton, enterLobbyButton, quickMatchButton;
+	private JButton readManualButton, enterLobbyButton, quickMatchButton;
 	private JPanel userNameLabelPanel;
-	private JPanel watchTutorialButtonPanel;
+	private JPanel readManualButtonPanel;
 	private JPanel enterLobbyButtonPanel;
 	private JPanel quickMatchButtonPanel;
 	
@@ -111,7 +111,7 @@ public class MainMenu {
 		userNameGridPanel.setBackground(new Color(90, 90, 90));
 		matchesGridPanel.setBackground(new Color(90, 90, 90));
 		userNameLabelPanel.setBackground(new Color(90, 90, 90));
-		watchTutorialButtonPanel.setBackground(new Color(90, 90, 90));
+		readManualButtonPanel.setBackground(new Color(90, 90, 90));
 		enterLobbyButtonPanel.setBackground(new Color(90, 90, 90));
 		quickMatchButtonPanel.setBackground(new Color(90, 90, 90));
 		
@@ -120,15 +120,15 @@ public class MainMenu {
 		userSelectedNameLabel.setForeground(new Color(255, 255, 255));
 		welcomeLabel.setForeground(new Color(255, 255, 255));
 		
-		watchTutorialButton.setBackground(new Color(160, 160, 160));
+		readManualButton.setBackground(new Color(160, 160, 160));
 		enterLobbyButton.setBackground(new Color(160, 160, 160));
 		quickMatchButton.setBackground(new Color(160, 160, 160));
 		
-		watchTutorialButton.setForeground(new Color(255, 255, 255));
+		readManualButton.setForeground(new Color(255, 255, 255));
 		enterLobbyButton.setForeground(new Color(255, 255, 255));
 		quickMatchButton.setForeground(new Color(255, 255, 255));
 		
-		watchTutorialButton.setFont(new Font("Garamond", Font.BOLD, 15));
+		readManualButton.setFont(new Font("Garamond", Font.BOLD, 15));
 		enterLobbyButton.setFont(new Font("Garamond", Font.BOLD, 15));
 		quickMatchButton.setFont(new Font("Garamond", Font.BOLD, 15));
 	}
@@ -164,7 +164,7 @@ public class MainMenu {
 	       
 		welcomeLabel = new JLabel("Welcome, ");
 		userSelectedNameLabel = new JLabel(userName + " !");
-		watchTutorialButton = new JButton("Watch a Tutorial");
+		readManualButton = new JButton("Read the Manual");
 		enterLobbyButton = new JButton("Enter Lobby");
 		quickMatchButton = new JButton("Quick Match");
 		
@@ -188,15 +188,15 @@ public class MainMenu {
 		userNameLabelPanel.add(welcomeLabel);
 		userNameLabelPanel.add(userSelectedNameLabel);
 
-		watchTutorialButtonPanel = new JPanel();
-		watchTutorialButtonPanel.setLayout(new GridLayout(1, 3));
-		watchTutorialButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
-		watchTutorialButtonPanel.add(new JLabel());
-		watchTutorialButtonPanel.add(watchTutorialButton);
-		watchTutorialButtonPanel.add(new JLabel());
+		readManualButtonPanel = new JPanel();
+		readManualButtonPanel.setLayout(new GridLayout(1, 3));
+		readManualButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
+		readManualButtonPanel.add(new JLabel());
+		readManualButtonPanel.add(readManualButton);
+		readManualButtonPanel.add(new JLabel());
 
 		userNameGridPanel.add(userNameLabelPanel);
-		matchesGridPanel.add(watchTutorialButtonPanel);
+		matchesGridPanel.add(readManualButtonPanel);
 
 		enterLobbyButtonPanel = new JPanel();
 		enterLobbyButtonPanel.setLayout(new GridLayout(1, 3));
@@ -234,7 +234,7 @@ public class MainMenu {
 			}
 		});
 		
-		watchTutorialButton.addActionListener(new ActionListener() {
+		readManualButton.addActionListener(new ActionListener() {
 			
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
