@@ -414,8 +414,12 @@ public class Lobby extends JFrame {
 					// if not refresh list and tell user that room does no
 					// longer exists;
 					// if yes connect player to the room
-					manager.joinRoom(publicRooms.get(position));
-					new Room(publicRooms.get(position).getRoomID(), manager);
+					
+					if(jlPublicRooms.getSelectedIndex() >= 0) {
+						manager.joinRoom(publicRooms.get(position));
+						new Room(publicRooms.get(position).getRoomID(), manager);
+					}
+	
 					refreshRoomLists();
 				}
 
