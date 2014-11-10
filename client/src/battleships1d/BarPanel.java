@@ -23,9 +23,11 @@ import javax.swing.border.EmptyBorder;
  */
 public class BarPanel {
 	private JPanel barPanel, buttonsPanel;
-	private JLabel escapeLabel, minLabel;
+	private JLabel escapeLabel, minLabel, spaceLabel;
 	private JFrame mainFrame;
-
+	private String roomID;
+	private AppManager am;
+	
 	/**
 	 * Constructor
 	 * 
@@ -34,8 +36,15 @@ public class BarPanel {
 	 */
 	public BarPanel(JFrame mainFrame) {
 		this.mainFrame = mainFrame;
+		this.roomID = "";
 	}
 
+	public BarPanel(JFrame mainFrame, String roomID, AppManager am) {
+		this.mainFrame = mainFrame;
+		this.roomID = roomID;
+		this.am = am;
+	}
+	
 	/**
 	 * 
 	 * @return a JLabel representing the escapeButton
@@ -54,8 +63,9 @@ public class BarPanel {
 
 		barPanel = new JPanel();
 		buttonsPanel = new JPanel();
-		escapeLabel = new JLabel("X");
-		minLabel = new JLabel("_");
+		escapeLabel = new JLabel("CLOSE APP");
+		spaceLabel = new JLabel("  |  ");
+		minLabel = new JLabel("MINIMIZE");
 
 		barPanel.setBackground(new Color(50, 50, 50));
 		buttonsPanel.setBackground(new Color(50, 50, 50));
@@ -64,6 +74,9 @@ public class BarPanel {
 		escapeLabel.setForeground(Color.WHITE);
 		escapeLabel.setBorder(new EmptyBorder(1, 1, 1, 1));
 
+		spaceLabel.setFont(new Font("Garamond", Font.BOLD, 13));
+		spaceLabel.setForeground(Color.WHITE);
+
 		minLabel.setFont(new Font("Garamond", Font.BOLD, 13));
 		minLabel.setForeground(Color.WHITE);
 		minLabel.setBorder(new EmptyBorder(1, 1, 1, 1));
@@ -71,6 +84,7 @@ public class BarPanel {
 		barPanel.setLayout(new BorderLayout());
 		buttonsPanel.setLayout(new FlowLayout());
 		buttonsPanel.add(minLabel);
+		buttonsPanel.add(spaceLabel);
 		buttonsPanel.add(escapeLabel);
 		barPanel.add(buttonsPanel, BorderLayout.EAST);
 
@@ -109,8 +123,13 @@ public class BarPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				System.exit(0);
-
+				if(roomID.equals("")) {
+					System.exit(0);
+				} else {
+					am.closeRoom(roomID);
+					System.exit(0);
+				}
+				
 			}
 		});
 		minLabel.addMouseListener(new MouseListener() {

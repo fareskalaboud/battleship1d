@@ -68,7 +68,7 @@ public class Room extends JFrame {
 	 */
 	public void setUpUI() {
 		mainPlusBarPanel = new JPanel(new BorderLayout());
-		BarPanel test = new BarPanel(this);
+		BarPanel test = new BarPanel(this, roomID, am);
 		this.setUndecorated(true);
 		barPanel = test.getPanel();
 		DragFrame testDrag = new DragFrame(barPanel);
@@ -108,6 +108,7 @@ public class Room extends JFrame {
 		setUpColourTheme();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		pack();
 	}
 
