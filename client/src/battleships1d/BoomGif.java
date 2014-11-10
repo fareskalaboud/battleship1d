@@ -15,6 +15,11 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+/**
+ * 
+ * @author GEORGE RADUTA
+ *
+ */
 public class BoomGif {
 
 	private JFrame gifFrame;

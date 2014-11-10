@@ -15,6 +15,11 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
+/**
+ * 
+ * @author GEORGE RADUTA
+ *
+ */
 public class BarPanel {
 	private JPanel barPanel, buttonsPanel;
 	private JLabel escapeLabel, minLabel;
