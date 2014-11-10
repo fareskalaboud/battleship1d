@@ -51,6 +51,7 @@ public class Room extends JFrame {
 		super("Battleships (Room ID: " + roomID + ")");
 		this.roomID = roomID;
 		this.isPrivate = false;
+		this.setMaximumSize(new Dimension(550, 550));
 		this.password = "";
 		localMap = new LocalMap(this);
 		enemyMap = new EnemyMap(this);
@@ -102,7 +103,7 @@ public class Room extends JFrame {
 		// add(jlHeaderText, BorderLayout.NORTH);
 
 		// setResizable(false);
-		setMinimumSize(new Dimension(800, 550));
+		setMinimumSize(new Dimension(600, 550));
 		setLocationRelativeTo(null);
 		setUpColourTheme();
 		setVisible(true);

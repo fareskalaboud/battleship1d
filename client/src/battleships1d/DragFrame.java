@@ -10,12 +10,12 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 public class DragFrame implements MouseListener, MouseMotionListener {
-	JComponent target;
-	Point start_drag;
-	Point start_loc;
+	JComponent toMove;
+	Point pointToStart;
+	Point locToStart;
 
 	public DragFrame(JComponent target) {
-		this.target = target;
+		this.toMove = target;
 	}
 	
 
@@ -26,7 +26,7 @@ public class DragFrame implements MouseListener, MouseMotionListener {
 
 	Point getScreenLocation(MouseEvent e) {
 		Point cursor = e.getPoint();
-		Point target_location = this.target.getLocationOnScreen();
+		Point target_location = this.toMove.getLocationOnScreen();
 		return new Point((int) (target_location.getX() + cursor.getX()), (int) (target_location.getY() + cursor.getY()));
 	}
 
@@ -37,8 +37,8 @@ public class DragFrame implements MouseListener, MouseMotionListener {
 	public void mouseExited(MouseEvent e) { }
 
 	public void mousePressed(MouseEvent e) {
-		this.start_drag = this.getScreenLocation(e);
-		this.start_loc = this.getFrame(this.target).getLocation();
+		this.pointToStart = this.getScreenLocation(e);
+		this.locToStart = this.getFrame(this.toMove).getLocation();
 	}
 
 	public void mouseReleased(MouseEvent e) { }
@@ -46,12 +46,12 @@ public class DragFrame implements MouseListener, MouseMotionListener {
 	public void mouseDragged(MouseEvent e) {
 		Point current = this.getScreenLocation(e);
 		Point offset = new Point(
-				(int) current.getX() - (int) start_drag.getX(),
-				(int) current.getY() - (int) start_drag.getY());
-		JFrame frame = this.getFrame(target);
+				(int) current.getX() - (int) pointToStart.getX(),
+				(int) current.getY() - (int) pointToStart.getY());
+		JFrame frame = this.getFrame(toMove);
 		Point new_location = new Point(
-				(int) (this.start_loc.getX() + offset.getX()),
-				(int) (this.start_loc.getY() + offset.getY()));
+				(int) (this.locToStart.getX() + offset.getX()),
+				(int) (this.locToStart.getY() + offset.getY()));
 		frame.setLocation(new_location);
 	}
 
