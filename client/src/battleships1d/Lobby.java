@@ -151,12 +151,12 @@ public class Lobby extends JFrame {
 
 		try {
 			buttonIcon = ImageIO.read(new File("refresh.png"));
+			jbRefresh = new JButton(new ImageIcon(buttonIcon));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
-		jbRefresh = new JButton(new ImageIcon(buttonIcon));
+		
 		jbRefresh.setContentAreaFilled(false);
 		jbRefresh.setBorder(BorderFactory.createEmptyBorder());
 		jpEastNorth = new JPanel(new BorderLayout());
@@ -426,6 +426,7 @@ public class Lobby extends JFrame {
 
 					if (jlPublicRooms.getSelectedIndex() >= 0) {
 						manager.joinRoom(publicRooms.get(position).getRoomID());
+						dispose();
 						new Room(publicRooms.get(position).getRoomID(), manager);
 					}
 
@@ -505,7 +506,6 @@ public class Lobby extends JFrame {
 						createRoom(sPassword);
 						sPassword = " ";
 						refreshLists();
-						dispose();
 						return;
 					} else {
 						JOptionPane.showMessageDialog(new JFrame(),
@@ -515,7 +515,6 @@ public class Lobby extends JFrame {
 					}
 				} else {
 					createRoom(" ");
-					dispose();
 					return;
 				}
 			}
