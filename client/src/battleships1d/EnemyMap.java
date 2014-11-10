@@ -188,8 +188,7 @@ public class EnemyMap extends Map {
 			AppManager am = room.getAppManager();
 			room.dispose();
 			am.closeRoom(room.getRoomID());
-			Lobby lobby = new Lobby(am);
-			lobby.refreshRoomLists();
+			room.setVisibleLobby();
 		}
 	}
 

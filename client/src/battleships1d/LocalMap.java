@@ -511,11 +511,8 @@ public class LocalMap extends Map {
 			JOptionPane.showMessageDialog(new JFrame(), "You lose!");
 			AppManager am = room.getAppManager();
 			room.dispose();
-			Lobby lobby = new Lobby(am);
 			am.closeRoom(room.getRoomID());
-			
-			lobby.refreshRoomLists();
-			
+			room.setVisibleLobby();
 		}
 		updateHealth();
 		disableAllButtons();

@@ -58,7 +58,23 @@ public class Room extends JFrame {
 		this.am = am;
 		setUpUI();
 	}
-
+	private Lobby lobby;
+	public Room(String roomID, AppManager am, Lobby lobby) {
+		super("Battleships (Room ID: " + roomID + ")");
+		this.roomID = roomID;
+		this.isPrivate = false;
+		this.setMaximumSize(new Dimension(550, 550));
+		this.password = "";
+		localMap = new LocalMap(this);
+		enemyMap = new EnemyMap(this);
+		this.am = am;
+		this.lobby = lobby;
+		setUpUI();
+	}
+	
+	public void setVisibleLobby() {
+		lobby.setVisible(true);
+	}
 	private JPanel mainPlusBarPanel, barPanel;
 
 	/**
