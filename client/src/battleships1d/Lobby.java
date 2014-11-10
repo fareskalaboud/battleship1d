@@ -263,14 +263,6 @@ public class Lobby extends JFrame {
 	public RoomData createRoom(String password) {
 		RoomData newRoom;
 
-		/*
-		 * CHANGE: If you give the Room constructor just a room ID, it will
-		 * create a public room. If you give it both a room ID and a password,
-		 * it will create a private room. See Room class constructors for more
-		 * information. This uses less code, makes it more efficient and reduces
-		 * the amount of data being passed around classes.
-		 */
-
 		newRoom = new RoomData(manager.getMainPlayer(), password);
 
 		System.err.println("response from AM: " + newRoom.getRoomID());
@@ -282,22 +274,23 @@ public class Lobby extends JFrame {
 
 		} else {
 			refreshLists();
-			new Room(publicRooms.get(0).getRoomID(), manager);
+			new Room(newRoom.getRoomID(), manager);
 		}
 		return newRoom;
 
 	}
 
 	public void setActionListeners() {
+		// When user double clicks on a private room
 		jlPrivateRooms.addMouseListener(new MouseListener() {
 			@Override
 			/**
 			 * @author Alexander Hanbury-Botherway
 			 */
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
+
 				if (arg0.getClickCount() == 2) {
-					// commented out by chamuel 8/11
+
 
 					int index = jlPrivateRooms.getSelectedIndex();
 					String roomID = jlPrivateRooms.getSelectedValue()
