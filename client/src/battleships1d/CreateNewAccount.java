@@ -29,16 +29,17 @@ public class CreateNewAccount {
 
 	private AppManager appManager;
 
-    /**
-     * Constructor which will get the frame from LogIn and the userName
-     * TextField in order to fill it after the account is created;
-     *
-     * @param mainFrame
-     * @param userNameField
-     * @param appManager
-     * @author GEORGE RADUTA
-     */
-	public CreateNewAccount(JFrame mainFrame, JTextField userNameField, AppManager appManager) {
+	/**
+	 * Constructor which will get the frame from LogIn and the userName
+	 * TextField in order to fill it after the account is created;
+	 * 
+	 * @param mainFrame
+	 * @param userNameField
+	 * @param appManager
+	 * @author GEORGE RADUTA
+	 */
+	public CreateNewAccount(JFrame mainFrame, JTextField userNameField,
+			AppManager appManager) {
 		this.testFrame = mainFrame;
 		this.userNameFromLogIn = userNameField;
 		this.appManager = appManager;
@@ -47,13 +48,16 @@ public class CreateNewAccount {
 	private JFrame testFrame;
 	private JFrame accountFrame;
 	private JPanel accountPanel, mainAccountPanel, barPanel;
-	private JPanel userNamePanel, passwordPanel, confirmPasswordPanel, buttonsPanel;
+	private JPanel userNamePanel, passwordPanel, confirmPasswordPanel,
+			buttonsPanel;
 	private JLabel userNameLabel, passwordLabel, confirmPasswordLabel;
 	private JTextField userNameField, userNameFromLogIn;
 	private JPasswordField passwordField, confirmPasswordField;
 	private JButton okButton, cancelButton;
 
 	/**
+	 * Setting the UI for the CreateAccount Frame
+	 * 
 	 * @author GEORGE RADUTA
 	 */
 	public void setUpUI() {
@@ -77,7 +81,7 @@ public class CreateNewAccount {
 		// BarPanel
 		// TOP BAR WITH EXIT AND MIN
 		mainAccountPanel = new JPanel();
-		
+
 		BarPanel test = new BarPanel(accountFrame);
 		barPanel = test.getPanel();
 		DragFrame testDrag = new DragFrame(barPanel);
@@ -86,8 +90,7 @@ public class CreateNewAccount {
 		mainAccountPanel.setLayout(new BorderLayout());
 		mainAccountPanel.add(accountPanel, BorderLayout.CENTER);
 		mainAccountPanel.add(barPanel, BorderLayout.NORTH);
-		
-		
+
 		// user can press enter to create the account
 		accountFrame.getRootPane().setDefaultButton(okButton);
 
@@ -140,6 +143,9 @@ public class CreateNewAccount {
 		setActionListeners();
 	}
 
+	/**
+	 * @author Fares
+	 */
 	private void setUpColourTheme() {
 		accountPanel.setBackground(new Color(50, 50, 50));
 		userNamePanel.setBackground(new Color(90, 90, 90));
@@ -164,6 +170,8 @@ public class CreateNewAccount {
 	}
 
 	/**
+	 * Functionality of the buttons with Action Listeners;
+	 * 
 	 * @author GEORGE RADUTA
 	 */
 	public void setActionListeners() {
@@ -177,43 +185,50 @@ public class CreateNewAccount {
 				// TODO Auto-generated method stub
 
 				String userName = userNameField.getText().trim();
-                String password = new String(passwordField.getPassword()).trim();
-				String confirmPass = new String(confirmPasswordField.getPassword()).trim();
+				String password = new String(passwordField.getPassword())
+						.trim();
+				String confirmPass = new String(confirmPasswordField
+						.getPassword()).trim();
 
-				if (!userName.equals("")
-						&& password.equals(confirmPass)
+				if (!userName.equals("") && password.equals(confirmPass)
 						&& !password.equals("")) {
-			
-				// Check for userName to be OK in DataBase;
-				String verification = appManager.createAccount(userName, password);
 
-				if (verification.equals("Successful")) {
-					userNameFromLogIn.setText(userName);
+					// Check for userName to be OK in DataBase;
+					String verification = appManager.createAccount(userName,
+							password);
 
-					// Check with the server is is ok
+					if (verification.equals("Successful")) {
+						userNameFromLogIn.setText(userName);
 
-					enableLogInFrame.enableLogInFrame(testFrame);
-					accountFrame.dispose();
-				} else if (verification.equals("Error")) {
-					JOptionPane.showMessageDialog(accountFrame, "User Name already exists", "ErrorU", 0);
-				} 
-				else if (verification.equals("Error")) {
-					JOptionPane.showMessageDialog(accountFrame,
-									"Error while trying to create a new account.\nPlease try again",
-									"Error", 0);
-				}
+						// Check with the server is is ok
+
+						enableLogInFrame.enableLogInFrame(testFrame);
+						accountFrame.dispose();
+					} else if (verification.equals("Error")) {
+						JOptionPane.showMessageDialog(accountFrame,
+								"User Name already exists", "ErrorU", 0);
+					} else if (verification.equals("Error")) {
+						JOptionPane
+								.showMessageDialog(
+										accountFrame,
+										"Error while trying to create a new account.\nPlease try again",
+										"Error", 0);
+					}
 				} else if (userName.equals("")) {
-					JOptionPane.showMessageDialog(accountFrame, "User Name field is empty", "ErrorU", 0);
-
-				}
-					else if (password.equals("")) {
-					JOptionPane.showMessageDialog(accountFrame, "Password field is empty", "Error", 0);
-				} else if (!password.equals(confirmPass)) {
 					JOptionPane.showMessageDialog(accountFrame,
-									"Password entries do not match.\n" +
-									"Please supply matching passwords entries.",
+							"User Name field is empty", "ErrorU", 0);
+
+				} else if (password.equals("")) {
+					JOptionPane.showMessageDialog(accountFrame,
+							"Password field is empty", "Error", 0);
+				} else if (!password.equals(confirmPass)) {
+					JOptionPane
+							.showMessageDialog(
+									accountFrame,
+									"Password entries do not match.\n"
+											+ "Please supply matching passwords entries.",
 									"Error", 0);
-				} 
+				}
 			}
 		});
 
@@ -226,12 +241,5 @@ public class CreateNewAccount {
 				accountFrame.dispose();
 			}
 		});
-	}
-
-	/**
-	 * Should send data to the database and create the account
-	 */
-	public void createAccount() {
-
 	}
 }

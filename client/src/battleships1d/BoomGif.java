@@ -16,14 +16,19 @@ import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 /**
+ * The class that will create a JFrame with a "Boom.gif" when the user hits a
+ * ship
  * 
  * @author GEORGE RADUTA
- *
+ * 
  */
 public class BoomGif {
 
 	private JFrame gifFrame;
 
+	/**
+	 * Constructor which will run and stop the JFrame with the gif;
+	 */
 	public BoomGif() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
@@ -41,7 +46,7 @@ public class BoomGif {
 
 				gifFrame.setLayout(new BorderLayout());
 				createGifPanel();
-				
+
 				gifFrame.pack();
 				gifFrame.setLocationRelativeTo(null);
 				gifFrame.setVisible(true);
@@ -55,6 +60,10 @@ public class BoomGif {
 	private Timer gifTimer;
 	private JPanel gifPanel;
 
+	/**
+	 * Creating the Panel with the gif image; Also adding functionality to the
+	 * frame;
+	 */
 	public void createGifPanel() {
 		gifPanel = new JPanel();
 		gifPanel.setBorder(BorderFactory
@@ -74,15 +83,11 @@ public class BoomGif {
 				gifFrame.dispose();
 			}
 		});
+
 		gifTimer.setRepeats(false);
 		gifTimer.restart();
 		gifPanel.setLayout(new BorderLayout());
 		gifPanel.add(gifLabel);
 		gifFrame.add(gifPanel);
 	}
-
-	public static void main(String[] args) {
-		new BoomGif();
-	}
-
 }

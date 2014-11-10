@@ -10,6 +10,8 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 
 /**
+ * Class DragFrame is used in every JFrame in order to be able to drag the
+ * JFrame around from the top barPanel;
  * 
  * @author GEORGE RADUTA
  * 
@@ -19,40 +21,72 @@ public class DragFrame implements MouseListener, MouseMotionListener {
 	Point pointToStart;
 	Point locToStart;
 
-	public DragFrame(JComponent target) {
-		this.toMove = target;
+	/**
+	 * Constructor with the specified component toMove;
+	 * 
+	 * @param toMove
+	 */
+	public DragFrame(JComponent toMove) {
+		this.toMove = toMove;
 	}
 
+	/**
+	 * 
+	 * @param toMove
+	 *            - specified component toMove;
+	 * @return - content;
+	 */
 	public static JFrame getFrame(Container toMove) {
 		if (toMove instanceof JFrame)
 			return (JFrame) toMove;
 		return getFrame(toMove.getParent());
 	}
 
-	Point getScreenLocation(MouseEvent e) {
-		Point cursor = e.getPoint();
-		Point target_location = this.toMove.getLocationOnScreen();
-		return new Point((int) (target_location.getX() + cursor.getX()),
-				(int) (target_location.getY() + cursor.getY()));
+	private Point cursorOnScreen, locationOfTheTarget;
+
+	/**
+	 * 
+	 * @param e
+	 *            - the MouseEvent
+	 * @return
+	 */
+	private Point getTheLocationOnTheScreen(MouseEvent e) {
+		cursorOnScreen = e.getPoint();
+		locationOfTheTarget = this.toMove.getLocationOnScreen();
+
+		Point toSend = new Point(
+				(int) (locationOfTheTarget.getX() + cursorOnScreen.getX()),
+				(int) (locationOfTheTarget.getY() + cursorOnScreen.getY()));
+
+		return toSend;
 	}
 
+	/**
+	 * Event when the mouse is pressed;
+	 */
 	public void mousePressed(MouseEvent e) {
-		this.pointToStart = this.getScreenLocation(e);
+		this.pointToStart = this.getTheLocationOnTheScreen(e);
 		this.locToStart = this.getFrame(this.toMove).getLocation();
 	}
 
+	private JFrame myFrame;
+	private Point newLocation, currentLocation, toLocation;
+
+	/**
+	 * Event when the mouse is dragged;
+	 */
 	public void mouseDragged(MouseEvent e) {
-		Point current = this.getScreenLocation(e);
-		Point offset = new Point((int) current.getX()
-				- (int) pointToStart.getX(), (int) current.getY()
+		currentLocation = this.getTheLocationOnTheScreen(e);
+		toLocation = new Point((int) currentLocation.getX()
+				- (int) pointToStart.getX(), (int) currentLocation.getY()
 				- (int) pointToStart.getY());
 
-		JFrame myFrame = this.getFrame(toMove);
+		myFrame = this.getFrame(toMove);
 
-		Point new_location = new Point(
-				(int) (this.locToStart.getX() + offset.getX()),
-				(int) (this.locToStart.getY() + offset.getY()));
-		myFrame.setLocation(new_location);
+		newLocation = new Point(
+				(int) (this.locToStart.getX() + toLocation.getX()),
+				(int) (this.locToStart.getY() + toLocation.getY()));
+		myFrame.setLocation(newLocation);
 	}
 
 	public void mouseMoved(MouseEvent e) {

@@ -16,46 +16,64 @@ import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
 
 /**
+ * This class will create the bar from the top of every frame ( _ X)
  * 
  * @author GEORGE RADUTA
- *
+ * 
  */
 public class BarPanel {
 	private JPanel barPanel, buttonsPanel;
 	private JLabel escapeLabel, minLabel;
 	private JFrame mainFrame;
-	
+
+	/**
+	 * Constructor
+	 * 
+	 * @param mainFrame
+	 *            the frame where we want to add the Panel;
+	 */
 	public BarPanel(JFrame mainFrame) {
 		this.mainFrame = mainFrame;
 	}
-	
-	public JLabel getEscapeButton() { 
+
+	/**
+	 * 
+	 * @return a JLabel representing the escapeButton
+	 */
+	public JLabel getEscapeButton() {
 		return escapeLabel;
 	}
+
+	/**
+	 * A JPanel with 2 JLabels( _ and X) which also contains the ActionListeners
+	 * for this JLabels;
+	 * 
+	 * @return the new JPanel with _ X
+	 */
 	public JPanel getPanel() {
-		
+
 		barPanel = new JPanel();
 		buttonsPanel = new JPanel();
 		escapeLabel = new JLabel("X");
 		minLabel = new JLabel("_");
-		
-		barPanel.setBackground(new Color(50,50,50));
-		buttonsPanel.setBackground(new Color(50,50,50));
-		
+
+		barPanel.setBackground(new Color(50, 50, 50));
+		buttonsPanel.setBackground(new Color(50, 50, 50));
+
 		escapeLabel.setFont(new Font("Garamond", Font.BOLD, 13));
 		escapeLabel.setForeground(Color.WHITE);
-		escapeLabel.setBorder(new EmptyBorder(1,1,1,1));
+		escapeLabel.setBorder(new EmptyBorder(1, 1, 1, 1));
 
 		minLabel.setFont(new Font("Garamond", Font.BOLD, 13));
 		minLabel.setForeground(Color.WHITE);
-		minLabel.setBorder(new EmptyBorder(1,1,1,1));
-		
+		minLabel.setBorder(new EmptyBorder(1, 1, 1, 1));
+
 		barPanel.setLayout(new BorderLayout());
 		buttonsPanel.setLayout(new FlowLayout());
 		buttonsPanel.add(minLabel);
 		buttonsPanel.add(escapeLabel);
 		barPanel.add(buttonsPanel, BorderLayout.EAST);
-		
+
 		escapeLabel.addMouseListener(new MouseListener() {
 
 			@Override
@@ -73,7 +91,8 @@ public class BarPanel {
 			@Override
 			public void mouseExited(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				Border blackBorder = BorderFactory.createLineBorder(new Color(50,50,50));
+				Border blackBorder = BorderFactory.createLineBorder(new Color(
+						50, 50, 50));
 				escapeLabel.setBorder(blackBorder);
 
 			}
@@ -81,8 +100,9 @@ public class BarPanel {
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				//escapeLabel.setForeground(Color.DARK_GRAY);
-				Border whiteBorder = BorderFactory.createLineBorder(Color.WHITE);
+				// escapeLabel.setForeground(Color.DARK_GRAY);
+				Border whiteBorder = BorderFactory
+						.createLineBorder(Color.WHITE);
 				escapeLabel.setBorder(whiteBorder);
 			}
 
@@ -110,7 +130,8 @@ public class BarPanel {
 			@Override
 			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
-				Border blackBorder = BorderFactory.createLineBorder(new Color(50,50,50));
+				Border blackBorder = BorderFactory.createLineBorder(new Color(
+						50, 50, 50));
 				minLabel.setBorder(blackBorder);
 
 			}
@@ -118,7 +139,8 @@ public class BarPanel {
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
-				Border whiteBorder = BorderFactory.createLineBorder(Color.WHITE);
+				Border whiteBorder = BorderFactory
+						.createLineBorder(Color.WHITE);
 				minLabel.setBorder(whiteBorder);
 			}
 
@@ -128,7 +150,7 @@ public class BarPanel {
 				mainFrame.setState(Frame.ICONIFIED);
 			}
 		});
-		
+
 		return barPanel;
 	}
 }
