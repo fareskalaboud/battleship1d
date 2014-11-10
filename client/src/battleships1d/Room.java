@@ -106,10 +106,11 @@ public class Room extends JFrame {
 		setMinimumSize(new Dimension(600, 550));
 		setLocationRelativeTo(null);
 		setUpColourTheme();
+
+		pack();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		pack();
 	}
 
 	private void setUpColourTheme() {

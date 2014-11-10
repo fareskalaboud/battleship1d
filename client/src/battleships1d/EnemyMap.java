@@ -110,10 +110,19 @@ public class EnemyMap extends Map {
 						new BoomGif();
 					}
 					if (gg == Result.SUNK) {
+						BufferedImage buttonIcon = null;
+						try {
+							buttonIcon = ImageIO.read(new File("bomb.png"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						enemyButtons[playedRow][playedColumn]
 								.setState(EnemyButtonState.HIT);
 						enemyButtons[playedRow][playedColumn]
 								.setBackground(Color.red);
+						enemyButtons[playedRow][playedColumn]
+								.setIcon(new ImageIcon(buttonIcon));
 						new SinkGif();
 						enableAllButtons();
 					}
