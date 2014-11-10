@@ -7,8 +7,13 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -85,11 +90,20 @@ public class EnemyMap extends Map {
 						enemyButtons[playedRow][playedColumn]
 								.setState(EnemyButtonState.MISS);
 					}
-					if (gg == Result.HIT) {
+					if (gg == Result.HIT) {						
+						BufferedImage buttonIcon = null;
+						try {
+							buttonIcon = ImageIO.read(new File("bomb.png"));
+						} catch (IOException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						enemyButtons[playedRow][playedColumn]
 								.setState(EnemyButtonState.HIT);
 						enemyButtons[playedRow][playedColumn]
 								.setBackground(Color.red);
+						enemyButtons[playedRow][playedColumn]
+								.setIcon(new ImageIcon(buttonIcon));
 						new BoomGif();
 					}
 					if (gg == Result.SUNK) {
