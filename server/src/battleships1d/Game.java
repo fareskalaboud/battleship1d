@@ -14,6 +14,7 @@ public class Game {
 
     private Boolean hostReady = false;
     private Boolean guestReady = false;
+    private Connection starter = null;
 
     public Game(Room room) {
         this.room = room;
@@ -61,6 +62,7 @@ public class Game {
                     else {
                         connection.writeLine("Game::Setup::Ready::Success");
                         hostReady = true;
+                        if (starter == null) starter = connection;
                     }
                 } else {
                     //Guest
@@ -71,12 +73,13 @@ public class Game {
                     else {
                         connection.writeLine("Game::Setup::Ready::Success");
                         guestReady = true;
+                        if (starter == null) starter = connection;
                     }
                 }
 
                 if (hostReady && guestReady) {
                     //Start Game
-                	room.getHost().getConnection().writeLine("Game::Turn");
+                	starter.writeLine("Game::Turn");
                 }
             }
         } else if (cmd.getParameters()[0].equals("Fire")) {
