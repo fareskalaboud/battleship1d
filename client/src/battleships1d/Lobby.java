@@ -266,7 +266,7 @@ public class Lobby extends JFrame {
 		newRoom = new RoomData(manager.getMainPlayer(), password);
 
 		System.err.println("response from AM: " + newRoom.getRoomID());
-		if (newRoom.getRoomID().equals(":Error::UserInARoom")) {
+		if (newRoom.getRoomID().equals("Error: User In Room")) {
 			JOptionPane.showMessageDialog(new JFrame(),
 					"You can only create one room!", "Error", 0);
 			System.out.println("Error in room");
@@ -313,6 +313,7 @@ public class Lobby extends JFrame {
 							if (success) {
 								JOptionPane.showMessageDialog(new JFrame(), "Now in " + roomID);
 								new Room(roomID, manager);
+								dispose();
 							} else {
 								JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
 							}
@@ -398,7 +399,7 @@ public class Lobby extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					setVisible(false);
+					
 					// commented out by chamuel 8/11
 
 					/*
@@ -417,11 +418,16 @@ public class Lobby extends JFrame {
 					// if not refresh list and tell user that room does no
 					// longer exists;
 					// if yes connect player to the room
-
+					String roomID = jlPublicRooms.getSelectedValue().getRoomID();
 					if (jlPublicRooms.getSelectedIndex() >= 0) {
-						manager.joinRoom(publicRooms.get(position).getRoomID());
-						setVisible(false);
-						new Room(publicRooms.get(position).getRoomID(), manager);
+						boolean success = manager.joinRoom(roomID);
+						if (success){
+							new Room(publicRooms.get(position).getRoomID(), manager);
+							//setVisible(false); //@alex, I think using dispose might be more efficient? but if you want to keep it open and invisible thats fine! =)
+							dispose();
+						} else {
+							JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
+						}
 					}
 
 					//refreshRoomLists();

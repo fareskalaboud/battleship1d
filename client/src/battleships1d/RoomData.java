@@ -30,6 +30,7 @@ public class RoomData {
 
 		String serverResponse = AppManager.createRoom(password);
 
+
 		roomID = serverResponse;
 	}
 
