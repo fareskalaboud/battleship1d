@@ -19,6 +19,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
 import javax.swing.JTextField;
+import javax.swing.Timer;
 
 /**
  * 
@@ -371,6 +372,9 @@ public class LocalMap extends Map {
 			
 			room.getAM().setShips(clickedShips);
 			room.getAM().playerReady();
+			room.checkIfYoureFirst();
+			
+			
 		} else{
 			JOptionPane.showMessageDialog(new JFrame(), "Not Enough Ships");
 		}
@@ -491,6 +495,34 @@ public class LocalMap extends Map {
 		// Start adding everything to the panels
 		healthPanel.add(healthBar);
 		
+	}
+	
+	public void setShipsHit(String[] array){
+		int i = Integer.parseInt(array[0]);
+		int j = Integer.parseInt(array[1]);
+		if(hasShip[j][i]){
+			localButtons[j][i].setBackground(Color.red);
+		} else{
+			localButtons[j][i].setBackground(Color.blue);
+		}
+		enableAllButtons();
+	}
+	
+	public void disableAllButtons(){
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				localButtons[i][j].setEnabled(false);
+			}
+		}
+		
+	}
+	
+	public void enableAllButtons(){
+		for(int i = 0; i < 10; i++){
+			for(int j = 0; j < 10; j++){
+				localButtons[i][j].setEnabled(true);
+			}
+		}
 	}
 	
 	public Ship[][] getShips(){

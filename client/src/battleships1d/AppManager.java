@@ -621,5 +621,61 @@ public class AppManager {
 		waitOnThread(rv);
 		
 	}
+	
+	public boolean isYourTurn(){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Game::Turn");
+
+		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+		
+		waitOnThread(rv);
+		
+		
+		
+		String returnedResult = rv.getCommand();
+		System.out.println(returnedResult);
+		
+		if(returnedResult.equals("Game::Turn")){
+			return true;
+		} else return false;
+		
+		
+		
+		
+		
+	}
+	
+	public String[] enemyFiredAt(){
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Game::Fired::");
+
+		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+		
+		waitOnThread(rv);
+		String returnedResult = rv.getCommand();
+		System.out.println(returnedResult);
+		String[] array = new String[2];
+		array[0] = returnedResult.substring(13, 14);
+		array[1] = returnedResult.substring(16, 17);
+		return array;
+	}
 
 }

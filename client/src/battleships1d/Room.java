@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
@@ -216,7 +219,46 @@ public class Room extends JFrame {
 	public String toString() {
 		return this.roomID;
 	}
+	
+	public void checkIfYourTurn(){
+		
+		final Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			  @Override
+			  public void run() {
+			    // Your database code here
+				  String[] gg = am.enemyFiredAt();
+				  if(gg != null){
+					  localMap.setShipsHit(gg);
+					  enemyMap.enableAllButtons();
+				  }
+				if(am.isYourTurn()){
+					System.out.println("COME ON");
+					timer.cancel();
+					
+				}
+				
+				
+			  }
+			}, 1000, 1000);
+		    //perform db poll/check
+			
+		    
+	}
 
+	public void checkIfYoureFirst(){
+		final Timer timer = new Timer();
+		timer.schedule(new TimerTask() {
+			  @Override
+			  public void run() {
+			    // Your database code here
+				  am.isYourTurn();
+			  }
+			}, 1000, 1000);
+	}
+	
+	
+	
 	public static void main(String args[]) {
 		new Room("Room name", new AppManager());
 	}
