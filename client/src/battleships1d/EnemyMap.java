@@ -278,6 +278,7 @@ public class EnemyMap extends Map {
 	}
 
 	public void enableReady() {
+		JOptionPane.showMessageDialog(new JFrame(), "Your turn.", "Battleships 1-D", JOptionPane.PLAIN_MESSAGE);
 		shootButton.setEnabled(true);
 	}
 

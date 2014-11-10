@@ -430,11 +430,11 @@ public class LocalMap extends Map {
 		try {
 
 			Object jComboBoxItem = lastPlacedShipAndOrientation.pop();
-			Orientation orientation = (Orientation) lastPlacedShipAndOrientation
-					.pop();
-			int lastSize = 0;//(int) lastPlacedShipAndOrientation.pop();
-			int column = 0;//(int) lastPlacedShipAndOrientation.pop();
-			int row = 0;//(int) lastPlacedShipAndOrientation.pop();
+            Orientation orientation = (Orientation) lastPlacedShipAndOrientation
+                    .pop();
+            int lastSize = (int) lastPlacedShipAndOrientation.pop();
+            int column = (int) lastPlacedShipAndOrientation.pop();
+            int row = (int) lastPlacedShipAndOrientation.pop();
 
 			if (orientation == Orientation.Horizontal) {
 				for (int i = column; i < column + lastSize; i++) {
@@ -513,8 +513,8 @@ public class LocalMap extends Map {
 			am.getMainMenu().setVisible(true);
 			am.closeRoom(room.getRoomID());
 			room.dispose();
+
 		}
-		
 		updateHealth();
 		disableAllButtons();
 	}

@@ -219,7 +219,6 @@ public class MainMenu extends JFrame {
 	
 	private Lobby lobby;
 	private MainMenu m = this;
-	
 	/**
 	 * Adding functionality to JButtons
 	 * @author GEORGE RADUTA

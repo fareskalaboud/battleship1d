@@ -543,7 +543,7 @@ public class AppManager {
 		waitOnThread(rv);
 
 		String returnedResult = rv.getCommand();
-
+		
 		return returnedResult;
 	}
 
@@ -568,7 +568,6 @@ public class AppManager {
 		waitOnThread(rv);
 
 		String returnedResult = rv.getCommand();
-
 		return returnedResult;
 	}
 

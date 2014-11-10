@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
@@ -27,7 +28,7 @@ public class BarPanel {
 	private JFrame mainFrame;
 	private String roomID;
 	private AppManager am;
-	
+
 	/**
 	 * Constructor
 	 * 
@@ -44,7 +45,7 @@ public class BarPanel {
 		this.roomID = roomID;
 		this.am = am;
 	}
-	
+
 	/**
 	 * 
 	 * @return a JLabel representing the escapeButton
@@ -123,13 +124,22 @@ public class BarPanel {
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
 				// TODO Auto-generated method stub
-				if(roomID.equals("")) {
+				if (roomID.equals("")) {
 					System.exit(0);
 				} else {
-					am.closeRoom(roomID);
+					try {
+						am.closeRoom(roomID);
+					} catch (Exception e) {
+						JOptionPane
+								.showMessageDialog(
+										new JFrame(),
+										"We're sorry, the opposing player has quit the game before you. Please try launching the game again.",
+										"Battleships 1-D",
+										JOptionPane.INFORMATION_MESSAGE);
+					}
 					System.exit(0);
 				}
-				
+
 			}
 		});
 		minLabel.addMouseListener(new MouseListener() {
