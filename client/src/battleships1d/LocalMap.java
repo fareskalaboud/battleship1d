@@ -377,6 +377,7 @@ public class LocalMap extends Map {
 			room.getAM().setShips(clickedShips);
 			room.getAM().playerReady();
 			room.checkIfYourTurn();
+			room.updateFiredShip();
 
 		} else {
 			JOptionPane.showMessageDialog(new JFrame(), "Not Enough Ships");

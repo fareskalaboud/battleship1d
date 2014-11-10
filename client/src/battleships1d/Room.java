@@ -122,7 +122,7 @@ public class Room extends JFrame {
 		localMap.setBackground(new Color(90, 90, 90));
 		enemyMap.setBackground(new Color(90, 90, 90));
 	}
-	
+
 	/**
 	 * setEnemyPlayer()
 	 * 
@@ -230,6 +230,24 @@ public class Room extends JFrame {
 			}
 		}, 1000, 1000);
 
+	}
+
+	public void updateFiredShip() {
+
+		final Timer timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+			@Override
+			public void run() {
+				System.out.println("I'M WAITING");
+				String[] gg = am.enemyFiredAt();
+				if (gg != null) {
+					int i = Integer.parseInt(gg[0]);
+					int j = Integer.parseInt(gg[1]);
+					localMap.setShipsHit(i, j);
+
+				}
+			}
+		}, 1000, 1000);
 	}
 
 	/**
