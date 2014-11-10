@@ -242,7 +242,7 @@ public class LogIn {
 				System.out.println("Verification ends now");
 				MainMenu mainMenu = new MainMenu(verification.split("::")[2],
 						appManager);
-				
+
 				mainFrame.dispose();
 			}
 		});

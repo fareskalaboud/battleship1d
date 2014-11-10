@@ -16,11 +16,6 @@ public abstract class Map extends JPanel {
     protected JPanel healthPanel;
     protected JProgressBar healthBar;
 
-    public abstract void setUpHealthBar();
-
     public abstract void setUpUI();
     	
-
-    public abstract void setActionListeners();
-
 }

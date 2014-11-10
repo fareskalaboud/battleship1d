@@ -93,28 +93,21 @@ public class BarPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mousePressed(MouseEvent arg0) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mouseExited(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				Border blackBorder = BorderFactory.createLineBorder(new Color(
 						50, 50, 50));
 				escapeLabel.setBorder(blackBorder);
-
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				// escapeLabel.setForeground(Color.DARK_GRAY);
 				Border whiteBorder = BorderFactory
 						.createLineBorder(Color.WHITE);
@@ -126,16 +119,15 @@ public class BarPanel {
 				if (roomID.equals("")) {
 					System.exit(0);
 				} else {
-					try {
-						am.closeRoom(roomID);
-					} catch (Exception e) {
-						JOptionPane
-								.showMessageDialog(
-										new JFrame(),
-										"We're sorry, the opposing player has quit the game before you. Please try launching the game again.",
-										"Battleships 1-D",
-										JOptionPane.INFORMATION_MESSAGE);
-					}
+
+					am.closeRoom(roomID);
+					JOptionPane
+							.showMessageDialog(
+									new JFrame(),
+									"Thanks for playing, we hope you enjoyed your game. Now go back and do your homework!",
+									"Battleships 1-D",
+									JOptionPane.INFORMATION_MESSAGE);
+
 					System.exit(0);
 				}
 
@@ -145,19 +137,15 @@ public class BarPanel {
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
+
 				Border blackBorder = BorderFactory.createLineBorder(new Color(
 						50, 50, 50));
 				minLabel.setBorder(blackBorder);
@@ -166,7 +154,7 @@ public class BarPanel {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
+
 				Border whiteBorder = BorderFactory
 						.createLineBorder(Color.WHITE);
 				minLabel.setBorder(whiteBorder);
@@ -174,7 +162,7 @@ public class BarPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
+
 				mainFrame.setState(Frame.ICONIFIED);
 			}
 		});

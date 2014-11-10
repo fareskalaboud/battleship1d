@@ -26,12 +26,12 @@ import javax.swing.Timer;
  * @author Chamuel Uy
  */
 public class LocalMap extends Map {
-	
+
 	private Room room;
-	
-	private JPanel topPanel, infoPanel, bottomPanel; 
+
+	private JPanel topPanel, infoPanel, bottomPanel;
 	private JLabel sizeOfShip, currentOrientation;
-	private JButton undoMove, flipOrientation; 
+	private JButton undoMove, flipOrientation;
 
 	private boolean[][] hasShip;
 	private LocalButton[][] localButtons;
@@ -51,7 +51,7 @@ public class LocalMap extends Map {
 	JTextField currentOrientationText;
 
 	JButton finished;
-	
+
 	final JComboBox listOfNames = new JComboBox(shipNames);
 
 	/**
@@ -61,9 +61,9 @@ public class LocalMap extends Map {
 	 */
 	public LocalMap(Room room) {
 		super();
-		
+
 		this.room = room;
-		
+
 		// Initialise the whole map as not having any ship
 		hasShip = new boolean[10][10];
 		for (int i = 0; i < 10; i++) {
@@ -113,7 +113,7 @@ public class LocalMap extends Map {
 		sizeOfShip = new JLabel("Size: ");
 		sizeOfShipText = new JTextField();
 		sizeOfShipText.setEditable(false);
-		
+
 		currentOrientation = new JLabel("Current Orientation: ");
 		currentOrientationText = new JTextField();
 		currentOrientationText.setEditable(false);
@@ -134,7 +134,7 @@ public class LocalMap extends Map {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				if (listOfNames.getSelectedItem() != null) {
 					updateSize((String) listOfNames.getSelectedItem());
 					updateTexts();
@@ -154,12 +154,13 @@ public class LocalMap extends Map {
 
 					@Override
 					public void actionPerformed(ActionEvent arg0) {
-						// TODO Auto-generated method stub
+
 						if (shipArrayCounter > 4) {
 
 						} else {
 							Ship genericShip = new Ship(shipSize,
-									orientationOfShip, (String) listOfNames.getSelectedItem());
+									orientationOfShip, (String) listOfNames
+											.getSelectedItem());
 							int size = genericShip.getSize();
 							Orientation orientation = genericShip
 									.getOrientation();
@@ -171,7 +172,7 @@ public class LocalMap extends Map {
 										ships[row][i] = genericShip;
 										localButtons[row][i]
 												.setBackground(Color.green);
-										
+
 									}
 									clickedShips[row][column] = genericShip;
 								} else {
@@ -180,7 +181,7 @@ public class LocalMap extends Map {
 										ships[i][column] = genericShip;
 										localButtons[i][column]
 												.setBackground(Color.green);
-										
+
 									}
 									clickedShips[row][column] = genericShip;
 								}
@@ -222,21 +223,18 @@ public class LocalMap extends Map {
 
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				finished.setEnabled(false);
-				undoMove.setEnabled(false);
-				flipOrientation.setEnabled(false);
+
 				updateLocalButtons();
 			}
 
 		});
-		
+
 		flipOrientation = new JButton("Flip Orientation");
 		flipOrientation.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				flipOrientation();
 				updateTexts();
 			}
@@ -248,13 +246,13 @@ public class LocalMap extends Map {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				undoMove();
 				updateTexts();
 			}
 
 		});
-		
+
 		bottomPanel.add(undoMove);
 		bottomPanel.add(flipOrientation);
 		bottomPanel.add(finished);
@@ -264,7 +262,7 @@ public class LocalMap extends Map {
 		add(mapPanel, BorderLayout.CENTER);
 		// add(healthPanel, BorderLayout.NORTH);
 		add(bottomPanel, BorderLayout.SOUTH);
-		
+
 		setColourTheme();
 
 	}
@@ -274,28 +272,28 @@ public class LocalMap extends Map {
 		mapPanel.setBackground(new Color(90, 90, 90));
 		bottomPanel.setBackground(new Color(90, 90, 90));
 		infoPanel.setBackground(new Color(90, 90, 90));
-		
+
 		sizeOfShip.setForeground(new Color(255, 255, 255));
 		currentOrientation.setForeground(new Color(255, 255, 255));
 		sizeOfShipText.setForeground(new Color(255, 255, 255));
 		currentOrientationText.setForeground(new Color(255, 255, 255));
-		
+
 		sizeOfShip.setFont(new Font("Monospaced", Font.BOLD, 15));
 		currentOrientation.setFont(new Font("Monospaced", Font.BOLD, 15));
 		sizeOfShipText.setFont(new Font("Monospaced", Font.BOLD, 15));
 		currentOrientationText.setFont(new Font("Monospaced", Font.BOLD, 15));
-		
+
 		undoMove.setBackground(new Color(160, 160, 160));
 		finished.setBackground(new Color(160, 160, 160));
 		flipOrientation.setBackground(new Color(160, 160, 160));
-		
+
 		sizeOfShipText.setForeground(new Color(0, 0, 0));
-		currentOrientationText.setForeground(new Color(0, 0 ,0));
-		
+		currentOrientationText.setForeground(new Color(0, 0, 0));
+
 		undoMove.setForeground(new Color(255, 255, 255));
 		finished.setForeground(new Color(255, 255, 255));
 		flipOrientation.setForeground(new Color(255, 255, 255));
-		
+
 		undoMove.setFont(new Font("Garamond", Font.BOLD, 15));
 		finished.setFont(new Font("Garamond", Font.BOLD, 15));
 		flipOrientation.setFont(new Font("Garamond", Font.BOLD, 15));
@@ -310,8 +308,6 @@ public class LocalMap extends Map {
 		return new LocalButton(0, 0);
 
 	}
-
-
 
 	/**
 	 * Checks whether the ship with a certain size and orientation can fit in
@@ -358,35 +354,39 @@ public class LocalMap extends Map {
 
 	// VERY IMPORTANT - MUST DO IT AFTER SETTING EVERYTHING UP
 	/**
-	 * updates the buttons itself of all the ships that has been added.
-	 * This is the way it communicates with the server
+	 * updates the buttons itself of all the ships that has been added. This is
+	 * the way it communicates with the server
 	 */
 	public void updateLocalButtons() {
-		if(numberOfShips() == 17){
+		if (numberOfShips() == 17) {
 			for (int i = 0; i < 10; i++) {
 				for (int j = 0; j < 10; j++) {
 					if (hasShip[i][j]) {
 						localButtons[i][j].addShip(ships[i][j]);
-						System.out.println(ships[i][j].getName()+" "+i+" "+j);
+						System.out.println(ships[i][j].getName() + " " + i
+								+ " " + j);
 						localButtons[i][j].setEnabled(false);
 					}
 				}
 			}
-			
+
+			finished.setEnabled(false);
+			undoMove.setEnabled(false);
+			flipOrientation.setEnabled(false);
+
 			room.getAM().setShips(clickedShips);
 			room.getAM().playerReady();
 			room.checkIfYourTurn();
-			room.updateFiredShip();
-			
-			
-		} else{
+
+		} else {
 			JOptionPane.showMessageDialog(new JFrame(), "Not Enough Ships");
 		}
-		
+
 	}
 
 	/**
-	 * Flips the orientation of the ship to vertical or horizontal depending on the pervious orientation
+	 * Flips the orientation of the ship to vertical or horizontal depending on
+	 * the pervious orientation
 	 */
 	public void flipOrientation() {
 		if (orientationOfShip == Orientation.Horizontal) {
@@ -398,7 +398,9 @@ public class LocalMap extends Map {
 
 	/**
 	 * Updates the size of the ship depending on what type of ship it is
-	 * @param battleShipName - the name of the battleship
+	 * 
+	 * @param battleShipName
+	 *            - the name of the battleship
 	 */
 	public void updateSize(String battleShipName) {
 		if (battleShipName.equals("AircraftCarrier")) {
@@ -433,11 +435,11 @@ public class LocalMap extends Map {
 		try {
 
 			Object jComboBoxItem = lastPlacedShipAndOrientation.pop();
-            Orientation orientation = (Orientation) lastPlacedShipAndOrientation
-                    .pop();
-            int lastSize = (int) lastPlacedShipAndOrientation.pop();
-            int column = (int) lastPlacedShipAndOrientation.pop();
-            int row = (int) lastPlacedShipAndOrientation.pop();
+			Orientation orientation = (Orientation) lastPlacedShipAndOrientation
+					.pop();
+			int lastSize = (int) lastPlacedShipAndOrientation.pop();
+			int column = (int) lastPlacedShipAndOrientation.pop();
+			int row = (int) lastPlacedShipAndOrientation.pop();
 
 			if (orientation == Orientation.Horizontal) {
 				for (int i = column; i < column + lastSize; i++) {
@@ -452,7 +454,7 @@ public class LocalMap extends Map {
 					localButtons[i][column].setBackground(Color.gray);
 				}
 			}
-			
+
 			clickedShips[row][column] = null;
 
 			listOfNames.addItem(jComboBoxItem);
@@ -471,10 +473,13 @@ public class LocalMap extends Map {
 	public void updateHealth() {
 		int counter = numberOfShips();
 		healthBar.setValue(counter);
-		
+
 	}
-	
-	public int numberOfShips(){
+
+	/**
+	 * @return The number of current ships.
+	 */
+	public int numberOfShips() {
 		int counter = 0;
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -486,9 +491,10 @@ public class LocalMap extends Map {
 		return counter;
 	}
 
-	@Override
+	/**
+	 * Sets up the health bar
+	 */
 	public void setUpHealthBar() {
-		// TODO Auto-generated method stub
 
 		healthPanel = new JPanel();
 		healthBar = new JProgressBar(0, 17);
@@ -499,21 +505,29 @@ public class LocalMap extends Map {
 
 		// Start adding everything to the panels
 		healthPanel.add(healthBar);
-		
-	}
-	
-	public void setShipsHit(int i, int j){
 
-		if(hasShip[j][i]){
+	}
+
+	/**
+	 * Checks whether already button has a ship, and colours it accordingly;
+	 * then updates health bar.
+	 * 
+	 * @param i
+	 *            Row
+	 * @param j
+	 *            Column
+	 */
+	public void setShipsHit(int i, int j) {
+
+		if (hasShip[j][i]) {
 			hasShip[j][i] = false;
 			localButtons[j][i].setBackground(Color.red);
-		} else{
+		} else {
 			localButtons[j][i].setBackground(Color.blue);
 		}
-		if(numberOfShips() <= 0){
+		if (numberOfShips() <= 0) {
 			JOptionPane.showMessageDialog(new JFrame(), "You lose!");
 			AppManager am = room.getAppManager();
-			am.getMainMenu().setVisible(true);
 			am.closeRoom(room.getRoomID());
 			room.dispose();
 
@@ -521,37 +535,52 @@ public class LocalMap extends Map {
 		updateHealth();
 		disableAllButtons();
 	}
-	
-	public void disableAllButtons(){
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
+
+	/**
+	 * Disables the map.
+	 */
+	public void disableAllButtons() {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
 				localButtons[i][j].setEnabled(false);
 			}
 		}
-		
+
 	}
-	
-	public void enableAllButtons(){
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
+
+	/**
+	 * Enables the map.s
+	 */
+	public void enableAllButtons() {
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
 				localButtons[i][j].setEnabled(true);
 			}
 		}
 	}
-	
-	public boolean hasAShip(int column, int row){
-		if(hasShip[column][row]){
+
+	/**
+	 * Checks if the button with the column and row in the parameters have a
+	 * ship.
+	 * 
+	 * @param column
+	 * @param row
+	 * @return whether it has a ship
+	 */
+	public boolean hasAShip(int column, int row) {
+		if (hasShip[column][row]) {
 			return true;
-		} else{
+		} else {
 			return false;
 		}
 	}
-	
-	
-	public Ship[][] getShips(){
+
+	/**
+	 * 
+	 * @return a two-dimensional array of ships.
+	 */
+	public Ship[][] getShips() {
 		return ships;
 	}
-	
-	
 
 }

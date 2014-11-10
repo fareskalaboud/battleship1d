@@ -30,16 +30,21 @@ import javax.swing.border.Border;
  */
 public class EnemyMap extends Map {
 
-	EnemyButton[][] enemyButtons;
-	boolean[][] hasBeenClicked;
-	JPanel topPanel;
-	JPanel bottomPanel;
-	JButton shootButton;
+	private EnemyButton[][] enemyButtons;
+	private boolean[][] hasBeenClicked;
+	private JPanel topPanel;
+	private JPanel bottomPanel;
+	private JButton fireButton;
 
-	int playedRow;
-	int playedColumn;
-	boolean hasChosen;
+	private int playedRow;
+	private int playedColumn;
+	private boolean hasChosen;
 
+	/**
+	 * A constructor that takes the enemy map's rooms.
+	 * 
+	 * @param room
+	 */
 	public EnemyMap(Room room) {
 		super();
 		this.room = room;
@@ -56,12 +61,12 @@ public class EnemyMap extends Map {
 
 	}
 
-	public void setUpHealthBar() {
-
-	}
-
 	private JLabel timer;
 
+	/**
+	 * Set up the JFrame's UI.
+	 * 
+	 */
 	public void setUpUI() {
 		this.setLayout(new BorderLayout());
 		this.setSize(300, 300);
@@ -72,21 +77,20 @@ public class EnemyMap extends Map {
 		addButtons();
 
 		bottomPanel = new JPanel(new FlowLayout());
-		shootButton = new JButton("Shoot");
+		fireButton = new JButton("Fire");
 
-		shootButton.addActionListener(new ActionListener() {
+		fireButton.addActionListener(new ActionListener() {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-				// TODO Auto-generated method stub
+
 				clickButtons();
 
 			}
 
 		});
-		disableReady();
-		timer = new JLabel("g");
-		bottomPanel.add(shootButton);
+		disableFireButton();
+		bottomPanel.add(fireButton);
 		bottomPanel.add(timer);
 
 		Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
@@ -116,22 +120,28 @@ public class EnemyMap extends Map {
 
 	}
 
+	/**
+	 * Set the JFrame's colour theme as the game needs it
+	 */
 	private void setColourTheme() {
 		topPanel.setBackground(new Color(90, 90, 90));
 		mapPanel.setBackground(new Color(90, 90, 90));
 		healthPanel.setBackground(new Color(90, 90, 90));
 		bottomPanel.setBackground(new Color(90, 90, 90));
 
-		shootButton.setBackground(new Color(160, 160, 160));
+		fireButton.setBackground(new Color(160, 160, 160));
 
-		shootButton.setForeground(new Color(255, 255, 255));
+		fireButton.setForeground(new Color(255, 255, 255));
 
-		shootButton.setFont(new Font("Garamond", Font.BOLD, 15));
+		fireButton.setFont(new Font("Garamond", Font.BOLD, 15));
 
 	}
 
 	// only add buttons when room is established, "ready"
 	// could also be in the Room class
+	/**
+	 * Adds buttons on the map.
+	 */
 	public void addButtons() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -166,7 +176,11 @@ public class EnemyMap extends Map {
 			}
 		}
 	}
-	public void updateHealthBars() {
+
+	/**
+	 * Updates the health bar of the map.
+	 */
+	public void updateHealthBar() {
 		int counter = healthBar.getMaximum();
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -180,15 +194,16 @@ public class EnemyMap extends Map {
 			JOptionPane.showMessageDialog(new JFrame(), "You win!");
 			disableAllButtons();
 			AppManager am = room.getAppManager();
-			
-			am.getMainMenu().setVisible(true);
-			
+
 			am.closeRoom(room.getRoomID());
 			room.dispose();
-			
+
 		}
 	}
 
+	/**
+	 * Disable the map.
+	 */
 	public void disableAllButtons() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -198,6 +213,9 @@ public class EnemyMap extends Map {
 
 	}
 
+	/**
+	 * Enable the map.
+	 */
 	public void enableAllButtons() {
 		for (int i = 0; i < 10; i++) {
 			for (int j = 0; j < 10; j++) {
@@ -208,16 +226,20 @@ public class EnemyMap extends Map {
 		}
 	}
 
+	/**
+	 * Queries the server for a result of hitting a grid cell on the map, then
+	 * visually displays the result.
+	 */
 	public void clickButtons() {
 		if (!hasBeenClicked[playedRow][playedColumn]) {
 			hasBeenClicked[playedRow][playedColumn] = true;
 			Result result = room.getAM().playButton(playedColumn, playedRow);// Server
-																			// uses
-																			// x
-																			// and
-																			// y
-																			// scheme
-			
+																				// uses
+																				// x
+																				// and
+																				// y
+																				// scheme
+
 			if (result == Result.MISS) {
 				enemyButtons[playedRow][playedColumn].setBackground(Color.blue);
 				new SplashGif();
@@ -260,84 +282,85 @@ public class EnemyMap extends Map {
 			enemyButtons[playedRow][playedColumn].setEnabled(false);
 			hasChosen = false;
 			room.checkIfYourTurn();
-			room.updateFiredShip();
-			updateHealthBars();
-
+			updateHealthBar();
 		} else {
 			JOptionPane.showMessageDialog(new JFrame(), "Invalid Move");
 		}
 	}
 
-	public void setTimer() {
-		timer = new TestTimer().getLabel();
-		// bottomPanel.add(timer);
-	}
-
-	public void disableReady() {
-		shootButton.setEnabled(false);
-	}
-
-	public void enableReady() {
-		JOptionPane.showMessageDialog(new JFrame(), "Your turn.", "Battleships 1-D", JOptionPane.PLAIN_MESSAGE);
-		shootButton.setEnabled(true);
+	/**
+	 * Disables the fire button.
+	 */
+	public void disableFireButton() {
+		fireButton.setEnabled(false);
 	}
 
 	/**
-	 * JLabel with the Timer for the user
-	 * 
-	 * @author GEORGE RADUTA
-	 * 
+	 * Enables the fire button.
 	 */
-	class TestTimer extends JLabel {
-
-		private Timer secondsTimer;
-		private final JLabel secondsRemainingLabel;
-		private int timeRemaining;
-
-		/**
-		 * Constructor which will create the JLabel
-		 */
-		public TestTimer() {
-
-			timeRemaining = 5;
-			secondsRemainingLabel = new JLabel(String.valueOf(timeRemaining),
-					JLabel.CENTER);
-
-			secondsTimer = new Timer(1000, new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent arg0) {
-					timeRemaining -= 1;
-
-					if (timeRemaining > 0) {
-						secondsRemainingLabel.setText(String
-								.valueOf(timeRemaining));
-					} else {
-						// enableAllButtons();
-						// clickRandomButton();
-						secondsTimer.stop();
-					}
-
-				}
-			});
-
-			secondsTimer.start();
-		}
-
-		/**
-		 * Returning the JLabel
-		 * 
-		 * @return
-		 */
-		public JLabel getLabel() {
-			return secondsRemainingLabel;
-		}
+	public void enableFireButton() {
+		JOptionPane.showMessageDialog(new JFrame(), "Your turn.",
+				"Battleships 1-D", JOptionPane.PLAIN_MESSAGE);
+		fireButton.setEnabled(true);
 	}
-
-	@Override
-	public void setActionListeners() {
-		// TODO Auto-generated method stub
-		
-	}
+	
+	// We had no time to set the timer and found difficulty implementing it.
+	
+//	public void setTimer() {
+//		timer = new TestTimer().getLabel();
+//		// bottomPanel.add(timer);
+//	}
+//	
+//	/**
+//	 * JLabel with the Timer for the user
+//	 * 
+//	 * @author GEORGE RADUTA
+//	 * 
+//	 */
+//	class TestTimer extends JLabel {
+//
+//		private Timer secondsTimer;
+//		private final JLabel secondsRemainingLabel;
+//		private int timeRemaining;
+//
+//		/**
+//		 * Constructor which will create the JLabel
+//		 */
+//		public TestTimer() {
+//
+//			timeRemaining = 5;
+//			secondsRemainingLabel = new JLabel(String.valueOf(timeRemaining),
+//					JLabel.CENTER);
+//
+//			secondsTimer = new Timer(1000, new ActionListener() {
+//
+//				@Override
+//				public void actionPerformed(ActionEvent arg0) {
+//					timeRemaining -= 1;
+//
+//					if (timeRemaining > 0) {
+//						secondsRemainingLabel.setText(String
+//								.valueOf(timeRemaining));
+//					} else {
+//						// enableAllButtons();
+//						// clickRandomButton();
+//						secondsTimer.stop();
+//					}
+//
+//				}
+//			});
+//
+//			secondsTimer.start();
+//		}
+//
+//		/**
+//		 * Returning the JLabel
+//		 * 
+//		 * @return
+//		 */
+//		public JLabel getLabel() {
+//			return secondsRemainingLabel;
+//		}
+//	}
 
 }

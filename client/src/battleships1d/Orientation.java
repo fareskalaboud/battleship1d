@@ -6,5 +6,5 @@ package battleships1d;
  *
  */
 public enum Orientation {
-		Vertical, Horizontal
+	Vertical, Horizontal
 }

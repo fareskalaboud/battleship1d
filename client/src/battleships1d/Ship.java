@@ -7,7 +7,7 @@ package battleships1d;
  */
 public class Ship {
 	private int size;
-	private Orientation orientation; 
+	private Orientation orientation;
 	private int health;
 	private boolean isSunk;
 	private String name;
@@ -19,19 +19,24 @@ public class Ship {
 		isSunk = false;
 		health = size;
 	}
-	
-	public Ship(int size, Orientation orientation){
-		this(size, orientation,"");
+
+	public Ship(int size, Orientation orientation) {
+		this(size, orientation, "");
 		switch (size) {
-		case 2: name = "PatrolBoat";
-		break;
-		case 3: name = "Destroyer";
-		break;
-		case 4: name = "Battleship";
-		break;
-		case 5: name = "AircraftCarrier";
-		break;
-		default: name = "Submarine";
+		case 2:
+			name = "PatrolBoat";
+			break;
+		case 3:
+			name = "Destroyer";
+			break;
+		case 4:
+			name = "Battleship";
+			break;
+		case 5:
+			name = "AircraftCarrier";
+			break;
+		default:
+			name = "Submarine";
 		}
 	}
 
@@ -43,40 +48,46 @@ public class Ship {
 	 */
 	public boolean hitShip() {
 		health--;
-		if (health == 0){
+		if (health == 0) {
 			isSunk = true;
-		} return isSunk;
+		}
+		return isSunk;
 	}
-	
+
 	/**
 	 * Returns the name of the ship
+	 * 
 	 * @return name of ship
 	 */
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * Sets the name of the ship
-	 * @param name of ship
+	 * 
+	 * @param name
+	 *            of ship
 	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
+
 	/**
 	 * Returns orientation of the ship
+	 * 
 	 * @return orientation of ship
 	 */
-	public Orientation getOrientation(){
+	public Orientation getOrientation() {
 		return orientation;
 	}
-	
+
 	/**
 	 * Returns the size of a ship
+	 * 
 	 * @return size of ship
 	 */
-	public int getSize(){
+	public int getSize() {
 		return size;
 	}
 }

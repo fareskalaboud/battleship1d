@@ -74,6 +74,9 @@ public class Lobby extends JFrame {
 	private JButton jbRefresh = new JButton();
 	private final JPasswordField jpfRoomPassword = new JPasswordField(20);
 
+	/**
+	 * Set up the JFrame's UI.
+	 */
 	public void setUpUI() {
 		// Main panel
 		jpMain = new JPanel(new BorderLayout());
@@ -157,7 +160,7 @@ public class Lobby extends JFrame {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		jbRefresh.setContentAreaFilled(false);
 		jbRefresh.setBorder(BorderFactory.createEmptyBorder());
 		jpEastNorth = new JPanel(new BorderLayout());
@@ -191,6 +194,9 @@ public class Lobby extends JFrame {
 		setVisible(true);
 	}
 
+	/**
+	 * Set the JFrame's colour theme.
+	 */
 	private void setColourTheme() {
 		jpMain.setBorder(new EmptyBorder(0, 10, 10, 10));
 		jpMain.setBackground(new Color(50, 50, 50));
@@ -252,6 +258,9 @@ public class Lobby extends JFrame {
 		return publicRooms;
 	}
 
+	/**
+	 * Refreshes the JLists to display the latest set of rooms.
+	 */
 	public void refreshRoomLists() {
 		jlPublicRooms.setListData(publicRooms);
 		jlPrivateRooms.setListData(privateRooms);
@@ -275,12 +284,15 @@ public class Lobby extends JFrame {
 
 		} else {
 			refreshLists();
-			new Room(newRoom.getRoomID(), manager, this);
+			new Room(newRoom.getRoomID(), manager);
 		}
 		return newRoom;
 
 	}
 
+	/**
+	 * Sets the action listeners for some of the UI components.
+	 */
 	public void setActionListeners() {
 		// When user double clicks on a private room
 		jlPrivateRooms.addMouseListener(new MouseListener() {
@@ -292,16 +304,14 @@ public class Lobby extends JFrame {
 
 				if (arg0.getClickCount() == 2) {
 
-
 					int position = jlPrivateRooms.getSelectedIndex();
-					if (position == -1){
+					if (position == -1) {
 						System.err.println("No Room Selected");
 						return;
 					}
-					
+
 					RoomData selectedRoom = jlPrivateRooms.getSelectedValue();
 
-					
 					String roomID = selectedRoom.getRoomID();
 
 					JPanel panel = new JPanel();
@@ -319,14 +329,17 @@ public class Lobby extends JFrame {
 								.equals(new String(password))) {
 							boolean success = manager.joinRoom(roomID);
 							if (success) {
-								JOptionPane.showMessageDialog(new JFrame(), "Now in " + roomID);
+								JOptionPane.showMessageDialog(new JFrame(),
+										"Now in " + roomID);
 								new Room(roomID, manager);
 								setVisible(false);
 							} else {
-								JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
+								JOptionPane.showMessageDialog(new JFrame(),
+										"Room is already full");
 							}
 						} else {
-							JOptionPane.showMessageDialog(new JFrame(), "Password is incorrect");
+							JOptionPane.showMessageDialog(new JFrame(),
+									"Password is incorrect");
 						}
 
 					}
@@ -337,25 +350,21 @@ public class Lobby extends JFrame {
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -407,66 +416,48 @@ public class Lobby extends JFrame {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				if (e.getClickCount() == 2) {
-					
-					// commented out by chamuel 8/11
-
-					/*
-					 * int index = jlPublicRooms.getSelectedIndex(); String
-					 * roomID = jlPublicRooms.getSelectedValue() .getRoomID();
-					 * 
-					 * boolean success = manager.joinRoom(roomID); if (success)
-					 * { new JDialog(new JFrame(), "Now in " + roomID); new
-					 * Room(roomID, manager); } else { new JDialog(new JFrame(),
-					 * "Room is already full"); } refreshRoomLists();
-					 */
 
 					int position = jlPublicRooms.getSelectedIndex();
-					if (position == -1){
+					if (position == -1) {
 						System.err.println("No Room Selected");
 						return;
 					}
-					// TODO check for room if still exists
 
-					// if not refresh list and tell user that room does no
-					// longer exists;
-					// if yes connect player to the room
-					String roomID = jlPublicRooms.getSelectedValue().getRoomID();
+					String roomID = jlPublicRooms.getSelectedValue()
+							.getRoomID();
 					if (jlPublicRooms.getSelectedIndex() >= 0) {
 						boolean success = manager.joinRoom(roomID);
-						if (success){
-							new Room(publicRooms.get(position).getRoomID(), manager);
+						if (success) {
+							new Room(publicRooms.get(position).getRoomID(),
+									manager);
 							setVisible(false);
 						} else {
-							JOptionPane.showMessageDialog(new JFrame(), "Room is already full");
+							JOptionPane.showMessageDialog(new JFrame(),
+									"Room is already full");
 						}
 					}
 
-					//refreshRoomLists();
 				}
 
 			}
 
 			@Override
 			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 
 			@Override
 			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
 
 			}
 		});
@@ -475,34 +466,6 @@ public class Lobby extends JFrame {
 
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
-
-				// Commented out by Chamuel 8/11
-				/*
-				 * String sPassword = ""; if (privateRoomSelected) { char[]
-				 * password = jpfRoomPassword.getPassword(); char[]
-				 * confirmPassword = jpfConfirmPassword.getPassword();
-				 * 
-				 * if (passwordsMatch(password, confirmPassword)) { for (char x
-				 * : password) { sPassword += x; } RoomData newRoom =
-				 * createRoom(sPassword); sPassword = " "; refreshLists(); new
-				 * JDialog(new JFrame(), "Waiting for guest to join room: " +
-				 * newRoom.getRoomID()); String guestName =
-				 * manager.waitForGuest(); // Waits for // guest to // join room
-				 * new JDialog(new JFrame(), "Success! " + guestName +
-				 * " has joined your room");
-				 * 
-				 * new Room(newRoom.getRoomID(), manager); return; } else {
-				 * JOptionPane.showMessageDialog(new JFrame(),
-				 * "Passwords don't match", "Error", 0); refreshLists(); return;
-				 * } } else { RoomData newRoom = createRoom(" ");
-				 * refreshLists(); new JDialog(new JFrame(),
-				 * "Waiting for guest to join room: " + newRoom.getRoomID());
-				 * String guestName = manager.waitForGuest(); // Waits for //
-				 * guest to join // room new JDialog(new JFrame(), "Success! " +
-				 * guestName + " has joined your room");
-				 * 
-				 * new Room(newRoom.getRoomID(), manager); return; }
-				 */
 
 				String sPassword = "";
 
@@ -533,6 +496,15 @@ public class Lobby extends JFrame {
 		});
 	}
 
+	/**
+	 * Check if password and password confirmation match.
+	 * 
+	 * @param p1
+	 *            Password.
+	 * @param p2
+	 *            Password confirmation.
+	 * @return Whether they are equal.
+	 */
 	private boolean passwordsMatch(char[] p1, char[] p2) {
 		if (p1.length != p2.length) {
 			return false;

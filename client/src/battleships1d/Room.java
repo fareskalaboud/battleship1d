@@ -34,14 +34,13 @@ public class Room extends JFrame {
 	private String password;
 
 	private boolean isLocalsMove;
-	
+
 	private AppManager am;
 	private Lobby lobby;
 	private JLabel jlHeaderText;
 
 	/**
-	 * A constructor that takes only the room ID. This automatically creates a
-	 * public room.
+	 * A constructor that takes only the room ID.
 	 * 
 	 * @param roomID
 	 *            the room name/id
@@ -59,23 +58,10 @@ public class Room extends JFrame {
 		setUpUI();
 	}
 
-	public Room(String roomID, AppManager am, Lobby lobby) {
-		super("Battleships (Room ID: " + roomID + ")");
-		this.roomID = roomID;
-		this.isPrivate = false;
-		this.setMaximumSize(new Dimension(550, 550));
-		this.password = "";
-		localMap = new LocalMap(this);
-		enemyMap = new EnemyMap(this);
-		this.am = am;
-		this.lobby = lobby;
-		System.out.println("lobby" + lobby);
-		setUpUI();
-	}
-	
 	public void setVisibleLobby() {
 		lobby.setVisible(true);
 	}
+
 	private JPanel mainPlusBarPanel, barPanel;
 
 	/**
@@ -115,11 +101,6 @@ public class Room extends JFrame {
 		mainPlusBarPanel.add(borderPanel, BorderLayout.CENTER);
 		this.add(mainPlusBarPanel);
 
-		// add(localMap);
-		// add(enemyMap);
-		// add(jlHeaderText, BorderLayout.NORTH);
-
-		// setResizable(false);
 		setMinimumSize(new Dimension(600, 550));
 		setLocationRelativeTo(null);
 		setUpColourTheme();
@@ -127,9 +108,12 @@ public class Room extends JFrame {
 		pack();
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 	}
 
+	/**
+	 * Applies the game's colour theme
+	 */
 	private void setUpColourTheme() {
 		borderPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 		borderPanel.setBackground(new Color(50, 50, 50));
@@ -138,26 +122,7 @@ public class Room extends JFrame {
 		localMap.setBackground(new Color(90, 90, 90));
 		enemyMap.setBackground(new Color(90, 90, 90));
 	}
-
-	// /**
-	// * setLocalPlayer()
-	// *
-	// * @param localPlayer
-	// * of the Room of type Player;
-	// */
-	// public void setLocalPlayer(Player localPlayer) {
-	// this.localPlayer = localPlayer;
-	// }
-
-	// /**
-	// * getLocalPlayer()
-	// *
-	// * @return the localPlayer of the Room of type Player;
-	// */
-	// public Player getLocalPlayer() {
-	// return this.localPlayer;
-	// }
-
+	
 	/**
 	 * setEnemyPlayer()
 	 * 
@@ -259,46 +224,27 @@ public class Room extends JFrame {
 			public void run() {
 				System.out.println("PLEASE");
 				boolean isYourTurn = am.isYourTurn();
-				enemyMap.enableReady();
+				enemyMap.enableFireButton();
 				System.out.println("PLS");
 				enemyMap.enableAllButtons();
-				enemyMap.setTimer();
-				
-
 			}
 		}, 1000, 1000);
 
 	}
 
-	public void updateFiredShip() {
-
-		final Timer timer = new Timer();
-		timer.scheduleAtFixedRate(new TimerTask() {
-			@Override
-			public void run() {
-				System.out.println("I'M WAITING");
-				String[] gg = am.enemyFiredAt();
-				if (gg != null) {
-					int i = Integer.parseInt(gg[0]);
-					int j = Integer.parseInt(gg[1]);
-					localMap.setShipsHit(i, j);
-					
-				}
-			}
-		}, 1000, 1000);
-	}
-	
-	public EnemyMap getEnemyMap(){
+	/**
+	 * 
+	 * @return the enemy map
+	 */
+	public EnemyMap getEnemyMap() {
 		return enemyMap;
 	}
-	
+
+	/**
+	 * 
+	 * @return the app manager
+	 */
 	public AppManager getAppManager() {
 		return this.am;
 	}
-	
-	
-	public static void main(String args[]) {
-		new Room("Room name", new AppManager());
-	}
-
 }

@@ -22,14 +22,14 @@ public class AppManager {
 	// Lobby Variables
 	private static Vector<RoomData> publicRooms;
 	private static Vector<RoomData> privateRooms;
-	
+
 	// Main menu
 	private MainMenu mainMenu;
 
 	// Game Variables
 	private boolean isLocalMove;
 	private Room openRoom;
-	
+
 	// UI Management
 
 	/**
@@ -56,6 +56,7 @@ public class AppManager {
 
 	/**
 	 * Getting a random number for the guest from the server
+	 * 
 	 * @author GEORGE RADUTA
 	 */
 	public static String checkGuest() {
@@ -113,8 +114,11 @@ public class AppManager {
 
 	/**
 	 * Creating a new Account
-	 * @param username - String;
-	 * @param password - String;
+	 * 
+	 * @param username
+	 *            - String;
+	 * @param password
+	 *            - String;
 	 * @return - String from the server with the answer ( Error/Valid);
 	 */
 	public static String createAccount(String username, String password) {
@@ -137,7 +141,6 @@ public class AppManager {
 		Server.writeLineToServer("Login::Create::" + username + "::" + password);
 		waitOnThread(rv);
 
-		// TODO: Send to server, and fix line below
 		String response = rv.getCommand();
 
 		String[] serverResponse = response.split("::");
@@ -152,16 +155,7 @@ public class AppManager {
 		}
 		return "Error";
 	}
-	// Menu
-	
-	public void setMainMenu(MainMenu m) {
-		this.mainMenu = m;
-	}
-	
-	public MainMenu getMainMenu() {
-		return this.mainMenu;
-	}
-	
+
 	// Server Management
 
 	/**
@@ -170,7 +164,6 @@ public class AppManager {
 	 * 
 	 * @author faresalaboud
 	 */
-
 	public static Vector<RoomData> getRoomsFromServer() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::");
@@ -388,6 +381,7 @@ public class AppManager {
 
 	/**
 	 * test this method after they established creation of rooms
+	 * 
 	 * @param ships
 	 */
 	public void setShips(Ship[][] ships) {
@@ -425,7 +419,8 @@ public class AppManager {
 	}
 
 	/**
-	 * playerReady
+	 * Confirms that the player is ready to begin the game.
+	 * 
 	 */
 	public void playerReady() {
 		ArrayList<String> commands = new ArrayList<String>();
@@ -537,8 +532,8 @@ public class AppManager {
 				rv.setContinueThread(true);
 			}
 		});
-		
-		if(roomID.substring(0, 1).equals(":")) {
+
+		if (roomID.substring(0, 1).equals(":")) {
 			roomID = roomID.substring(1, roomID.length());
 		}
 
@@ -547,34 +542,16 @@ public class AppManager {
 		waitOnThread(rv);
 
 		String returnedResult = rv.getCommand();
-		
+
 		return returnedResult;
 	}
 
-	private static String leaveRoom(String roomID) {
-		ArrayList<String> commands = new ArrayList<String>();
-		commands.add("Room::Leave::Success");
-		commands.add("Room::Leave::UserIsHost");
-		commands.add("Room::Leave::UserIsNotGuest");
-
-		final Server.RequestVariables rv = new Server.RequestVariables();
-
-		Server.registerCommands(commands, new Server.RequestFunction() {
-			@Override
-			public void Response(String command) {
-				rv.setCommand(command);
-				rv.setContinueThread(true);
-			}
-		});
-
-		Server.writeLineToServer("Room::Leave::" + roomID);
-
-		waitOnThread(rv);
-
-		String returnedResult = rv.getCommand();
-		return returnedResult;
-	}
-
+	/**
+	 * 
+	 * 
+	 * @param roomID
+	 * @return
+	 */
 	public boolean joinRoom(String roomID) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Join::Success");
@@ -603,33 +580,10 @@ public class AppManager {
 		return false;
 	}
 
-//	// Chamuel's joinRoom method
-//	public void joinRoom(RoomData roomID) {
-//
-//		ArrayList<String> commands = new ArrayList<String>();
-//		commands.add("Room::Join::Success");
-//		commands.add("Room::Join::Error::Full");
-//
-//		final Server.RequestVariables rv = new Server.RequestVariables();
-//
-//		Server.registerCommands(commands, new Server.RequestFunction() {
-//			@Override
-//			public void Response(String command) {
-//				rv.setCommand(command);
-//				rv.setContinueThread(true);
-//			}
-//		});
-//
-//		Server.writeLineToServer("Room::Join::" + roomID.getRoomID());
-//
-//		String returnedResult = rv.getCommand();
-//
-//		System.out.println(returnedResult);
-//
-//		waitOnThread(rv);
-//
-//	}
-
+	/**
+	 * 
+	 * @return whether it is the local player's turn
+	 */
 	public boolean isYourTurn() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Turn");
@@ -657,6 +611,12 @@ public class AppManager {
 
 	}
 
+	/**
+	 * Sends a command to the server to signal that the player fired at a ship.
+	 * 
+	 * @return an array with the results.
+	 * 
+	 */
 	public String[] enemyFiredAt() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Fired::");

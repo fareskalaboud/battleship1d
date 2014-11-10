@@ -28,15 +28,16 @@ import javax.swing.border.EtchedBorder;
 public class MainMenu extends JFrame {
 	private String userName;
 	private AppManager appManager;
+
 	/**
 	 * Constructor of the MainMenu JFrame
+	 * 
 	 * @param userName
 	 * @param appManager
 	 */
 	public MainMenu(String userName, AppManager appManager) {
 		this.userName = userName;
 		this.appManager = appManager;
-		appManager.setMainMenu(this);
 		setUpUI();
 	}
 
@@ -54,10 +55,11 @@ public class MainMenu extends JFrame {
 	private JPanel readManualButtonPanel;
 	private JPanel enterLobbyButtonPanel;
 	private JPanel quickMatchButtonPanel;
-	
+
 	/**
 	 * Creating the MainWindow (More like MainPanel as Fares wanted it so that
 	 * we could just switch the panels)
+	 * 
 	 * @author GEORGE RADUTA
 	 */
 	public void setUpUI() {
@@ -65,15 +67,15 @@ public class MainMenu extends JFrame {
 		mainPanel = new JPanel();
 		mainMainMenuPanel = new JPanel();
 		this.setUndecorated(true);
-		
+
 		mainPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
-		
+
 		this.setTitle("BattleShip - 1 D");
 		this.setBounds(400, 100, 550, 520);
 		this.setResizable(false);
-		
+
 		mainPanel.setLayout(new BorderLayout());
-		
+
 		// BarPanel
 		BarPanel test = new BarPanel(this);
 		barPanel = test.getPanel();
@@ -84,16 +86,16 @@ public class MainMenu extends JFrame {
 		mainMainMenuPanel.setLayout(new BorderLayout());
 		mainMainMenuPanel.add(mainPanel, BorderLayout.CENTER);
 		mainMainMenuPanel.add(barPanel, BorderLayout.NORTH);
-		
+
 		createNorthComponent();
 		createCenterComponent();
 
 		this.add(mainMainMenuPanel);
 		// mainWindow.pack();
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
+
 		setColourTheme();
-		
+
 		this.setVisible(true);
 
 	}
@@ -113,20 +115,20 @@ public class MainMenu extends JFrame {
 		readManualButtonPanel.setBackground(new Color(90, 90, 90));
 		enterLobbyButtonPanel.setBackground(new Color(90, 90, 90));
 		quickMatchButtonPanel.setBackground(new Color(90, 90, 90));
-		
+
 		userSelectedNameLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
 		welcomeLabel.setFont(new Font("Monospaced", Font.BOLD, 16));
 		userSelectedNameLabel.setForeground(new Color(255, 255, 255));
 		welcomeLabel.setForeground(new Color(255, 255, 255));
-		
+
 		readManualButton.setBackground(new Color(160, 160, 160));
 		enterLobbyButton.setBackground(new Color(160, 160, 160));
 		quickMatchButton.setBackground(new Color(160, 160, 160));
-		
+
 		readManualButton.setForeground(new Color(255, 255, 255));
 		enterLobbyButton.setForeground(new Color(255, 255, 255));
 		quickMatchButton.setForeground(new Color(255, 255, 255));
-		
+
 		readManualButton.setFont(new Font("Garamond", Font.BOLD, 15));
 		enterLobbyButton.setFont(new Font("Garamond", Font.BOLD, 15));
 		quickMatchButton.setFont(new Font("Garamond", Font.BOLD, 15));
@@ -134,6 +136,7 @@ public class MainMenu extends JFrame {
 
 	/**
 	 * createNorthComponent() - creates the North Component of the mainPanel;
+	 * 
 	 * @author GEORGE RADUTA
 	 * @value It contains the title of the Project : "BattleShip - 1 D"
 	 */
@@ -150,6 +153,7 @@ public class MainMenu extends JFrame {
 
 	/**
 	 * createCenterComponent() - creates the Center Component of the mainPanel;
+	 * 
 	 * @author GEORGE RADUTA
 	 * @value It contains the UserNameLabel, SetUserNameButton, EnterLobbyButton
 	 *        and QuickMathcButton;
@@ -160,13 +164,13 @@ public class MainMenu extends JFrame {
 		secondGridPanel = new JPanel();
 		userNameGridPanel = new JPanel();
 		matchesGridPanel = new JPanel();
-	       
+
 		welcomeLabel = new JLabel("Welcome, ");
 		userSelectedNameLabel = new JLabel(userName + " !");
 		readManualButton = new JButton("Read the Manual");
 		enterLobbyButton = new JButton("Enter Lobby");
 		quickMatchButton = new JButton("Quick Match");
-		
+
 		centerPanel.setLayout(new GridLayout(3, 1));
 		firstGridPanel.setLayout(new BorderLayout());
 		secondGridPanel.setLayout(new BorderLayout());
@@ -180,10 +184,11 @@ public class MainMenu extends JFrame {
 		centerPanel.add(firstGridPanel);
 		centerPanel.add(secondGridPanel);
 		mainPanel.add(centerPanel, BorderLayout.CENTER);
-		
+
 		userNameLabelPanel = new JPanel();
 		userNameLabelPanel.setLayout(new FlowLayout());
-		userNameLabelPanel.setBorder(BorderFactory.createCompoundBorder(new EmptyBorder(10, 10, 10, 10), new EtchedBorder()));
+		userNameLabelPanel.setBorder(BorderFactory.createCompoundBorder(
+				new EmptyBorder(10, 10, 10, 10), new EtchedBorder()));
 		userNameLabelPanel.add(welcomeLabel);
 		userNameLabelPanel.add(userSelectedNameLabel);
 
@@ -208,38 +213,42 @@ public class MainMenu extends JFrame {
 		quickMatchButtonPanel.setLayout(new GridLayout(1, 3));
 		quickMatchButtonPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		quickMatchButtonPanel.add(new JLabel());
-		//quickMatchButtonPanel.add(quickMatchButton);
+		// quickMatchButtonPanel.add(quickMatchButton);
 		quickMatchButtonPanel.add(new JLabel());
 
 		matchesGridPanel.add(enterLobbyButtonPanel);
 		matchesGridPanel.add(quickMatchButtonPanel);
-		
+
 		setActionListeners();
 	}
-	
+
 	private Lobby lobby;
 	private MainMenu m = this;
+
 	/**
 	 * Adding functionality to JButtons
+	 * 
 	 * @author GEORGE RADUTA
 	 */
 	private void setActionListeners() {
-		
+
 		enterLobbyButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				lobby = new Lobby(appManager);
 				m.setVisible(false);
 			}
 		});
-		
+
 		readManualButton.addActionListener(new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				try {
-					Desktop.getDesktop().browse(new URI("https://dl.dropboxusercontent.com/u/106321121/SEG%201%20Tutorial.pdf"));
+					Desktop.getDesktop()
+							.browse(new URI(
+									"https://dl.dropboxusercontent.com/u/106321121/SEG%201%20Tutorial.pdf"));
 				} catch (IOException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -247,7 +256,7 @@ public class MainMenu extends JFrame {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
 		});
 	}
