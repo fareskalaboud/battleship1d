@@ -5,41 +5,73 @@ package battleships1d;
  */
 public class Command {
 
-    private String command;
-    private String[] parameters;
+	private String command;
+	private String[] parameters;
 
-    public static Command parseCommand(String command) {
-        String[] split = command.split("::");
-        if (split.length == 0) return null;
-        Command commandObject = new Command();
-        commandObject.command = split[0];
-        commandObject.parameters = new String[split.length - 1];
+	/**
+	 * Constructor
+	 * 
+	 * @param command
+	 * @return
+	 */
+	public static Command parseCommand(String command) {
+		String[] split = command.split("::");
+		if (split.length == 0)
+			return null;
+		Command commandObject = new Command();
+		commandObject.command = split[0];
+		commandObject.parameters = new String[split.length - 1];
 
-        for(int i = 0; i < commandObject.parameters.length; i++) {
-            commandObject.parameters[i] = split[i + 1];
-        }
-        return commandObject;
-    }
+		for (int i = 0; i < commandObject.parameters.length; i++) {
+			commandObject.parameters[i] = split[i + 1];
+		}
+		return commandObject;
+	}
 
-    public String getRawCommand() {
-        String cmd = command + "::";
-        for (String s : parameters) cmd += s + "::";
-        return cmd.substring(0, cmd.length() - 2);
-    }
+	/**
+	 * Returns a String
+	 * 
+	 * @return - the raw Command
+	 */
+	public String getRawCommand() {
+		String cmd = command + "::";
+		for (String s : parameters)
+			cmd += s + "::";
+		return cmd.substring(0, cmd.length() - 2);
+	}
 
-    public String getCommand() {
-        return command;
-    }
+	/**
+	 * 
+	 * @return - String with the command
+	 */
+	public String getCommand() {
+		return command;
+	}
 
-    public void setCommand(String command) {
-        this.command = command;
-    }
+	/**
+	 * Setting the command
+	 * 
+	 * @param command
+	 */
+	public void setCommand(String command) {
+		this.command = command;
+	}
 
-    public String[] getParameters() {
-        return parameters;
-    }
+	/**
+	 * Returning the parameters;
+	 * 
+	 * @return
+	 */
+	public String[] getParameters() {
+		return parameters;
+	}
 
-    public void setParameters(String[] parameters) {
-        this.parameters = parameters;
-    }
+	/**
+	 * Set the parameters
+	 * 
+	 * @param parameters
+	 */
+	public void setParameters(String[] parameters) {
+		this.parameters = parameters;
+	}
 }
