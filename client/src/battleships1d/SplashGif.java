@@ -64,7 +64,7 @@ public class SplashGif {
 		gifTimer = new Timer(2500, new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
+				gifFrame.dispose();
 			}
 		});
 		gifTimer.setRepeats(false);
