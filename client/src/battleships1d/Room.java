@@ -34,9 +34,9 @@ public class Room extends JFrame {
 	private String password;
 
 	private boolean isLocalsMove;
-
+	
 	private AppManager am;
-
+	private Lobby lobby;
 	private JLabel jlHeaderText;
 
 	/**
@@ -58,7 +58,7 @@ public class Room extends JFrame {
 		this.am = am;
 		setUpUI();
 	}
-	private Lobby lobby;
+
 	public Room(String roomID, AppManager am, Lobby lobby) {
 		super("Battleships (Room ID: " + roomID + ")");
 		this.roomID = roomID;

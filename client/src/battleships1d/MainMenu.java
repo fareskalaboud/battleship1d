@@ -25,7 +25,7 @@ import javax.swing.border.EtchedBorder;
  * @author GEORGE RADUTA
  * 
  */
-public class MainMenu {
+public class MainMenu extends JFrame {
 	private String userName;
 	private AppManager appManager;
 	/**
@@ -36,10 +36,10 @@ public class MainMenu {
 	public MainMenu(String userName, AppManager appManager) {
 		this.userName = userName;
 		this.appManager = appManager;
+		appManager.setMainMenu(this);
 		setUpUI();
 	}
 
-	private JFrame mainWindow;
 	private JPanel mainPanel;
 	private JPanel northPanel, barPanel;
 	private JLabel titleLabel;
@@ -62,21 +62,20 @@ public class MainMenu {
 	 */
 	public void setUpUI() {
 
-		mainWindow = new JFrame();
 		mainPanel = new JPanel();
 		mainMainMenuPanel = new JPanel();
-		mainWindow.setUndecorated(true);
+		this.setUndecorated(true);
 		
 		mainPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 		
-		mainWindow.setTitle("BattleShip - 1 D");
-		mainWindow.setBounds(400, 100, 550, 520);
-		mainWindow.setResizable(false);
+		this.setTitle("BattleShip - 1 D");
+		this.setBounds(400, 100, 550, 520);
+		this.setResizable(false);
 		
 		mainPanel.setLayout(new BorderLayout());
 		
 		// BarPanel
-		BarPanel test = new BarPanel(mainWindow);
+		BarPanel test = new BarPanel(this);
 		barPanel = test.getPanel();
 		DragFrame testDrag = new DragFrame(barPanel);
 		barPanel.addMouseListener(testDrag);
@@ -89,13 +88,13 @@ public class MainMenu {
 		createNorthComponent();
 		createCenterComponent();
 
-		mainWindow.add(mainMainMenuPanel);
+		this.add(mainMainMenuPanel);
 		// mainWindow.pack();
-		mainWindow.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		setColourTheme();
 		
-		mainWindow.setVisible(true);
+		this.setVisible(true);
 
 	}
 
@@ -219,6 +218,8 @@ public class MainMenu {
 	}
 	
 	private Lobby lobby;
+	private MainMenu m = this;
+	
 	/**
 	 * Adding functionality to JButtons
 	 * @author GEORGE RADUTA
@@ -230,7 +231,7 @@ public class MainMenu {
 			@Override
 			public void actionPerformed(ActionEvent arg0) {
 				lobby = new Lobby(appManager);
-				mainWindow.dispose();
+				m.setVisible(false);
 			}
 		});
 		

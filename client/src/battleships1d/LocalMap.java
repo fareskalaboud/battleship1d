@@ -510,12 +510,11 @@ public class LocalMap extends Map {
 		if(numberOfShips() <= 0){
 			JOptionPane.showMessageDialog(new JFrame(), "You lose!");
 			AppManager am = room.getAppManager();
-			room.setVisibleLobby();
+			am.getMainMenu().setVisible(true);
 			am.closeRoom(room.getRoomID());
 			room.dispose();
-			
-
 		}
+		
 		updateHealth();
 		disableAllButtons();
 	}

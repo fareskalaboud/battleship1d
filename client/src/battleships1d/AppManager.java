@@ -22,11 +22,14 @@ public class AppManager {
 	// Lobby Variables
 	private static Vector<RoomData> publicRooms;
 	private static Vector<RoomData> privateRooms;
+	
+	// Main menu
+	private MainMenu mainMenu;
 
 	// Game Variables
 	private boolean isLocalMove;
 	private Room openRoom;
-
+	
 	// UI Management
 
 	/**
@@ -149,7 +152,16 @@ public class AppManager {
 		}
 		return "Error";
 	}
-
+	// Menu
+	
+	public void setMainMenu(MainMenu m) {
+		this.mainMenu = m;
+	}
+	
+	public MainMenu getMainMenu() {
+		return this.mainMenu;
+	}
+	
 	// Server Management
 
 	/**
