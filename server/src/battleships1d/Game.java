@@ -76,12 +76,7 @@ public class Game {
 
                 if (hostReady && guestReady) {
                     //Start Game
-                    int starting = new Random().nextInt(2);
-                    if (starting == 0) {
-                        room.getHost().getConnection().writeLine("Game::Turn");
-                    } else {
-                        room.getGuest().getConnection().writeLine("Game::Turn");
-                    }
+                	room.getHost().getConnection().writeLine("Game::Turn");
                 }
             }
         } else if (cmd.getParameters()[0].equals("Fire")) {
