@@ -53,6 +53,7 @@ public class AppManager {
 
 	/**
 	 * Getting a random number for the guest from the server
+	 * @author GEORGE RADUTA
 	 */
 	public static String checkGuest() {
 		ArrayList<String> commands = new ArrayList<String>();
@@ -390,7 +391,10 @@ public class AppManager {
 		return guestUserName;
 	}
 
-	// @Cham TODO: test this method after they established creation of rooms
+	/**
+	 * test this method after they established creation of rooms
+	 * @param ships
+	 */
 	public void setShips(Ship[][] ships) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Setup::Ship::Success");
@@ -425,6 +429,9 @@ public class AppManager {
 
 	}
 
+	/**
+	 * playerReady
+	 */
 	public void playerReady() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Setup::Ready::Success");

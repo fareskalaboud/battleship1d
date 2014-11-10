@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JProgressBar;
+import javax.swing.Timer;
 import javax.swing.border.Border;
 
 /**
@@ -240,6 +241,54 @@ public class EnemyMap extends Map {
 			for (int j = 0; j < 10; j++) {
 				enemyButtons[i][j].setEnabled(true);
 			}
+		}
+	}
+	/**
+	 * JLabel with the Timer for the user
+	 * 
+	 * @author GEORGE RADUTA
+	 * 
+	 */
+	public class TestTimer extends JLabel {
+
+		private Timer secondsTimer;
+		private final JLabel secondsRemainingLabel;
+		private int timeRemaining;
+
+		/**
+		 * Constructor which will create the JLabel
+		 */
+		public TestTimer() {
+
+			timeRemaining = 30;
+			secondsRemainingLabel = new JLabel(String.valueOf(timeRemaining),
+					JLabel.CENTER);
+
+			secondsTimer = new Timer(1000, new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent arg0) {
+					timeRemaining -= 1;
+
+					if (timeRemaining > 0) {
+						secondsRemainingLabel.setText(String.valueOf(timeRemaining));
+					} else {
+						secondsTimer.stop();
+					}
+					
+				}
+			});
+
+			secondsTimer.start();
+		}
+
+		/**
+		 * Returning the JLabel
+		 * 
+		 * @return
+		 */
+		public JLabel getLabel() {
+			return secondsRemainingLabel;
 		}
 	}
 
