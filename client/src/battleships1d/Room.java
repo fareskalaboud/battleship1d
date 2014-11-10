@@ -22,7 +22,7 @@ import javax.swing.border.TitledBorder;
  * 
  */
 public class Room extends JFrame {
-	
+
 	private JPanel mainPanel, borderPanel;
 	private String enemyPlayer;
 	private LocalMap localMap;
@@ -47,7 +47,7 @@ public class Room extends JFrame {
 	 *            the room name/id
 	 * @author faresalaboud
 	 */
-	public Room(String roomID,  AppManager am) {
+	public Room(String roomID, AppManager am) {
 		super("Battleships (Room ID: " + roomID + ")");
 		this.roomID = roomID;
 		this.isPrivate = false;
@@ -58,8 +58,8 @@ public class Room extends JFrame {
 		setUpUI();
 	}
 
-
 	private JPanel mainPlusBarPanel, barPanel;
+
 	/**
 	 * Sets up room perspective for user
 	 * 
@@ -73,9 +73,9 @@ public class Room extends JFrame {
 		DragFrame testDrag = new DragFrame(barPanel);
 		barPanel.addMouseListener(testDrag);
 		barPanel.addMouseMotionListener(testDrag);
-		
+
 		//
-		
+
 		borderPanel = new JPanel(new GridLayout(1, 1));
 		mainPanel = new JPanel(new GridLayout(1, 2));
 		jlHeaderText = new JLabel("Header Text");
@@ -113,7 +113,7 @@ public class Room extends JFrame {
 	private void setUpColourTheme() {
 		borderPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 		borderPanel.setBackground(new Color(50, 50, 50));
-		
+
 		mainPanel.setBackground(new Color(90, 90, 90));
 		localMap.setBackground(new Color(90, 90, 90));
 		enemyMap.setBackground(new Color(90, 90, 90));
@@ -230,46 +230,42 @@ public class Room extends JFrame {
 	public String toString() {
 		return this.roomID;
 	}
-	
-	public void checkIfYourTurn(){
-		
+
+	public void checkIfYourTurn() {
+
 		final Timer timer = new Timer();
 		timer.scheduleAtFixedRate(new TimerTask() {
-			  @Override
-			  public void run() {
-			    // Your database code here
-				  String[] gg = am.enemyFiredAt();
-				  if(gg != null){
-					  localMap.setShipsHit(gg);
-					  enemyMap.enableAllButtons();
-				  }
-				if(am.isYourTurn()){
+			@Override
+			public void run() {
+				// Your database code here
+				String[] gg = am.enemyFiredAt();
+				if (gg != null) {
+					localMap.setShipsHit(gg);
+					enemyMap.enableAllButtons();
+				}
+				if (am.isYourTurn()) {
 					System.out.println("COME ON");
 					timer.cancel();
-					
+
 				}
-				
-				
-			  }
-			}, 1000, 1000);
-		    //perform db poll/check
-			
-		    
+
+			}
+		}, 1000, 1000);
+		// perform db poll/check
+
 	}
 
-	public void checkIfYoureFirst(){
+	public void checkIfYoureFirst() {
 		final Timer timer = new Timer();
 		timer.schedule(new TimerTask() {
-			  @Override
-			  public void run() {
-			    // Your database code here
-				  am.isYourTurn();
-			  }
-			}, 1000, 1000);
+			@Override
+			public void run() {
+				// Your database code here
+				am.isYourTurn();
+			}
+		}, 1000, 1000);
 	}
-	
-	
-	
+
 	public static void main(String args[]) {
 		new Room("Room name", new AppManager());
 	}
