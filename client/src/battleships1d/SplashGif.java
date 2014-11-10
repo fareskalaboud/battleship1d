@@ -15,11 +15,11 @@ import javax.swing.Timer;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-public class BoomGif {
+public class SplashGif {
 
 	private JFrame gifFrame;
 
-	public BoomGif() {
+	public SplashGif() {
 		EventQueue.invokeLater(new Runnable() {
 			@Override
 			public void run() {
@@ -45,7 +45,7 @@ public class BoomGif {
 		});
 	}
 
-	private ImageIcon boomGif;
+	private ImageIcon splashGif;
 	private JLabel gifLabel;
 	private Timer gifTimer;
 	private JPanel gifPanel;
@@ -55,13 +55,13 @@ public class BoomGif {
 		gifPanel.setBorder(BorderFactory
 				.createLineBorder(Color.BLACK, 10, true));
 
-		boomGif = new ImageIcon("boom.gif");
+		splashGif = new ImageIcon("splash.gif");
 
 		gifLabel = new JLabel();
 
 		gifPanel.setSize(400, 400);
 
-		gifLabel.setIcon(boomGif);
+		gifLabel.setIcon(splashGif);
 
 		gifTimer = new Timer(2500, new ActionListener() {
 			@Override

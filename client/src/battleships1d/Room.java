@@ -22,8 +22,7 @@ import javax.swing.border.TitledBorder;
  * 
  */
 public class Room extends JFrame {
-	// CHANGE: variable names to make it more consistent with the Lobby class
-	// private Player localPlayer;
+	
 	private JPanel mainPanel, borderPanel;
 	private String enemyPlayer;
 	private LocalMap localMap;
