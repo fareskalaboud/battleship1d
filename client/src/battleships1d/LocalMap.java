@@ -223,12 +223,14 @@ public class LocalMap extends Map {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
+				finished.setEnabled(false);
+				undoMove.setEnabled(false);
+				flipOrientation.setEnabled(false);
 				updateLocalButtons();
 			}
 
 		});
-		bottomPanel.add(finished);
-
+		
 		flipOrientation = new JButton("Flip Orientation");
 		flipOrientation.addActionListener(new ActionListener() {
 
@@ -252,9 +254,10 @@ public class LocalMap extends Map {
 			}
 
 		});
-
+		
 		bottomPanel.add(undoMove);
 		bottomPanel.add(flipOrientation);
+		bottomPanel.add(finished);
 
 		// Add the panels to the map
 		add(topPanel, BorderLayout.NORTH);

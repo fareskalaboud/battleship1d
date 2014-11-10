@@ -537,6 +537,10 @@ public class AppManager {
 				rv.setContinueThread(true);
 			}
 		});
+		
+		if(roomID.substring(0, 1).equals(":")) {
+			roomID = roomID.substring(1, roomID.length());
+		}
 
 		Server.writeLineToServer("Room::Close::" + roomID);
 

@@ -123,7 +123,6 @@ public class BarPanel {
 
 			@Override
 			public void mouseClicked(MouseEvent arg0) {
-				// TODO Auto-generated method stub
 				if (roomID.equals("")) {
 					System.exit(0);
 				} else {
