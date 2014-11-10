@@ -246,12 +246,7 @@ public class Room extends JFrame {
 				System.out.println("PLS");
 				enemyMap.enableAllButtons();
 				enemyMap.setTimer();
-				if (isYourTurn) {
-					System.out.println("COME ON");
-					enemyMap.enableAllButtons();
-					timer.cancel();
-
-				}
+				
 
 			}
 		}, 1000, 1000);
@@ -270,21 +265,17 @@ public class Room extends JFrame {
 					int i = Integer.parseInt(gg[0]);
 					int j = Integer.parseInt(gg[1]);
 					localMap.setShipsHit(i, j);
-					if(localMap.hasAShip(i, j)){
-						enemyMap.disableAllButtons();
-						enemyMap.disableReady();
-						
-					} else{
-						enemyMap.enableAllButtons();
-						enemyMap.enableReady();
-						enemyMap.setTimer();
-						
-					}
+					
 				}
 			}
 		}, 1000, 1000);
 	}
-
+	
+	public EnemyMap getEnemyMap(){
+		return enemyMap;
+	}
+	
+	
 	public static void main(String args[]) {
 		new Room("Room name", new AppManager());
 	}

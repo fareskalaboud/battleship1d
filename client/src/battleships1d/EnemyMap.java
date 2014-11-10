@@ -88,7 +88,7 @@ public class EnemyMap extends Map {
 		timer = new JLabel("g");
 		bottomPanel.add(ready);
 		bottomPanel.add(timer);
-		setTimer();
+		
 
 		Border borderPanel = BorderFactory.createEmptyBorder(6, 0, 5, 0);
 
@@ -274,7 +274,7 @@ public class EnemyMap extends Map {
 		//bottomPanel.add(timer);
 	}
 	
-	public void clickRandomButton(){
+	/*public void clickRandomButton(){
 		System.out.println("yo");
 		Random rng = new Random();
 		int randomRow = rng.nextInt(10);
@@ -347,7 +347,7 @@ public class EnemyMap extends Map {
 		} 
 		System.out.println("CLICK");
 		}
-	}
+	}*/
 	
 	public void disableReady(){
 		ready.setEnabled(false);
@@ -389,8 +389,8 @@ public class EnemyMap extends Map {
 					if (timeRemaining > 0) {
 						secondsRemainingLabel.setText(String.valueOf(timeRemaining));
 					} else {
-						enableAllButtons();
-						clickRandomButton();
+						//enableAllButtons();
+						//clickRandomButton();
 						secondsTimer.stop();
 					}
 					
