@@ -55,6 +55,25 @@ public class AppManager {
 	/**
 	 * Checks for Guest
 	 */
+	public static String checkGuest() {
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Login::Guest::");
+		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Login::Guest");
+		waitOnThread(rv);
+		return rv.getCommand();
+	}
+	
 	/**
 	 * Checks the server if the player's login details are correct or not.
 	 * 

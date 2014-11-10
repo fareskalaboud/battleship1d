@@ -232,6 +232,12 @@ public class LogIn {
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				int randomNumber = 10000 + (int)(Math.random() * ((99999 - 10000) + 1));
+				
+				System.out.println("Start verification");
+				String verification = appManager.checkGuest();
+				
+				System.out.println(verification);
+				System.out.println("Verification ends now");
 				MainMenu mainMenu = new MainMenu("GUEST" + randomNumber, appManager);
 				mainFrame.dispose();
 			}
