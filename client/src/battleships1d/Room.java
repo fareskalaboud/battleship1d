@@ -1,10 +1,10 @@
 package battleships1d;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridLayout;
-import java.util.Date;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -59,13 +59,23 @@ public class Room extends JFrame {
 	}
 
 
-
+	private JPanel mainPlusBarPanel, barPanel;
 	/**
 	 * Sets up room perspective for user
 	 * 
 	 * @author Alexander Hanbury-Botherway
 	 */
 	public void setUpUI() {
+		mainPlusBarPanel = new JPanel(new BorderLayout());
+		BarPanel test = new BarPanel(this);
+		this.setUndecorated(true);
+		barPanel = test.getPanel();
+		DragFrame testDrag = new DragFrame(barPanel);
+		barPanel.addMouseListener(testDrag);
+		barPanel.addMouseMotionListener(testDrag);
+		
+		//
+		
 		borderPanel = new JPanel(new GridLayout(1, 1));
 		mainPanel = new JPanel(new GridLayout(1, 2));
 		jlHeaderText = new JLabel("Header Text");
@@ -83,7 +93,9 @@ public class Room extends JFrame {
 		mainPanel.add(enemyMap);
 
 		borderPanel.add(mainPanel);
-		this.add(borderPanel);
+		mainPlusBarPanel.add(barPanel, BorderLayout.NORTH);
+		mainPlusBarPanel.add(borderPanel, BorderLayout.CENTER);
+		this.add(mainPlusBarPanel);
 
 		// add(localMap);
 		// add(enemyMap);
@@ -99,7 +111,7 @@ public class Room extends JFrame {
 	}
 
 	private void setUpColourTheme() {
-		borderPanel.setBorder(new EmptyBorder(10, 10, 10, 10));
+		borderPanel.setBorder(new EmptyBorder(0, 10, 10, 10));
 		borderPanel.setBackground(new Color(50, 50, 50));
 		
 		mainPanel.setBackground(new Color(90, 90, 90));
