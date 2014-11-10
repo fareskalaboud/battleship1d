@@ -46,6 +46,7 @@ public class EnemyMap extends Map {
         
         
         this.setUpUI();
+        disableAllButtons();
         
     }
 
@@ -90,6 +91,7 @@ public class EnemyMap extends Map {
         			enemyButtons[playedRow][playedColumn].setEnabled(false);
         			hasChosen = false;
         			room.checkIfYourTurn();
+        			room.updateFiredShip();
         			updateHealthBars();
         			disableAllButtons();
         			

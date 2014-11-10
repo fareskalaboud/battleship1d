@@ -646,7 +646,9 @@ public class AppManager {
 		
 		if(returnedResult.equals("Game::Turn")){
 			return true;
-		} else return false;
+		} else {
+			return false;
+		}
 		
 		
 		

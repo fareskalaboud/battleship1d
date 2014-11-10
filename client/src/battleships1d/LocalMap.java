@@ -371,8 +371,9 @@ public class LocalMap extends Map {
 			}
 			
 			room.getAM().setShips(clickedShips);
+			room.checkIfYourTurn();
 			room.getAM().playerReady();
-			room.checkIfYoureFirst();
+			room.updateFiredShip();
 			
 			
 		} else{

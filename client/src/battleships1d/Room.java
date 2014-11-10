@@ -237,31 +237,34 @@ public class Room extends JFrame {
 		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				// Your database code here
-				String[] gg = am.enemyFiredAt();
-				if (gg != null) {
-					localMap.setShipsHit(gg);
-					enemyMap.enableAllButtons();
-				}
-				if (am.isYourTurn()) {
+				System.out.println("PLEASE");
+				boolean isYourTurn = am.isYourTurn();
+				System.out.println("PLS");
+				enemyMap.enableAllButtons();
+				if (isYourTurn) {
 					System.out.println("COME ON");
+					enemyMap.enableAllButtons();
 					timer.cancel();
 
 				}
 
 			}
 		}, 1000, 1000);
-		// perform db poll/check
 
 	}
 
-	public void checkIfYoureFirst() {
+	public void updateFiredShip() {
+
 		final Timer timer = new Timer();
-		timer.schedule(new TimerTask() {
+		timer.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				// Your database code here
-				am.isYourTurn();
+				System.out.println("I'M WAITING");
+				String[] gg = am.enemyFiredAt();
+				if (gg != null) {
+					localMap.setShipsHit(gg);
+					enemyMap.enableAllButtons();
+				}
 			}
 		}, 1000, 1000);
 	}
