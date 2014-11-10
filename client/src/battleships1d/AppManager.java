@@ -51,6 +51,10 @@ public class AppManager {
 		return mainPlayer;
 	}
 
+	
+	/**
+	 * Checks for Guest
+	 */
 	/**
 	 * Checks the server if the player's login details are correct or not.
 	 * 
@@ -163,46 +167,43 @@ public class AppManager {
 	 */
 
 	public static Vector<RoomData> getRoomsFromServer() {
-		 ArrayList<String> commands = new ArrayList<String>();
-		 commands.add("Room::");
+		ArrayList<String> commands = new ArrayList<String>();
+		commands.add("Room::");
 
-		 final Server.RequestVariables rv = new Server.RequestVariables();
-		
-		 Server.registerCommands(commands, new Server.RequestFunction() {
-		 @Override
-		 public void Response(String command) {
-		 rv.setCommand(command);
-		 rv.setContinueThread(true);
-		 }
-		 });
-		
-		 Server.writeLineToServer("Room::List");
-		 waitOnThread(rv);
-		
-		
-		 String returnedResult = rv.getCommand();
-		
-		 System.out.println(returnedResult);
-		 
-		 Vector<RoomData> allRooms = new Vector<RoomData>();
-		
+		final Server.RequestVariables rv = new Server.RequestVariables();
+
+		Server.registerCommands(commands, new Server.RequestFunction() {
+			@Override
+			public void Response(String command) {
+				rv.setCommand(command);
+				rv.setContinueThread(true);
+			}
+		});
+
+		Server.writeLineToServer("Room::List");
+		waitOnThread(rv);
+
+		String returnedResult = rv.getCommand();
+
+		System.out.println(returnedResult);
+
+		Vector<RoomData> allRooms = new Vector<RoomData>();
+
 		String[] returnedArray = returnedResult.split("::");
-		
-		System.out.println(returnedArray[0] + "0"); //Room 
-		System.out.println(returnedArray[1] + "1"); //Count
 
+		System.out.println(returnedArray[0] + "0"); // Room
+		System.out.println(returnedArray[1] + "1"); // Count
 
-		
 		int roomCount = Integer.parseInt(returnedArray[1]);
-		
-		for (int i = 0; i<roomCount; i++){
-			String roomID = returnedArray[2+(i*3)];
-			String host = returnedArray[3+(i*3)];
-			String password = returnedArray[4+(i*3)];
+
+		for (int i = 0; i < roomCount; i++) {
+			String roomID = returnedArray[2 + (i * 3)];
+			String host = returnedArray[3 + (i * 3)];
+			String password = returnedArray[4 + (i * 3)];
 			System.out.println(roomID + host + password);
 			allRooms.add(new RoomData(roomID, host, password));
 		}
-		
+
 		return allRooms;
 	}
 
@@ -270,25 +271,24 @@ public class AppManager {
 		}
 		if (shipHasBeenSunked.equals("Game::Fire::Sun")) {
 			isLocalMove = false;
-			String shipName = returnedResult.substring(18, returnedResult.length());
+			String shipName = returnedResult.substring(18,
+					returnedResult.length());
 			new JDialog(new JFrame(), "You sunk the enemie's " + shipName + "!");
 			System.out.println(shipName);
 			return Result.SUNK;
 		}
-		if (returnedResult.equals("Game::Win")){
+		if (returnedResult.equals("Game::Win")) {
 			isLocalMove = false;
 			new JDialog(new JFrame(), "You win mate");
 			System.out.println("u win");
 		}
-		
-		if(returnedResult.equals("Game::Loss")){
+
+		if (returnedResult.equals("Game::Loss")) {
 			isLocalMove = false;
 			new JDialog(new JFrame(), "lel u lost");
 			System.out.println("u lost");
 		}
-		
-		
-		
+
 		System.err.println("Result from button: " + row + " " + col
 				+ " is not valid");
 		return null;
@@ -352,6 +352,7 @@ public class AppManager {
 
 	/**
 	 * Called when a host creates a room, waits for guest to join the room
+	 * 
 	 * @author Alexander Hanbury-Botherway
 	 * @return
 	 */
@@ -372,21 +373,21 @@ public class AppManager {
 		waitOnThread(rv);
 
 		String returnedResult = rv.getCommand();
-		
+
 		returnedResult += "::";
-		
+
 		String guestUserName = returnedResult.split(":")[3];
-		
+
 		return guestUserName;
 	}
 
-	//@Cham TODO: test this method after they established creation of rooms
-	public void setShips(Ship[][] ships){
+	// @Cham TODO: test this method after they established creation of rooms
+	public void setShips(Ship[][] ships) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Setup::Ship::Success");
 		commands.add("Game::Setup::Ship::Error::InvalidY");
 		commands.add("Game::Setup::Ship::Error::InvalidX");
-		
+
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
 		Server.registerCommands(commands, new Server.RequestFunction() {
@@ -397,33 +398,29 @@ public class AppManager {
 			}
 		});
 
-		for(int i = 0; i < 10; i++){
-			for(int j = 0; j < 10; j++){
-				if(ships[i][j] != null){
-					Server.writeLineToServer("Game::Setup::Ship::"+ships[i][j].getName()+"::"+j+"::"+i+"::"+ships[i][j].getOrientation());				
+		for (int i = 0; i < 10; i++) {
+			for (int j = 0; j < 10; j++) {
+				if (ships[i][j] != null) {
+					Server.writeLineToServer("Game::Setup::Ship::"
+							+ ships[i][j].getName() + "::" + j + "::" + i
+							+ "::" + ships[i][j].getOrientation());
 				}
-				
+
 			}
 		}
-		
+
 		waitOnThread(rv);
-		
-		
+
 		String returnedResults = rv.getCommand();
 		System.out.println(returnedResults);
-		
-		
-		
-		
-
 
 	}
-	
-	public void playerReady(){
+
+	public void playerReady() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Setup::Ready::Success");
 		commands.add("Game::Setup::Ready::Error::InsufficientShips");
-		
+
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
 		Server.registerCommands(commands, new Server.RequestFunction() {
@@ -433,19 +430,14 @@ public class AppManager {
 				rv.setContinueThread(true);
 			}
 		});
-		
+
 		Server.writeLineToServer("Game::Setup::Ready");
 		waitOnThread(rv);
-		
+
 		String returnedResult = rv.getCommand();
 		System.out.println(returnedResult);
-		
-		
-		
-		
-		
+
 	}
-	
 
 	private static Boolean waitOnThread(Server.RequestVariables rv) {
 		while (!rv.getContinueThread()) {
@@ -506,18 +498,18 @@ public class AppManager {
 
 		System.err.println(returnedResult + " createroom method");
 		if (returnedResult.equals("Room::Create:Error:UserInARoom")) {
-			
+
 			return "Error: User In Room";
 		}
 		if (returnedResult.substring(0, 12).equals("Room::Create")) {
-			//TestLine
+			// TestLine
 			System.err.println(returnedResult);
 			return returnedResult.substring(13);
 		}
 		return "Error";
 	}
-	
-	private static String closeRoom(String roomID){
+
+	private static String closeRoom(String roomID) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Close::Success");
 		commands.add("Room::Close::Error::UserNotHost");
@@ -535,13 +527,13 @@ public class AppManager {
 		Server.writeLineToServer("Room::Close::" + roomID);
 
 		waitOnThread(rv);
-		
+
 		String returnedResult = rv.getCommand();
-		
+
 		return returnedResult;
 	}
-	
-	private static String leaveRoom(String roomID){
+
+	private static String leaveRoom(String roomID) {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Leave::Success");
 		commands.add("Room::Leave::UserIsHost");
@@ -560,9 +552,9 @@ public class AppManager {
 		Server.writeLineToServer("Room::Leave::" + roomID);
 
 		waitOnThread(rv);
-		
+
 		String returnedResult = rv.getCommand();
-		
+
 		return returnedResult;
 	}
 
@@ -570,7 +562,6 @@ public class AppManager {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Join::Success");
 		commands.add("Room::Join::Error::Full");
-		
 
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
@@ -582,26 +573,26 @@ public class AppManager {
 			}
 		});
 
-		Server.writeLineToServer("Room::Join::"+roomID);
+		Server.writeLineToServer("Room::Join::" + roomID);
 
 		waitOnThread(rv);
-		
+
 		String returnedResult = rv.getCommand();
-		
-		if (returnedResult.equals("Room::Join::Success")){
+
+		if (returnedResult.equals("Room::Join::Success")) {
 			return true;
 		}
-		
+
 		return false;
 	}
-	//Chamuel's joinRoom method
-	public void joinRoom(RoomData roomID){
-		
+
+	// Chamuel's joinRoom method
+	public void joinRoom(RoomData roomID) {
+
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Room::Join::Success");
 		commands.add("Room::Join::Error::Full");
 
-		
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
 		Server.registerCommands(commands, new Server.RequestFunction() {
@@ -611,22 +602,21 @@ public class AppManager {
 				rv.setContinueThread(true);
 			}
 		});
-		
-		Server.writeLineToServer("Room::Join::"+roomID.getRoomID());
-		
+
+		Server.writeLineToServer("Room::Join::" + roomID.getRoomID());
+
 		String returnedResult = rv.getCommand();
-		
+
 		System.out.println(returnedResult);
-		
+
 		waitOnThread(rv);
-		
+
 	}
-	
-	public boolean isYourTurn(){
+
+	public boolean isYourTurn() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Turn");
 
-		
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
 		Server.registerCommands(commands, new Server.RequestFunction() {
@@ -636,31 +626,24 @@ public class AppManager {
 				rv.setContinueThread(true);
 			}
 		});
-		
+
 		waitOnThread(rv);
-		
-		
-		
+
 		String returnedResult = rv.getCommand();
 		System.out.println(returnedResult);
-		
-		if(returnedResult.equals("Game::Turn")){
+
+		if (returnedResult.equals("Game::Turn")) {
 			return true;
 		} else {
 			return false;
 		}
-		
-		
-		
-		
-		
+
 	}
-	
-	public String[] enemyFiredAt(){
+
+	public String[] enemyFiredAt() {
 		ArrayList<String> commands = new ArrayList<String>();
 		commands.add("Game::Fired::");
 
-		
 		final Server.RequestVariables rv = new Server.RequestVariables();
 
 		Server.registerCommands(commands, new Server.RequestFunction() {
@@ -670,7 +653,7 @@ public class AppManager {
 				rv.setContinueThread(true);
 			}
 		});
-		
+
 		waitOnThread(rv);
 		String returnedResult = rv.getCommand();
 		System.out.println(returnedResult);
