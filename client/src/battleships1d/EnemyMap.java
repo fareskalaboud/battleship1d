@@ -186,9 +186,12 @@ public class EnemyMap extends Map {
 			JOptionPane.showMessageDialog(new JFrame(), "You win!");
 			disableAllButtons();
 			AppManager am = room.getAppManager();
-			room.dispose();
-			am.closeRoom(room.getRoomID());
+			
 			room.setVisibleLobby();
+			
+			am.closeRoom(room.getRoomID());
+			room.dispose();
+			
 		}
 	}
 

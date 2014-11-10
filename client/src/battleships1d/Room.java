@@ -69,6 +69,7 @@ public class Room extends JFrame {
 		enemyMap = new EnemyMap(this);
 		this.am = am;
 		this.lobby = lobby;
+		System.out.println("lobby" + lobby);
 		setUpUI();
 	}
 	
